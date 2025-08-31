@@ -27,17 +27,17 @@
     },
     "parameters": [
         {
-            "id": "param_dP_1",
+            "id": "param_dL_1",
             "constant": false,
             "name": "Larva development mean (minimum)",
             "value": 10.0
         }, {
-            "id": "param_dP_2",
+            "id": "param_dL_2",
             "constant": false,
             "name": "Larva development mean (maximum)",
             "value": 30.0
         }, {
-            "id": "param_dP_3",
+            "id": "param_dL_3",
             "constant": false,
             "name": "Larva development mean (strength)",
             "value": 0.0001
@@ -46,7 +46,7 @@
     "intermediates": [
         {
             "id": "int_larva_dev_mean",
-            "value": ["briere1_dev", ["temp", "TIME_1"], "param_dP_1", "param_dP_2", "param_dP_3"]
+            "value": ["briere1_dev", ["temp", "TIME_1"], "param_dL_1", "param_dL_2", "param_dL_3"]
         },{
             "id": "int_larva_dev_stdev",
             "value": ["sqrt", "int_larva_dev_mean"]

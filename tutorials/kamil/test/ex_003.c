@@ -19,14 +19,16 @@
 
 #define CHECK(x) (isnan(x) || isinf(x))
 
-#define NumPar 3
+#define NumPar 5
 #define NumPop 1
 #define NumInt 3
 #define NumEnv 1
 
-#define param_dP_1 0
-#define param_dP_2 1
-#define param_dP_3 2
+#define param_dL_1 0
+#define param_dL_2 1
+#define param_dL_3 2
+#define param_pL_mean 3
+#define param_pL_stdev 4
 
 #define larva_death 0
 #define larva_dev 1
@@ -76,7 +78,7 @@ void init(int *no, int *np, int *ni, int *ne, int *st) {
 void parnames(char **names, double *param, double *parmin, double *parmax) {
     char temp[NumPop+NumPar+NumInt+NumEnv][256] = {
         "larva",
-        "param_dP_1", "param_dP_2", "param_dP_3",
+        "param_dL_1", "param_dL_2", "param_dL_3", "param_pL_mean", "param_pL_stdev",
         "int_larva_dev_mean", "int_larva_dev_stdev",
         "pupa",
         "temp",
@@ -86,15 +88,21 @@ void parnames(char **names, double *param, double *parmin, double *parmax) {
     for (i=0; i<(NumPop+NumPar+NumInt+NumEnv); i++)
         names[i] = strdup(temp[i]);
 
-    param[param_dP_1] = 10;
-    parmin[param_dP_1] = 10;
-    parmax[param_dP_1] = 10;
-    param[param_dP_2] = 30;
-    parmin[param_dP_2] = 30;
-    parmax[param_dP_2] = 30;
-    param[param_dP_3] = 0.0001;
-    parmin[param_dP_3] = 0.0001;
-    parmax[param_dP_3] = 0.0001;
+    param[param_dL_1] = 10;
+    parmin[param_dL_1] = 10;
+    parmax[param_dL_1] = 10;
+    param[param_dL_2] = 30;
+    parmin[param_dL_2] = 30;
+    parmax[param_dL_2] = 30;
+    param[param_dL_3] = 0.0001;
+    parmin[param_dL_3] = 0.0001;
+    parmax[param_dL_3] = 0.0001;
+    param[param_pL_mean] = 50;
+    parmin[param_pL_mean] = 50;
+    parmax[param_pL_mean] = 50;
+    param[param_pL_stdev] = 5;
+    parmin[param_pL_stdev] = 5;
+    parmax[param_pL_stdev] = 5;
 }
 
 void destroy(void) {
@@ -172,12 +180,12 @@ void sim(int *tf, int *rep, double *envir, double *pr, double *y0, char **file_f
     ret += 1;
 
     for (TIME=1; TIME<TIMEF; TIME++) {
-        int_larva_dev_mean = briere1_dev(envir_temp[(int)(TIME-1)], model_param[param_dP_1], model_param[param_dP_2], model_param[param_dP_3]);
+        int_larva_dev_mean = briere1_dev(envir_temp[(int)(TIME-1)], model_param[param_dL_1], model_param[param_dL_2], model_param[param_dL_3]);
         int_larva_dev_stdev = sqrt(int_larva_dev_mean);
 
         if (*rep >= 0) {
-                par[0] = 50;
-                par[1] = 5;
+                par[0] = model_param[param_pL_mean];
+                par[1] = model_param[param_pL_stdev];
                 par[2] = int_larva_dev_mean;
                 par[3] = int_larva_dev_stdev;
                 spop2_step(larva, par, &size_larva, completed_larva, 0);
@@ -240,5 +248,4 @@ void sim(int *tf, int *rep, double *envir, double *pr, double *y0, char **file_f
 int main(int argc, char *argv[]) {
     return 0;
 }
-
 

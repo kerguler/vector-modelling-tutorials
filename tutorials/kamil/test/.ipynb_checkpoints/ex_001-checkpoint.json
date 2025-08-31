@@ -1,0 +1,26 @@
+{
+    "model": {
+            "title": "Dynamically-structured population model",
+            "type": "Population",
+            "url": "https://github.com/kerguler/Population",
+            "deterministic": true,
+            "parameters": {
+                "algorithm": "Population",
+                "istep": 1e-13
+            }
+        },
+    "populations": [
+        {
+            "id": "larva",
+            "name": "The larva stage",
+            "processes": [
+                {
+                    "id": "larva_dev",
+                    "name": "Larva development time",
+                    "arbiter": "ACC_ERLANG",
+                    "value": [10, 2]
+                }
+            ]
+        }
+    ]
+}
