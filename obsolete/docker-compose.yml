@@ -1,0 +1,37 @@
+services:
+  jupyterhub:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jupyterhub
+    restart: unless-stopped
+    ports:
+      - "8888:8000"  # JupyterHub entry point mapped to port 8888
+    volumes:
+      - ./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
+      - /var/run/docker.sock:/var/run/docker.sock
+      - jupyterhub_data:/data
+    networks:
+      - jupyterhub-net
+    environment:
+      - DOCKER_JUPYTER_IMAGE=vector-modelling-tutorials
+    depends_on:
+      - docker
+
+  docker:
+    image: docker:dind
+    container_name: docker-dind
+    privileged: true
+    environment:
+      - DOCKER_TLS_CERTDIR=
+    volumes:
+      - /var/lib/docker
+    networks:
+      - jupyterhub-net
+
+networks:
+  jupyterhub-net:
+    driver: bridge
+
+volumes:
+  jupyterhub_data:

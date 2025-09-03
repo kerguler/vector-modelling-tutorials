@@ -1,6 +1,5 @@
 # Use a recent stable version of Ubuntu as a parent image
-# FROM ubuntu:22.04
-FROM continuumio/miniconda3
+FROM ubuntu:22.04
 
 # Install required packages for the application
 RUN apt-get update && apt-get install -y \
@@ -11,15 +10,15 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libxml2-dev \
     proj-bin \
-    libgdal-dev \
     gnupg \
+    libgdal-dev \
     libgsl-dev \
     gcc \
     libc6-dev \
     make \
     mpich \
-    supervisor \
     nco \
+    supervisor \
     && apt-get clean
 
 # Set the working directory in the Docker image
@@ -30,11 +29,24 @@ WORKDIR /code
 RUN chmod +x /code/install_environment.sh
 RUN /code/install_environment.sh
 
-EXPOSE 8888
+# Create users for Jupyter
+# ARG USERS="vector-modeller veclim"
+
+#RUN for user in $USERS; do \
+#      useradd -m -s /bin/bash $user && \
+#      cp -R /code/tutorials /home/$user && \
+#      cp /code/entrypoint.sh /home/$user && \
+#      chown -R $user:$user /home/$user && \
+#      chmod +x /home/$user/entrypoint.sh && \
+#      /home/$user/entrypoint.sh; \
+#    done
 
 # Setup Supervisor to manage both services
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+EXPOSE 8888
+
 ENTRYPOINT ["/entrypoint.sh"]
 # CMD ["bash"]
+# CMD ["wait"]

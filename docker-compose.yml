@@ -1,0 +1,17 @@
+networks:
+  shared_net:
+    external: true   # must be created manually once
+    name: vector_modeller_net
+
+services:
+  jupyterlabs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: "${CONTAINER_NAME:-vector-modelling-tutorials}"
+    image: vector-modelling-tutorials:latest
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8800}:8888"
+    networks:
+      - shared_net
