@@ -24,8 +24,8 @@ for i in $(seq 1 $N); do
 
     # Ensure work directory
     mkdir -p /home/$USER/notebooks
-    chown -R $USER:$USER /home/$USER
     cp -r /code/tutorials /home/$USER/notebooks
+    chown -R $USER:$USER /home/$USER
 
     # Launch JupyterLab as the user
     # Use --ip=0.0.0.0 to allow external connections
