@@ -30,15 +30,9 @@ WORKDIR /code
 RUN chmod +x /code/install_environment.sh
 RUN /code/install_environment.sh
 
-# Document up to 100 possible ports (adjust to your needs)
-EXPOSE 8000-8099
-
 # Setup Supervisor to manage both services
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-
-# Default environment variable: number of users
-ENV N_USERS=50
 
 ENTRYPOINT ["/entrypoint.sh"]
 # CMD ["bash"]
