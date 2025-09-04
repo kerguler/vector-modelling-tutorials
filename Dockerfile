@@ -38,7 +38,7 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # Default environment variable: number of users
-ENV N_USERS=1
+ENV N_USERS=50
 
 ENTRYPOINT ["/entrypoint.sh"]
 # CMD ["bash"]
