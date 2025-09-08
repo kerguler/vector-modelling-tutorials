@@ -17,6 +17,8 @@ conda update -n base -c defaults conda && \
         jupyter \
         jupyterlab \
         r-codetools \
+        r-mass \
+        r-matrix \
         r-IRkernel
 
 # For arbocartoR
