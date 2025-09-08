@@ -7,6 +7,7 @@ export PATH=/opt/conda/bin:$PATH
 
 # Run conda
 conda init
+conda activate base
 
 # Update conda and install packages
 conda update -n base -c defaults conda && \
@@ -22,8 +23,13 @@ conda update -n base -c defaults conda && \
         r-codetools \
         r-IRkernel
 
-conda activate base
+# For arbocartoR
+git clone https://gitlab.cirad.fr/astre/arbocartoR.git ./src/arbocartoR
+conda install -c conda-forge -y \
+  r-remotes
+R -e "remotes::install_local('./src/arbocartoR', upgrade = 'always')"
 
+# Activate kernel for Jupyter Lab
 R -e "IRkernel::installspec(user = FALSE)"
 
 # Copy the Python population package and install it
