@@ -14,17 +14,23 @@ conda update -n base -c defaults conda && \
         netCDF4 \
         mpi4py \
         nodejs \
+        gdal proj geos \
         jupyter \
         jupyterlab \
         r-codetools \
         r-recommended \
+        r-remotes \
+        r-tidyterra r-sf r-fs r-sass r-stringi r-stringr r-tidyr r-reshape2 r-recipes r-units r-s2 r-bslib r-caret r-rmarkdown r-Ecume r-sass r-bslib r-cachem r-httpuv r-htmlwidgets r-shiny r-dygraphs r-SimInf \
         r-IRkernel
+
+R -e 'install.packages("TDLM", repos="https://cran.rstudio.com")'
+R -e 'install.packages("data.table", repos="https://cran.rstudio.com")'
+R -e 'install.packages("SimInf", repos="https://cran.rstudio.com", configure.args="--host=host")'
+R -e 'install.packages("sf", repos="https://cran.rstudio.com", configure.args="--host=host")'
 
 # For arbocartoR
 git clone https://gitlab.cirad.fr/astre/arbocartoR.git ./src/arbocartoR
-conda install -n base -c conda-forge -y \
-  r-remotes
-R -e "remotes::install_local('./src/arbocartoR', lib = .libPaths()[1], upgrade = 'always')"
+R -e "remotes::install_local('./src/arbocartoR', lib = .libPaths()[1], upgrade = 'never')"
 
 # Activate kernel for Jupyter Lab
 R -e "IRkernel::installspec(user = FALSE, prefix = '/opt/conda')"
