@@ -17,6 +17,7 @@ conda update -n base -c defaults conda && \
         gdal proj geos \
         jupyter \
         jupyterlab \
+        openjdk \
         r-codetools \
         r-recommended \
         r-remotes \
