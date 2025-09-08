@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     libssl-dev \
     libxml2-dev \
+    libproj-dev \
     proj-bin \
+    proj-data \
     libgdal-dev \
     gnupg \
     libgsl-dev \
@@ -29,8 +31,6 @@ WORKDIR /code
 # Download and install the latest Miniconda installer
 RUN chmod +x /code/install_environment.sh
 RUN /code/install_environment.sh
-
-EXPOSE 8888
 
 # Setup Supervisor to manage both services
 COPY entrypoint.sh /entrypoint.sh
