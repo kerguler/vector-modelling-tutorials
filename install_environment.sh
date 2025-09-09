@@ -11,6 +11,7 @@ conda update -n base -c defaults conda && \
     conda install -n base -c conda-forge -y \
         pandas \
         xarray \
+        matplotlib \
         netCDF4 \
         mpi4py \
         nodejs \

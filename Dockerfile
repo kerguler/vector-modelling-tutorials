@@ -6,7 +6,7 @@ FROM continuumio/miniconda3
 RUN apt-get update && apt-get install -y \
     software-properties-common \
     build-essential \
-    wget \
+    vim wget \
     libcurl4-openssl-dev \
     libssl-dev \
     libxml2-dev \
