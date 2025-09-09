@@ -25,7 +25,6 @@ for i in $(seq 1 $N); do
     # Ensure work directory
     mkdir -p /home/$USER/notebooks
     cp -r /code/tutorials /home/$USER/notebooks
-    cp /root/.cdsapirc /home/$USER
     chown -R $USER:$USER /home/$USER
 
     # Launch JupyterLab as the user
