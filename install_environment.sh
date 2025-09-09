@@ -18,6 +18,7 @@ conda update -n base -c defaults conda && \
         jupyter \
         jupyterlab \
         openjdk \
+        cdsapi \
         r-codetools \
         r-recommended \
         r-remotes \

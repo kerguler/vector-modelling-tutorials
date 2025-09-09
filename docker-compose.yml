@@ -10,3 +10,5 @@ services:
     restart: unless-stopped
     ports:
       - "8000-8099:8000-8099"
+    volumes:
+      - ~/.cdsapirc:/root/.cdsapirc:ro
