@@ -4,3 +4,5 @@ src/rstudio*
 *node_modules*
 tutorials/kamil/test/package.json
 tutorials/kamil/test/package-lock.json
+
+data

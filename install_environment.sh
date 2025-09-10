@@ -24,6 +24,7 @@ conda update -n base -c defaults conda && \
         r-recommended \
         r-remotes \
         r-tidyterra r-sf r-fs r-sass r-stringi r-stringr r-tidyr r-reshape2 r-recipes r-units r-s2 r-bslib r-caret r-rmarkdown r-Ecume r-sass r-bslib r-cachem r-httpuv r-htmlwidgets r-shiny r-dygraphs r-SimInf \
+        r-devtools r-drc \
         r-IRkernel
 
 R -e 'install.packages("TDLM", repos="https://cran.rstudio.com")'
@@ -35,6 +36,10 @@ R -e 'install.packages("htmltools", repos="https://cran.rstudio.com")'
 # For arbocartoR
 git clone https://gitlab.cirad.fr/astre/arbocartoR.git ./src/arbocartoR
 R -e "remotes::install_local('./src/arbocartoR', lib = .libPaths()[1], upgrade = 'never')"
+
+# For dynamAedes
+git clone --branch development https://github.com/mattmar/dynamAedes.git ./src/dynamAedes
+R -e "devtools::install_local('./src/dynamAedes', lib = .libPaths()[1], upgrade = 'never')"
 
 # Activate kernel for Jupyter Lab
 R -e "IRkernel::installspec(user = FALSE, prefix = '/opt/conda')"
