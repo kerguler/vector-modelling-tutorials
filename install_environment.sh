@@ -32,6 +32,8 @@ R -e 'install.packages("data.table", repos="https://cran.rstudio.com")'
 R -e 'install.packages("SimInf", repos="https://cran.rstudio.com", configure.args="--host=host")'
 R -e 'install.packages("sf", repos="https://cran.rstudio.com", configure.args="--host=host")'
 R -e 'install.packages("htmltools", repos="https://cran.rstudio.com")'
+R -e 'install.packages("foreach",repos="https://cran.rstudio.com")'
+R -e 'install.packages("ggplot2",repos="https://cran.rstudio.com")'
 
 # For arbocartoR
 git clone https://gitlab.cirad.fr/astre/arbocartoR.git ./src/arbocartoR
