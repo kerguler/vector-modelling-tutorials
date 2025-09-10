@@ -12,3 +12,4 @@ services:
       - "8000-8099:8000-8099"
     volumes:
       - "$HOME/data:/data:ro"
+      - "$HOME/results:/results:ro"
