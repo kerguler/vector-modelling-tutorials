@@ -1,0 +1,285 @@
+{
+    "model": {
+        "title": "Life tables of Culex pipiens",
+        "type": "Population",
+        "url": "https://github.com/kerguler/Population",
+        "deterministic": true,
+        "parameters": {
+            "algorithm": "Population",
+            "istep": 5e-3,
+            "ostep": 1
+        }
+    },
+    "environ": [
+        {
+            "id": "temp",
+            "name": "datalogger",
+            "url": ""
+        }
+    ],
+    "populations": [
+        {
+            "id": "larva",
+            "name": "Larva",
+            "processes": [
+                {
+                    "id": "Lmort",
+                    "name": "Larva lifetime",
+                    "arbiter": "ACC_ERLANG",
+                    "value": ["n2m", "n2s"]
+                }, {
+                    "id": "Ldev",
+                    "name": "Larva development",
+                    "arbiter": "ACC_ERLANG",
+                    "value": ["d2m", "d2s"]
+                }
+            ]
+        }, {
+            "id": "pupa",
+            "name": "Pupa",
+            "processes": [
+            ]
+        }
+    ],
+    "parameters": [
+        {
+            "id": "p2m_a",
+            "constant": true,
+            "name": "Larva lifetime mean (a)",
+            "value": 15.0,
+            "min": -20.0,
+            "max": 40.0
+        }, {
+            "id": "p2m_b",
+            "constant": true,
+            "name": "Larva lifetime mean (b)",
+            "value": 20.0,
+            "min": 0.0,
+            "max": 40.0
+        }, {
+            "id": "p2m_c",
+            "constant": true,
+            "name": "Larva lifetime mean (c)",
+            "value": 0.0,
+            "min": 0.0,
+            "max": 100.0
+        }, {
+            "id": "p2m_d",
+            "constant": true,
+            "name": "Larva lifetime mean (f)",
+            "value": 6000.0,
+            "min": 0.0,
+            "max": 100000.0
+        }, {
+            "id": "p2m_e",
+            "constant": true,
+            "name": "Larva lifetime mean (e)",
+            "value": 0.3,
+            "min": 0.0,
+            "max": 10.0
+        }, {
+            "id": "p2m_f",
+            "constant": true,
+            "name": "Larva lifetime mean (f)",
+            "value": 0.4,
+            "min": 0.0,
+            "max": 10.0
+        }, {
+            "id": "p2s_c",
+            "constant": true,
+            "name": "Larva lifetime stdev (c)",
+            "value": 0.560526030498483,
+            "min": 0.5,
+            "max": 1.0
+        }, {
+            "id": "q2m_a",
+            "constant": true,
+            "name": "Larva lifetime mean (a)",
+            "value": 2.711165927677317,
+            "min": 0.0,
+            "max": 10.0
+        }, {
+            "id": "q2m_b",
+            "constant": true,
+            "name": "Larva lifetime mean (b)",
+            "value": 0.170246599014987,
+            "min": 0.0,
+            "max": 1.0
+        }, {
+            "id": "q2m_c",
+            "constant": true,
+            "name": "Larva lifetime mean (c)",
+            "value": -4.539878095029101,
+            "min": -20.0,
+            "max": 20.0
+        }, {
+            "id": "q2m_d",
+            "constant": true,
+            "name": "Larva lifetime mean (d)",
+            "value": 41.18142722265403,
+            "min": 0.0,
+            "max": 50.0
+        }, {
+            "id": "q2s_c",
+            "constant": true,
+            "name": "Larva lifetime stdev (ratio)",
+            "value": 0.8262126549015752,
+            "min": 0.5,
+            "max": 1.0
+        }, {
+            "id": "r2m_a",
+            "constant": true,
+            "name": "Larva lifetime mean (a)",
+            "value": 9.462636093538411,
+            "min": 0.0,
+            "max": 13.0
+        }, {
+            "id": "r2m_b",
+            "constant": true,
+            "name": "Larva lifetime mean (b)",
+            "value": -7.465590000620621,
+            "min": -20.0,
+            "max": 40.0
+        }, {
+            "id": "r2m_c",
+            "constant": true,
+            "name": "Larva lifetime mean (c)",
+            "value": 29.30490265378103,
+            "min": 0.0,
+            "max": 40.0
+        }, {
+            "id": "r2m_d",
+            "constant": true,
+            "name": "Larva lifetime mean (d)",
+            "value": 16.88445984351514,
+            "min": 0.0,
+            "max": 40.0
+        }, {
+            "id": "r2s_c",
+            "constant": true,
+            "name": "Larva lifetime stdev (ratio)",
+            "value": 0.9505951615949668,
+            "min": 0.05,
+            "max": 1.0
+        }, {
+            "id": "n2m_a",
+            "constant": false,
+            "name": "Larva lifetime mean (a)",
+            "value": 17.18655211722778,
+            "min": 0.0,
+            "max": 40.0
+        }, {
+            "id": "n2m_b",
+            "constant": false,
+            "name": "Larva lifetime mean (b)",
+            "value": 8.702479,
+            "min": 0.0,
+            "max": 13.0
+        }, {
+            "id": "n2m_c",
+            "constant": false,
+            "name": "Larva lifetime mean (c)",
+            "value": 8.426166282518786,
+            "min": 0.0,
+            "max": 100.0
+        }, {
+            "id": "n2s_c",
+            "constant": false,
+            "name": "Larva lifetime stdev (c)",
+            "value": 0.8641621276392001,
+            "min": 0.5,
+            "max": 1.0
+        }, {
+            "id": "d2m_a",
+            "constant": false,
+            "name": "Larva development mean (a)",
+            "value": -14.90935391371787,
+            "min": -20.0,
+            "max": 0.0
+        }, {
+            "id": "d2m_b",
+            "constant": false,
+            "name": "Larva development mean (b)",
+            "value": 10.44755503962531,
+            "min": -20.0,
+            "max": 40.0
+        }, {
+            "id": "d2m_c",
+            "constant": false,
+            "name": "Larva development mean (c)",
+            "value": 35.17800724683868,
+            "min": 0.0,
+            "max": 40.0
+        }, {
+            "id": "d2s_c",
+            "constant": false,
+            "name": "Larva development stdev (c)",
+            "value": 0.2216352997695111,
+            "min": 0.05,
+            "max": 1.0
+        }
+    ],
+    "functions": {
+        "logistic": ["define", ["x", "a", "b", "c"], ["/", "a", ["+", "1.0", ["exp", ["+", "b", ["*", "c", "x"]]]]]],
+        "briere1C": ["define", ["T","B","E","a"], ["?",["<=","T","B"],"8740.0", ["?",[">=","T","E"],"8740.0", ["min","8740.0",["max","1.0", ["/","1.0",["exp", ["+","a",["log","T"],["log",["-","T","B"]],["*","0.5",["log",["-","E","T"]]]]]]]]]]],
+        "briere1": ["define", ["T","a","B","E"], ["briere1C",["+","273.15","T"],["+","273.15","B"],["+","273.15","B","E"],"a"]],
+        "funmort": ["define", ["T", "M", "a", "c"], ["max", "0.0", ["min", "1.0", ["+", "c", ["*", ["exp","a"],["pow",["-","T","M"],"4.0"]]]]]],
+        "dsig": ["define", ["T","L","W","a","b"], ["max", "0.0", ["min", "1.0", ["/","a",["*",["+","1.0",["exp",["*","b",["-","L","T"]]]],["+","1.0",["exp",["*","b",["-","T",["+","L","W"]]]]]]]]]],
+        "poly": ["define", ["T","a","L","W"], ["max", "0.0", ["*", "a", ["-","T","L"], ["-","T", ["+","L","W"]]]]],
+        "beta16": ["define", ["T","a","L","M","R","m"], ["?",["<=","T","L"],"m", ["?",[">=","T",["+","L","M","R"]],"m", ["max","m", ["*",["exp","a"],["/",["+","L","M","R",["*","-1.0","T"]],["+","L","R"]],["pow",["/", ["-","T","L"], ["-","M","L"]],["/", ["-","M","L"], ["+", "L", "R"]]]]]]]],
+        "ratkow": ["define", ["T","c","k","L","W"], ["max", "0.0", ["?",["<=","T","L"],"0.0", ["?",[">=","T",["+","L","W"]],"0.0", ["pow", ["*", "c", ["-","T","L"], ["-","1.0", ["exp",["*","k",["-","T",["+","L","W"]]]]]], "2"]]]]],
+        "ratkowUL": ["define", ["T","c","k","L","W"], ["max", "0.0", ["pow", ["*", "c", ["-","T","L"], ["-","1.0", ["exp",["*","k",["-","T",["+","L","W"]]]]]], "2"]]],
+        "normal": ["define", ["T","M","a","s"], ["*", ["exp", "a"], ["exp", ["*", "-1.0", ["pow", ["/",["-","T","M"],"s"], "2"]]]]],
+        "normal2": ["define", ["T","M","a","s"], ["*", ["exp", "a"], ["exp", ["*", "-1.0", ["pow", ["/",["-","T","M"],"s"], "4"]]]]],
+        "hnorm": ["define", ["T","M","a","s"], ["?", ["<","T","M"], ["*", "a", ["exp", ["*", "-1.0", ["pow", ["/",["-","T","M"],"s"], "2"]]]], "a"] ],
+        "sigmoi": ["define", ["T","M","c","a","m"], ["+", "m", ["/", ["-", "c", "m"], ["+", "1.0", ["exp", ["*", "a", ["-", "T", "M"]]]]]]],
+        "dsig2": ["define", ["T","L","W","m","x","a","b"], ["+", "m", ["/","x",["*",["+","1.0",["exp",["*","a",["-","L","T"]]]],["+","1.0",["exp",["*","b",["-","T",["+","L","W"]]]]]]]]]
+    },
+    "intermediates": [
+        {
+            "id": "d2m",
+            "value": ["briere1", ["temp","TIME_1"], "d2m_a", "d2m_b", "d2m_c"]
+        }, {
+            "id": "d2s",
+            "value": ["*", "d2s_c", "d2m"]
+        }, {
+            "id": "p2m",
+            "value": ["dsig2", ["temp","TIME_1"], "p2m_a", "p2m_b", "p2m_c", "p2m_d", "p2m_e", "p2m_f"]
+        }, {
+            "id": "p2s",
+            "value": ["*", "p2s_c", "p2m"]
+        }, {
+            "id": "q2m",
+            "value": ["ratkow", ["temp","TIME_1"], "q2m_a", "q2m_b", "q2m_c", "q2m_d"]
+        }, {
+            "id": "q2s",
+            "value": ["*", "q2s_c", "q2m"]
+        },{
+            "id": "r2m",
+            "value": ["beta16", ["temp","TIME_1"], "r2m_a", "r2m_b", "r2m_c", "r2m_d", "1.0"]
+        }, {
+            "id": "r2s",
+            "value": ["*", "r2s_c", "r2m"]
+        }, {
+            "id": "n2m",
+            "value": ["normal", ["temp","TIME_1"], "n2m_a", "n2m_b", "n2m_c"]
+        }, {
+            "id": "n2s",
+            "value": ["*", "n2s_c", "n2m"]
+        }
+    ],
+    "transformations": [
+        {
+            "id": "larva_to_pupa",
+            "name": "Larva to pupa",
+            "to": "pupa",
+            "value": "Ldev"
+        }, {
+            "id": "larva_death",
+            "name": "Larva dying today",
+            "value": "Lmort"
+        }
+    ],
+    "transfers": [
+    ]
+}

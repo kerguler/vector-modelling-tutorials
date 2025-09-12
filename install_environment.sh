@@ -43,7 +43,7 @@ R -e "remotes::install_local('./src/arbocartoR', lib = .libPaths()[1], upgrade =
 git clone --branch development https://github.com/mattmar/dynamAedes.git ./src/dynamAedes
 R -e "devtools::install_local('./src/dynamAedes', lib = .libPaths()[1], upgrade = 'never')"
 
-# Activate kernel for Jupyter Lab
+# Activate R kernel for Jupyter Lab
 R -e "IRkernel::installspec(user = FALSE, prefix = '/opt/conda')"
 
 # Copy the Python population package and install it
@@ -53,3 +53,23 @@ chmod +x /code/src/population/run.sh
 cd /code/tutorials/kamil
 npm install popjson
 ln -s node_modules/popjson/wrappers/population.R ./
+
+# --- Step 1: Set up the Julia environment
+conda create -n julia_env -y python=3.11
+conda activate julia_env
+
+# --- Step 2: Install Julia
+conda install -n base -c conda-forge -y jupyterlab julia
+
+# --- Step 3: Fix CA certificate issue for Julia (if needed) ---
+# Find Conda's CA bundle (used by Julia's HTTPS downloads)
+CA_CERT=$(find $CONDA_PREFIX -name "cacert.pem" | head -n 1)
+export JULIA_SSL_CA_ROOTS_PATH="$CA_CERT"
+
+# --- Step 4: Install IJulia and register the kernel in the conda env path ---
+julia -e '
+    using Pkg;
+    Pkg.add("IJulia");
+    using IJulia;
+    installkernel("Julia", "--project=@.", "--prefix", joinpath(ENV["CONDA_PREFIX"], "share", "jupyter"))
+'
