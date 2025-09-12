@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VER=0.1.7
+VER=0.1.8
 
 echo "Installing the population package v${VER}..."
 cd /code/src/population
