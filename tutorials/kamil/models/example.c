@@ -94,7 +94,7 @@ void sim(int *tf, int *rep, double *envir, double *pr, double *y0, char **file_f
     number key[2];
     number size_larva;
     number completed_larva[2];
-    double par[2];
+    double par[1];
 
     FILE *file;
     number *buff = 0;
@@ -118,7 +118,7 @@ void sim(int *tf, int *rep, double *envir, double *pr, double *y0, char **file_f
         free(buff);
 
     } else {
-        arbiters[0] = ACC_ERLANG;
+        arbiters[0] = NOAGE_CONST;
         key[0] = numZERO;
         arbiters[1] = STOP;
         key[1] = numZERO;
@@ -143,8 +143,7 @@ void sim(int *tf, int *rep, double *envir, double *pr, double *y0, char **file_f
     for (TIME=1; TIME<TIMEF; TIME++) {
 
         if (*rep >= 0) {
-                par[0] = 10;
-                par[1] = 2;
+                par[0] = 0.1;
                 spop2_step(larva, par, &size_larva, completed_larva, 0);
 
 

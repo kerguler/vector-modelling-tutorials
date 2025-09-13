@@ -20,51 +20,75 @@
         {
             "id": "n2m_L",
             "constant": false,
-            "value": 15.0
+            "value": 15.0,
+            "min": -10.0,
+            "max": 50.0
         }, {
             "id": "n2m_l",
             "constant": false,
-            "value": 1.0
+            "value": 0.0,
+            "min": -6.0,
+            "max": 6.0
         }, {
             "id": "n2m_R",
             "constant": false,
-            "value": 20.0
+            "value": 20.0,
+            "min": -10.0,
+            "max": 50.0
         }, {
             "id": "n2m_r",
             "constant": false,
-            "value": 1.0
+            "value": 0.0,
+            "min": -6.0,
+            "max": 6.0
         }, {
             "id": "n2m_M",
             "constant": false,
-            "value": 24.0
+            "value": 24.0,
+            "min": 1.0,
+            "max": 10000.0
         }, {
             "id": "n2m_X",
             "constant": false,
-            "value": 2000.0
+            "value": 2000.0,
+            "min": 1.0,
+            "max": 10000.0
         }, {
             "id": "d2m_L",
             "constant": false,
-            "value": 15.0
+            "value": 15.0,
+            "min": -10.0,
+            "max": 50.0
         }, {
             "id": "d2m_l",
             "constant": false,
-            "value": 1.0
+            "value": 0.0,
+            "min": -6.0,
+            "max": 6.0
         }, {
             "id": "d2m_R",
             "constant": false,
-            "value": 20.0
+            "value": 20.0,
+            "min": -10.0,
+            "max": 50.0
         }, {
             "id": "d2m_r",
             "constant": false,
-            "value": 1.0
+            "value": 0.0,
+            "min": -6.0,
+            "max": 6.0
         }, {
             "id": "d2m_M",
             "constant": false,
-            "value": 24.0
+            "value": 500.0,
+            "min": 1.0,
+            "max": 10000.0
         }, {
             "id": "d2m_X",
             "constant": false,
-            "value": 2000.0
+            "value": 1000.0,
+            "min": 1.0,
+            "max": 10000.0
         }
     ],
     "functions": {
@@ -96,9 +120,9 @@
                         "d2m_l",
                         "d2m_R",
                         "d2m_r",
-                        "d2m_M",
-                        "d2m_X"
-                    ]
+                        "d2m_X",
+                        ["*", "-1.0", "d2m_M"]
+                     ]
         }
     ],
     "populations": [
@@ -115,7 +139,7 @@
                     "id": "Ldev",
                     "name": "Larva development",
                     "arbiter": "ACC_ERLANG",
-                    "value": ["d2m", ["*", "0.25", "d2m"]]
+                    "value": ["d2m", ["*", "0.1", "d2m"]]
                 }
             ]
         }

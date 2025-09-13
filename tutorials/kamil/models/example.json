@@ -17,8 +17,8 @@
                 {
                     "id": "larva_dev",
                     "name": "Larva development time",
-                    "arbiter": "ACC_ERLANG",
-                    "value": [10, 2]
+                    "arbiter": "NOAGE_CONST",
+                    "value": [0.1]
                 }
             ]
         }

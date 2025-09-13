@@ -95,41 +95,41 @@ void parnames(char **names, double *param, double *parmin, double *parmax) {
         names[i] = strdup(temp[i]);
 
     param[n2m_L] = 15;
-    parmin[n2m_L] = 15;
-    parmax[n2m_L] = 15;
-    param[n2m_l] = 1;
-    parmin[n2m_l] = 1;
-    parmax[n2m_l] = 1;
+    parmin[n2m_L] = -10;
+    parmax[n2m_L] = 50;
+    param[n2m_l] = 0;
+    parmin[n2m_l] = -6;
+    parmax[n2m_l] = 6;
     param[n2m_R] = 20;
-    parmin[n2m_R] = 20;
-    parmax[n2m_R] = 20;
-    param[n2m_r] = 1;
-    parmin[n2m_r] = 1;
-    parmax[n2m_r] = 1;
+    parmin[n2m_R] = -10;
+    parmax[n2m_R] = 50;
+    param[n2m_r] = 0;
+    parmin[n2m_r] = -6;
+    parmax[n2m_r] = 6;
     param[n2m_M] = 24;
-    parmin[n2m_M] = 24;
-    parmax[n2m_M] = 24;
+    parmin[n2m_M] = 1;
+    parmax[n2m_M] = 10000;
     param[n2m_X] = 2000;
-    parmin[n2m_X] = 2000;
-    parmax[n2m_X] = 2000;
+    parmin[n2m_X] = 1;
+    parmax[n2m_X] = 10000;
     param[d2m_L] = 15;
-    parmin[d2m_L] = 15;
-    parmax[d2m_L] = 15;
-    param[d2m_l] = 1;
-    parmin[d2m_l] = 1;
-    parmax[d2m_l] = 1;
+    parmin[d2m_L] = -10;
+    parmax[d2m_L] = 50;
+    param[d2m_l] = 0;
+    parmin[d2m_l] = -6;
+    parmax[d2m_l] = 6;
     param[d2m_R] = 20;
-    parmin[d2m_R] = 20;
-    parmax[d2m_R] = 20;
-    param[d2m_r] = 1;
-    parmin[d2m_r] = 1;
-    parmax[d2m_r] = 1;
-    param[d2m_M] = 24;
-    parmin[d2m_M] = 24;
-    parmax[d2m_M] = 24;
-    param[d2m_X] = 2000;
-    parmin[d2m_X] = 2000;
-    parmax[d2m_X] = 2000;
+    parmin[d2m_R] = -10;
+    parmax[d2m_R] = 50;
+    param[d2m_r] = 0;
+    parmin[d2m_r] = -6;
+    parmax[d2m_r] = 6;
+    param[d2m_M] = 500;
+    parmin[d2m_M] = 1;
+    parmax[d2m_M] = 10000;
+    param[d2m_X] = 1000;
+    parmin[d2m_X] = 1;
+    parmax[d2m_X] = 10000;
 }
 
 void destroy(void) {
@@ -209,13 +209,13 @@ void sim(int *tf, int *rep, double *envir, double *pr, double *y0, char **file_f
 
     for (TIME=1; TIME<TIMEF; TIME++) {
         n2m = dsig(envir_temp[(int)(TIME-1)], model_param[n2m_L], model_param[n2m_l], model_param[n2m_R], model_param[n2m_r], model_param[n2m_M], model_param[n2m_X]);
-        d2m = dsig(envir_temp[(int)(TIME-1)], model_param[d2m_L], model_param[d2m_l], model_param[d2m_R], model_param[d2m_r], model_param[d2m_M], model_param[d2m_X]);
+        d2m = dsig(envir_temp[(int)(TIME-1)], model_param[d2m_L], model_param[d2m_l], model_param[d2m_R], model_param[d2m_r], model_param[d2m_X], (-1.0 * model_param[d2m_M]));
 
         if (*rep >= 0) {
                 par[0] = n2m;
                 par[1] = n2m;
                 par[2] = d2m;
-                par[3] = (0.25 * d2m);
+                par[3] = (0.1 * d2m);
                 spop2_step(larva, par, &size_larva, completed_larva, 0);
 
                 larva_to_pupa = completed_larva[Ldev].d;
