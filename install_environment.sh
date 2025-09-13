@@ -84,6 +84,7 @@ julia -e 'using Pkg; Pkg.add([
 
 # Install the Jupyter kernel globally
 julia -e 'using IJulia; installkernel("Julia", env=Dict("JULIA_DEPOT_PATH"=>"/opt/julia_depot"))'
+mv $HOME/.local/share/jupyter/kernels/julia* /opt/conda/share/jupyter/kernels/
 
 # System-wide history location per user
 echo "export JULIA_HISTORY=\$HOME/.julia/logs/repl_history.jl" > /etc/profile.d/julia.sh
