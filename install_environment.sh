@@ -55,13 +55,13 @@ npm install popjson
 ln -s node_modules/popjson/wrappers/population.R ./
 
 # --- Step 1: Set up the Julia environment
-conda create -n julia_env -y
-conda activate julia_env
+#conda create -n julia_env -y
+#conda activate julia_env
 
 # --- Step 2: Install Julia
-export JULIA_SSL_CA_ROOTS_PATH="$CONDA_PREFIX/ssl/cacert.pem"
-conda install -n base -c conda-forge -y jupyterlab julia
-juliaup update
+#export JULIA_SSL_CA_ROOTS_PATH="$CONDA_PREFIX/ssl/cacert.pem"
+#conda install -n base -c conda-forge -y jupyterlab julia
+#juliaup update
 
 # --- Step 3: Install IJulia and register the kernel in the conda env path ---
-julia -e 'using Pkg; Pkg.add("IJulia")'
+#julia -e 'using Pkg; Pkg.add("IJulia")'
