@@ -54,14 +54,35 @@ cd /code/tutorials/kamil
 npm install popjson
 ln -s node_modules/popjson/wrappers/population.R ./
 
-# --- Step 1: Set up the Julia environment
-#conda create -n julia_env -y
-#conda activate julia_env
+# --- Julia in a Conda env (safer invocation) ---
+conda create -n julia_env -y
+conda activate julia_env
+# --- Official Julia (recommended) ---
+export JULIA_VERSION=1.10.5
+curl -fsSL https://julialang-s3.julialang.org/bin/linux/x64/${JULIA_VERSION%.*}/julia-${JULIA_VERSION}-linux-x86_64.tar.gz \
+  | tar -xz -C /opt
+ln -sf /opt/julia-${JULIA_VERSION}/bin/julia /usr/local/bin/julia
 
-# --- Step 2: Install Julia
-#export JULIA_SSL_CA_ROOTS_PATH="$CONDA_PREFIX/ssl/cacert.pem"
-#conda install -n base -c conda-forge -y jupyterlab julia
-#juliaup update
+# Keep curl/certs clean for Julia
+unset SSL_CERT_FILE
+unset CURL_CA_BUNDLE
+export JULIA_PKG_SERVER=""
+export JULIA_PKG_USE_CLI_GIT="true"
 
-# --- Step 3: Install IJulia and register the kernel in the conda env path ---
-#julia -e 'using Pkg; Pkg.add("IJulia")'
+# Install IJulia and precompile
+julia -e 'using Pkg; Pkg.add("IJulia"); Pkg.precompile()'
+
+# System-wide history location per user
+echo "export JULIA_HISTORY=\$HOME/.julia/logs/repl_history.jl" > /etc/profile.d/julia.sh
+
+julia -e 'using Pkg; Pkg.add("Dates")'
+julia -e 'using Pkg; Pkg.add("DifferentialEquations")'
+julia -e 'using Pkg; Pkg.add("Dierckx")'
+julia -e 'using Pkg; Pkg.add("Plots")'
+julia -e 'using Pkg; Pkg.add("CSV")'
+julia -e 'using Pkg; Pkg.add("Interpolations")'
+julia -e 'using Pkg; Pkg.add("QuadGK")'
+julia -e 'using Pkg; Pkg.add("Statistics")'
+julia -e 'using Pkg; Pkg.add("DataFrames")'
+julia -e 'using Pkg; Pkg.add("NCDatasets")'
+julia -e 'using Pkg; Pkg.add("MPI")'

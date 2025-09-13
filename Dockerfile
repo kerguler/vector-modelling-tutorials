@@ -24,7 +24,10 @@ RUN apt-get update && apt-get install -y \
     nco \
     cdo \
     libxt6 \
+    ca-certificates git \
     && apt-get clean
+
+RUN update-ca-certificates
 
 # Set the working directory in the Docker image
 COPY ./ /code/
