@@ -61,28 +61,29 @@ curl -fsSL https://julialang-s3.julialang.org/bin/linux/x64/${JULIA_VERSION%.*}/
   | tar -xz -C /opt
 ln -sf /opt/julia-${JULIA_VERSION}/bin/julia /usr/local/bin/julia
 
-# Keep curl/certs clean for Julia
+# Shared depot
+export JULIA_DEPOT_PATH=/opt/julia_depot
+mkdir -p /opt/julia_depot
+chmod -R a+rwx /opt/julia_depot
+
+# Make it permanent for all users
+echo 'export JULIA_DEPOT_PATH=/opt/julia_depot:$HOME/.julia' > /etc/profile.d/julia.sh
+
+# Clean cert vars
 unset SSL_CERT_FILE
 unset CURL_CA_BUNDLE
 export JULIA_PKG_SERVER=""
 export JULIA_PKG_USE_CLI_GIT="true"
-export JULIA_PROJECT=/opt/julia_env
 
-julia -e '
-using Pkg
-Pkg.activate("/opt/julia_env")
-Pkg.add([
+# Install system-wide packages into the shared depot
+julia -e 'using Pkg; Pkg.add([
     "IJulia", "Dates", "DifferentialEquations", "Dierckx",
     "Plots", "CSV", "Interpolations", "QuadGK",
     "Statistics", "DataFrames", "NCDatasets", "MPI"
-])
-Pkg.precompile()
-'
+]); Pkg.precompile()'
 
-chmod -R a+rX /opt/julia_env
-
-# Install IJulia and precompile
-julia -e 'using IJulia; installkernel("Julia", "--project=/opt/julia_env", "--depwarn=no"; env=Dict("JULIA_DEPOT_PATH"=>"/opt/julia_depot"))'
+# Install the Jupyter kernel globally
+julia -e 'using IJulia; installkernel("Julia", env=Dict("JULIA_DEPOT_PATH"=>"/opt/julia_depot"))'
 
 # System-wide history location per user
 echo "export JULIA_HISTORY=\$HOME/.julia/logs/repl_history.jl" > /etc/profile.d/julia.sh
