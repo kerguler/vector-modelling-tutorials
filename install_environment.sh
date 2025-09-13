@@ -55,8 +55,6 @@ npm install popjson
 ln -s node_modules/popjson/wrappers/population.R ./
 
 # --- Julia in a Conda env (safer invocation) ---
-conda create -n julia_env -y
-conda activate julia_env
 # --- Official Julia (recommended) ---
 export JULIA_VERSION=1.10.5
 curl -fsSL https://julialang-s3.julialang.org/bin/linux/x64/${JULIA_VERSION%.*}/julia-${JULIA_VERSION}-linux-x86_64.tar.gz \
@@ -68,21 +66,23 @@ unset SSL_CERT_FILE
 unset CURL_CA_BUNDLE
 export JULIA_PKG_SERVER=""
 export JULIA_PKG_USE_CLI_GIT="true"
+export JULIA_PROJECT=/opt/julia_env
+
+julia -e '
+using Pkg
+Pkg.activate("/opt/julia_env")
+Pkg.add([
+    "IJulia", "Dates", "DifferentialEquations", "Dierckx",
+    "Plots", "CSV", "Interpolations", "QuadGK",
+    "Statistics", "DataFrames", "NCDatasets", "MPI"
+])
+Pkg.precompile()
+'
+
+chmod -R a+rX /opt/julia_env
 
 # Install IJulia and precompile
-julia -e 'using Pkg; Pkg.add("IJulia"); Pkg.precompile()'
+julia -e 'using IJulia; installkernel("Julia", "--project=/opt/julia_env", "--depwarn=no"; env=Dict("JULIA_DEPOT_PATH"=>"/opt/julia_depot"))'
 
 # System-wide history location per user
 echo "export JULIA_HISTORY=\$HOME/.julia/logs/repl_history.jl" > /etc/profile.d/julia.sh
-
-julia -e 'using Pkg; Pkg.add("Dates")'
-julia -e 'using Pkg; Pkg.add("DifferentialEquations")'
-julia -e 'using Pkg; Pkg.add("Dierckx")'
-julia -e 'using Pkg; Pkg.add("Plots")'
-julia -e 'using Pkg; Pkg.add("CSV")'
-julia -e 'using Pkg; Pkg.add("Interpolations")'
-julia -e 'using Pkg; Pkg.add("QuadGK")'
-julia -e 'using Pkg; Pkg.add("Statistics")'
-julia -e 'using Pkg; Pkg.add("DataFrames")'
-julia -e 'using Pkg; Pkg.add("NCDatasets")'
-julia -e 'using Pkg; Pkg.add("MPI")'
