@@ -139,7 +139,7 @@
                     "id": "Ldev",
                     "name": "Larva development",
                     "arbiter": "ACC_ERLANG",
-                    "value": ["d2m", ["*", "0.1", "d2m"]]
+                    "value": ["d2m", ["*", "0.25", "d2m"]]
                 }
             ]
         }

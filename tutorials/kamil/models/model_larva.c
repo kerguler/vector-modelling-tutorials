@@ -215,7 +215,7 @@ void sim(int *tf, int *rep, double *envir, double *pr, double *y0, char **file_f
                 par[0] = n2m;
                 par[1] = n2m;
                 par[2] = d2m;
-                par[3] = (0.1 * d2m);
+                par[3] = (0.25 * d2m);
                 spop2_step(larva, par, &size_larva, completed_larva, 0);
 
                 larva_to_pupa = completed_larva[Ldev].d;
