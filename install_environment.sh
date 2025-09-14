@@ -26,6 +26,7 @@ conda update -n base -c defaults conda && \
         r-remotes \
         r-tidyterra r-sf r-fs r-sass r-stringi r-stringr r-tidyr r-reshape2 r-recipes r-units r-s2 r-bslib r-caret r-rmarkdown r-Ecume r-sass r-bslib r-cachem r-httpuv r-htmlwidgets r-shiny r-dygraphs r-SimInf \
         r-devtools r-drc \
+        r-PBSddesolve \
         r-IRkernel
 
 R -e 'install.packages("TDLM", repos="https://cran.rstudio.com")'
