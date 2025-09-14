@@ -20,6 +20,7 @@ conda update -n base -c defaults conda && \
         jupyterlab \
         openjdk \
         cdsapi \
+        cartopy \
         r-codetools \
         r-recommended \
         r-remotes \
