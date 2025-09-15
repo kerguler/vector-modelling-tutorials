@@ -39,11 +39,11 @@ R -e 'install.packages("ggplot2",repos="https://cran.rstudio.com")'
 
 # For arbocartoR
 git clone https://gitlab.cirad.fr/astre/arbocartoR.git ./src/arbocartoR
-R -e "remotes::install_local('./src/arbocartoR', lib = .libPaths()[1], upgrade = 'never')"
+R -e "remotes::install_local('./src/arbocartoR', lib = .libPaths()[1], dependencies=FALSE, upgrade = 'never')"
 
 # For dynamAedes
 git clone --branch development https://github.com/mattmar/dynamAedes.git ./src/dynamAedes
-R -e "devtools::install_local('./src/dynamAedes', lib = .libPaths()[1], upgrade = 'never')"
+R -e "devtools::install_local('./src/dynamAedes', lib = .libPaths()[1], dependencies=FALSE, upgrade = 'never')"
 
 # Activate R kernel for Jupyter Lab
 R -e "IRkernel::installspec(user = FALSE, prefix = '/opt/conda')"
