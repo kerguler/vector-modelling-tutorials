@@ -28,6 +28,7 @@ conda update -n base -c defaults conda && \
         r-devtools r-drc \
         r-doParallel r-geosphere \
         r-PBSddesolve r-wesanderson \
+        r-deSolve r-shiny r-torch \
         r-IRkernel
 
 R -e 'install.packages("TDLM", repos="https://cran.rstudio.com")'
@@ -45,6 +46,9 @@ R -e "remotes::install_local('./src/arbocartoR', lib = .libPaths()[1], dependenc
 # For dynamAedes
 git clone --branch development https://github.com/mattmar/dynamAedes.git ./src/dynamAedes
 R -e "devtools::install_local('./src/dynamAedes', lib = .libPaths()[1], dependencies=FALSE, upgrade = 'never')"
+
+# For torch
+R -e "install.packages('torch', repos = 'https://cloud.r-project.org')"
 
 # Activate R kernel for Jupyter Lab
 R -e "IRkernel::installspec(user = FALSE, prefix = '/opt/conda')"

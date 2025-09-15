@@ -15,6 +15,7 @@ BASE_PORT=8000
 for i in $(seq 1 $N); do
     USER="user$(printf "%02d" $i)"
     PORT=$((BASE_PORT + i - 1))
+    RPORT=$((BASE_PORT + i + N - 1))
 
     # Create user if not exists
     if ! id -u $USER >/dev/null 2>&1; then
@@ -40,6 +41,13 @@ for i in $(seq 1 $N); do
         > /home/${USER}/jupyter.log 2>&1 &"
     
     echo "Started JupyterLab for $USER on port $PORT"
+
+    su $USER -c "nohup R -e \" \
+        source(\"/home/$USER/notebooks/tutorials/mina/pinn-shinyv4V3.R\"); \
+        app <- shinyApp(ui, server); \
+        shiny::runApp(app, host = \"0.0.0.0\", launch.browser = FALSE, port = ${RPORT})"
+
+    echo "Started R Shiny for $USER on port $RPORT"
 done
 
 # Keep container alive
