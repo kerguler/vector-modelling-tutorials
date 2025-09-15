@@ -45,7 +45,8 @@ for i in $(seq 1 $N); do
     su $USER -c "nohup R -e \" \
         source(\"/home/$USER/notebooks/tutorials/mina/pinn-shinyv4V3.R\"); \
         app <- shinyApp(ui, server); \
-        shiny::runApp(app, host = \"0.0.0.0\", launch.browser = FALSE, port = ${RPORT})"
+        shiny::runApp(app, host = \"0.0.0.0\", launch.browser = FALSE, port = ${RPORT}); \
+        \" "
 
     echo "Started R Shiny for $USER on port $RPORT"
 done
