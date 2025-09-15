@@ -25,6 +25,7 @@ for i in $(seq 1 $N); do
 
     # Ensure work directory
     mkdir -p /home/$USER/notebooks
+    mkdir -p /home/$USER/tmp
     cp -r /code/tutorials /home/$USER/notebooks
     chown -R $USER:$USER /home/$USER
 
@@ -42,7 +43,7 @@ for i in $(seq 1 $N); do
     
     echo "Started JupyterLab for $USER on port $PORT"
 
-    su $USER -c "nohup R -e \" \
+    su $USER -c "TMPDIR=/home/$USER/tmp nohup R -e \" \
         source(\"/home/$USER/notebooks/tutorials/mina/pinn-shinyv4V3.R\"); \
         app <- shinyApp(ui, server); \
         shiny::runApp(app, host = \"0.0.0.0\", launch.browser = FALSE, port = ${RPORT}); \
