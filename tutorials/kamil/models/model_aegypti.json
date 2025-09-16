@@ -1,0 +1,767 @@
+{
+    "model": {
+        "title": "Aedes aegypti heat shock model",
+        "type": "Population",
+        "url": "https://github.com/kerguler/Population",
+        "deterministic": true,
+        "parameters": {
+            "algorithm": "Population",
+            "istep": 1e-9,
+            "ostep": 1
+        }
+    },
+    "environ": [
+        {
+            "id": "temp",
+            "name": "Temperature of the micro-environment of larva development (in °C)"
+        },{
+            "id": "prec",
+            "name": "Precipitation (mm)"
+        },{
+            "id": "evap",
+            "name": "Fraction of breeding site volume lost"
+        },{
+            "id": "rehum",
+            "name": "Relative humidity (%)"
+        },{
+            "id": "pdens",
+            "name": "Human population density (per km2)"
+        },{
+            "id": "experiment",
+            "name": "Experimental introduction of juvenile females (time, number, age, time-to-bm, size)"
+        },{
+            "id": "configure",
+            "name": "0: complete model, 1: without GC"
+        }
+    ],
+    "parameters": [
+        {
+            "id": "par_E_death_L",
+            "constant": false,
+            "value": 10.0,
+            "min": -20.0,
+            "max": 100.0
+        },{
+            "id": "par_E_death_l",
+            "constant": false,
+            "value": -0.88795004,
+            "min": -6.0,
+            "max": 6.0
+        },{
+            "id": "par_E_death_R",
+            "constant": false,
+            "value": 25.0,
+            "min": -10.0,
+            "max": 50.0
+        },{
+            "id": "par_E_death_r",
+            "constant": false,
+            "value": -0.14661669,
+            "min": -6.0,
+            "max": 6.0
+        },{
+            "id": "par_E_death_X",
+            "constant": false,
+            "value": 400.0,
+            "min": 0.0,
+            "max": 8760.0
+        },{
+            "id": "par_E_death_str",
+            "constant": false,
+            "value": 1.0,
+            "min": 0.1,
+            "max": 1.0
+        },{
+            "id": "par_E_death_dsc",
+            "constant": false,
+            "value": 10.0,
+            "min": 1.0,
+            "max": 1000.0
+        },{
+            "id": "par_E_dev_R",
+            "constant": false,
+            "value": -6.00179088,
+            "min": -20.0,
+            "max": 100.0
+        },{
+            "id": "par_E_dev_r",
+            "constant": false,
+            "value": -1.82367405,
+            "min": -6.0,
+            "max": 6.0
+        },{
+            "id": "par_E_dev_min",
+            "constant": false,
+            "value": 16.53137616,
+            "min": 1.0,
+            "max": 10000.0
+        },{
+            "id": "par_E_dev_max",
+            "constant": false,
+            "value": 12877.17396456,
+            "min": 1.0,
+            "max": 100000.0
+        },{
+            "id": "par_E_to_L",
+            "constant": false,
+            "value": 1.0,
+            "min": 0.0,
+            "max": 1.0
+        },{
+            "id": "par_Eh_dev",
+            "constant": false,
+            "value": 240.0,
+            "min": 0.0,
+            "max": 10000.0
+        },{
+            "id": "par_Eh_bs_thr",
+            "constant": false,
+            "value": 0.5,
+            "min": 0.0,
+            "max": 1000.0
+        },{
+            "id": "par_Eh_T_thr",
+            "constant": false,
+            "value": 15.0,
+            "min": -10.0,
+            "max": 50.0
+        },{
+            "id": "par_L_to_P",
+            "constant": false,
+            "value": 0.9,
+            "min": 0.0,
+            "max": 1.0
+        },{
+            "id": "par_L_death_L",
+            "constant": false,
+            "value": 12.0,
+            "min": -10.0,
+            "max": 100.0
+        },{
+            "id": "par_L_death_l",
+            "constant": false,
+            "value": 0.6,
+            "min": -6.0,
+            "max": 6.0
+        },{
+            "id": "par_L_death_R",
+            "constant": false,
+            "value": 22.0,
+            "min": -10.0,
+            "max": 50.0
+        },{
+            "id": "par_L_death_r",
+            "constant": false,
+            "value": 0.92954879,
+            "min": -6.0,
+            "max": 6.0
+        },{
+            "id": "par_L_death_X",
+            "constant": false,
+            "value": 1000.0,
+            "min": 0.0,
+            "max": 8760.0
+        },{
+            "id": "par_L_death_str",
+            "constant": false,
+            "value": 0.5,
+            "min": 0.1,
+            "max": 1.0
+        },{
+            "id": "par_L_dev_min",
+            "constant": false,
+            "value": 0.0,
+            "min": 0.0,
+            "max": 1000.0
+        },{
+            "id": "par_L_dev_max",
+            "constant": false,
+            "value": 2051.557170044333,
+            "min": 1.0,
+            "max": 8760.0
+        },{
+            "id": "par_L_dev_a",
+            "constant": false,
+            "value": 0.1,
+            "min": 0.0,
+            "max": 1.0
+        },{
+            "id": "par_L_fdens",
+            "constant": false,
+            "value": 300.0,
+            "min": 0.0,
+            "max": 10000.0
+        },{
+            "id": "par_L_fdens_str",
+            "constant": false,
+            "value": -4.8,
+            "min": -6.0,
+            "max": 6.0
+        },{
+            "id": "par_L_fdens_mort",
+            "constant": false,
+            "value": 1.0,
+            "min": 0.0,
+            "max": 1.0
+        },{
+            "id": "par_L_fdens_dev",
+            "constant": false,
+            "value": 0.1,
+            "min": 0.0,
+            "max": 1.0
+        },{
+            "id": "par_P_death_L",
+            "constant": false,
+            "value": 17.0,
+            "min": -10.0,
+            "max": 100.0
+        },{
+            "id": "par_P_death_l",
+            "constant": false,
+            "value": 0.6,
+            "min": -2.0,
+            "max": 2.0
+        },{
+            "id": "par_P_death_R",
+            "constant": false,
+            "value": 17.0,
+            "min": -10.0,
+            "max": 50.0
+        },{
+            "id": "par_P_death_r",
+            "constant": false,
+            "value": 0.92954879,
+            "min": -2.0,
+            "max": 2.0
+        },{
+            "id": "par_P_death_X",
+            "constant": false,
+            "value": 1000.0,
+            "min": 0.0,
+            "max": 8760.0
+        },{
+            "id": "par_P_death_str",
+            "constant": false,
+            "value": 0.5,
+            "min": 0.1,
+            "max": 1.0
+        },{
+            "id": "par_P_dev_min",
+            "constant": false,
+            "value": 36.0,
+            "min": 0.0,
+            "max": 1000.0
+        },{
+            "id": "par_P_dev_max",
+            "constant": false,
+            "value": 2051.557170044333,
+            "min": 1.0,
+            "max": 8760.0
+        },{
+            "id": "par_P_dev_a",
+            "constant": false,
+            "value": 0.15,
+            "min": 0.0,
+            "max": 1.0
+        },{
+            "id": "par_P_to_A",
+            "constant": false,
+            "value": 0.9,
+            "min": 0.0,
+            "max": 1.0
+        },{
+            "id": "par_A_death_str",
+            "constant": false,
+            "value": 0.5,
+            "min": 0.1,
+            "max": 1.0
+        },{
+            "id": "par_female",
+            "constant": false,
+            "value": 0.5,
+            "min": 0.0,
+            "max": 1.0
+        },{
+            "id": "par_bs_prec",
+            "constant": false,
+            "value": 0.0001,
+            "min": 0.0,
+            "max": 1.0
+        },{
+            "id": "par_bs_pdens",
+            "constant": false,
+            "value": 0.000001,
+            "min": 0.0,
+            "max": 1.0
+        },{
+            "id": "par_bs_nevap",
+            "constant": false,
+            "value": 20.0,
+            "min": 1e-13,
+            "max": 1000.0
+        },{
+            "id": "par_Khum",
+            "constant": false,
+            "value": 100.0,
+            "min": 0.0,
+            "max": 1000.0
+        },{
+            "id": "par_kvec",
+            "constant": false,
+            "value": 100.0,
+            "min": 0.0,
+            "max": 1000.0
+        },{
+            "id": "par_F4_M",
+            "constant": false,
+            "value": 26.0,
+            "min": 0.0,
+            "max": 1000.0
+        },{
+            "id": "par_F4_a",
+            "constant": false,
+            "value": -0.5,
+            "min": -100.0,
+            "max": 100.0
+        },{
+            "id": "par_F4_b",
+            "constant": false,
+            "value": 45.0,
+            "min": 0.0,
+            "max": 100.0
+        },{
+            "id": "par_gc_X",
+            "constant": false,
+            "value": 1700.0,
+            "min": 0.0,
+            "max": 10000.0
+        },{
+            "id": "par_gc_M",
+            "constant": false,
+            "value": 1.0,
+            "min": -100.0,
+            "max": 100.0
+        },{
+            "id": "par_gc_a",
+            "constant": false,
+            "value": 0.1,
+            "min": 0.0,
+            "max": 100.0
+        },{
+            "id": "par_A_life_L",
+            "constant": false,
+            "value": 16.5,
+            "min": 0.0,
+            "max": 1000.0
+        },{
+            "id": "par_A_life_l",
+            "constant": false,
+            "value": 1.0,
+            "min": -6.0,
+            "max": 6.0
+        },{
+            "id": "par_A_life_R",
+            "constant": false,
+            "value": 15.0,
+            "min": 0.0,
+            "max": 1000.0
+        },{
+            "id": "par_A_life_r",
+            "constant": false,
+            "value": -1.2,
+            "min": -6.0,
+            "max": 6.0
+        },{
+            "id": "par_A_life_H",
+            "constant": false,
+            "value": 870.0,
+            "min": 0.0,
+            "max": 10000.0
+        },{
+            "id": "par_factor_size",
+            "constant": false,
+            "value": 0.001,
+            "min": 0.0,
+            "max": 10.0
+        },{
+            "id": "par_factor_size_off",
+            "constant": false,
+            "value": 0.1,
+            "min": 0.0,
+            "max": 10.0
+        },{
+            "id": "par_maxdev",
+            "constant": true,
+            "value": 8760.0,
+            "min": 0.0,
+            "max": 10000.0
+        },{
+            "id": "par_inf",
+            "constant": true,
+            "value": 1e13
+        },{
+            "id": "par_eps",
+            "constant": true,
+            "value": 1e-13
+        }
+    ],
+    "functions": {
+        "briere1": ["define", ["T","L","R","a"],
+                   ["?", ["&&", [">", "T", "L"], ["<=", "T", ["+","L","R"]]], 
+                   ["*", ["exp", "a"], ["+", "273.15", "T"], ["-", "T", "L"], ["sqrt", ["-", ["+", "L", "R"], "T"]]],
+                   "0.0"]],
+        "sig": ["define", ["T","L","H","M","S"],
+               ["+", "L", ["/", ["-", "H", "L"], 
+               ["+", "1.0", ["exp", ["*", "S", ["-", "T", "M"]]]]]]],
+        "dsig": ["define", ["T","L","R","H"],
+                ["/", "H", ["*", 
+                ["+", "1.0", ["exp", ["-", "L", "T"]]],
+                ["+", "1.0", ["exp", ["-", "T", ["+", "L", "R"]]]]]]],
+        "dsigi": ["define", ["T","L","R","H"],
+                 ["-", "H", ["dsig", "T", "L", "R", "H"]]],
+        "dsigs": ["define", ["T","R","r","M","H"],
+                ["+", "M", ["/", "H", ["*", 
+                ["+", "1.0", ["exp", ["*", ["exp", "r"], ["-", "T", "R"]]]]]]]],
+        "dsigx": ["define", ["T","L","l","R","r","H"],
+                ["/", "H", ["*", 
+                ["+", "1.0", ["exp", ["*", ["exp", "l"], ["-", "L", "T"]]]],
+                ["+", "1.0", ["exp", ["*", ["exp", "r"], ["-", "T", ["+", "L", "R"]]]]]]]],
+        "dsqrt": ["define", ["T","L","R","H"],
+                 ["max", "L", 
+                  ["?", [">","T","R"], 
+                  ["*", "H", ["pow", ["-", "T", "R"], "0.1"]],
+                  "L"]]],
+        "fexp": ["define", ["T","X","M","a"],
+                ["max", "M", ["*", "X", ["exp", ["*", "-1.0", "a", "T"]]]]],
+        "fpoly": ["define", ["T","M","a","b"],
+                ["+", "b", ["*", "a", ["pow", ["-", "T", "M"], "2.0"]]]],
+        "fun_factor_size": ["define", ["p","l","a","b"],
+                ["*", "l", ["+", "1.0", ["max", "0.0", ["+", "b", ["*", "a", "p"]]]]]],
+        "fun_nevap": ["define", ["e", "C"],
+                ["-", "1.0", ["/", ["min", "0.0", "e"], ["-", ["min", "0.0", "e"], "C"]]]]
+    },
+    "intermediates": [
+        {
+            "id": "int_bsvol_add",
+            "value": ["+", 
+                        ["*", "par_bs_prec", ["prec", "TIME_1"]], 
+                        ["*", "par_bs_pdens", ["pdens", "TIME_1"]]]
+        },{
+            "id": "int_bsvol_remain",
+            "value": ["*", ["fun_nevap", ["evap", "TIME_1"], "par_bs_nevap"], "bsvol"]
+        },{
+            "id": "bsvol",
+            "value": ["+", "int_bsvol_add", "int_bsvol_remain"]
+        },{
+            "id": "int_frac_dsc",
+            "value": ["*", "par_E_death_dsc", ["/", ["rehum", "TIME_1"], "100.0"]]
+        },{
+            "id": "int_E_lifetime",
+            "value": ["dsigx", 
+                         ["temp","TIME_1"],
+                         "par_E_death_L", 
+                         "par_E_death_l", 
+                         "par_E_death_R", 
+                         "par_E_death_r", 
+                         "par_E_death_X"]
+        },{
+            "id": "int_E_devtime",
+            "value": ["dsigs", ["temp","TIME_1"], "par_E_dev_R", "par_E_dev_r", "par_E_dev_min", "par_E_dev_max"]
+        },{
+            "id": "int_E_lifetime_dsc",
+            "value": ["*", "int_frac_dsc", "int_E_lifetime"]
+        },{
+            "id": "int_L_fdens",
+            "value": ["?", [">", "bsvol", "par_eps"], 
+                        ["sig", ["/", "pop_L", "bsvol"], "0.0", "1.0", "par_L_fdens", ["exp", "par_L_fdens_str"]],
+                        "0.0"
+                     ]
+        },{
+            "id": "int_L_fdens_mort_frac",
+            "value": ["*", "par_L_fdens_mort", "int_L_fdens"]
+        },{
+            "id": "int_L_fdens_dev_frac",
+            "value": ["+", "1.0", ["*", "par_L_fdens_dev", ["-", "1.0", "int_L_fdens"]]]
+        },{
+            "id": "int_L_lifetime",
+            "value": ["*", "int_L_fdens_mort_frac", 
+                       ["dsigx", 
+                        ["temp","TIME_1"],
+                        "par_L_death_L", 
+                        "par_L_death_l", 
+                        "par_L_death_R", 
+                        "par_L_death_r", 
+                        "par_L_death_X"]
+                     ]
+        },{
+            "id": "int_L_devtime",
+            "value": ["*", "int_L_fdens_dev_frac",
+                        ["fexp", ["temp","TIME_1"], "par_L_dev_max", "par_L_dev_min", "par_L_dev_a"]
+                     ]
+        },{
+            "id": "int_P_lifetime",
+            "value": ["?", ["<=", "bsvol", "par_eps"], "0.0",
+                        ["dsigx", 
+                         ["temp","TIME_1"],
+                         "par_P_death_L", 
+                         "par_P_death_l", 
+                         "par_P_death_R", 
+                         "par_P_death_r", 
+                         "par_P_death_X"]
+                     ]
+        },{
+            "id": "int_P_devtime",
+            "value": ["?", ["<=", "bsvol", "par_eps"], "par_inf",
+                        ["fexp", ["temp","TIME_1"], "par_P_dev_max", "par_P_dev_min", "par_P_dev_a"]
+                     ]
+        },{
+            "id": "int_Af_lifetime",
+            "value": ["dsigx", ["temp", "TIME_1"], "par_A_life_L", "par_A_life_l", "par_A_life_R", "par_A_life_r", "par_A_life_H"]
+        },{
+            "id": "int_Af_gctime",
+            "value": ["max", "1.0", ["fexp", ["temp", "TIME_1"], "par_gc_X", "par_gc_M", "par_gc_a"]]
+        },{
+            "id": "int_fecundity",
+            "name": "Egg / female / day (F4, temperature-dependent, unlimited blood source or pdens->inf)",
+            "value": ["max", "0.0", ["fpoly", ["temp", "TIME_1"], "par_F4_M", "par_F4_a", "par_F4_b"]]
+        },{
+            "id": "int_lam_hum",
+            "value": ["*", "par_Khum", ["pdens", "TIME_1"]]
+        },{
+            "id": "int_lam_novec",
+            "value": ["*", "par_kvec", "int_fecundity"]
+        },{
+            "id": "trans_Af_bm",
+            "value": ["?", ["&&", "int_lam_novec", "int_lam_hum"],
+                           ["exp", ["*", "-1.0", ["/", ["+", ["*", "int_lam_novec", "pop_Af"], "int_lam_hum"], ["*", "int_lam_novec", "int_lam_hum"]]]],
+                           "0.0"]
+        }
+    ],
+    "populations": [
+        {
+            "id": "pop_E",
+            "processes": [
+                {
+                    "id": "proc_E_lifetime",
+                    "arbiter": "ACC_ERLANG",
+                    "value": ["int_E_lifetime", ["*", "par_E_death_str", "int_E_lifetime"]]
+                },{
+                    "id": "proc_E_dev",
+                    "arbiter": "ACC_FIXED",
+                    "value": ["int_E_devtime"]
+                }
+            ]
+        },{
+            "id": "pop_Eh",
+            "processes": [
+                {
+                    "id": "proc_Eh_lifetime",
+                    "arbiter": "ACC_ERLANG",
+                    "value": ["int_E_lifetime_dsc", ["*", "par_E_death_str", "int_E_lifetime_dsc"]]
+                },{
+                    "id": "proc_Eh_dev",
+                    "arbiter": "ACC_FIXED",
+                    "value": "par_Eh_dev"
+                }
+            ]
+        },{
+            "id": "pop_L",
+            "processes": [
+                {
+                    "id": "proc_L_lifetime",
+                    "arbiter": "ACC_ERLANG",
+                    "value": ["int_L_lifetime", ["*", "par_L_death_str", "int_L_lifetime"]]
+                },{
+                    "id": "proc_L_age",
+                    "arbiter": "AGE_FIXED",
+                    "value": ["par_inf"]
+                },{
+                    "id": "proc_L_dev",
+                    "arbiter": "ACC_FIXED",
+                    "value": ["int_L_devtime"]
+                }
+            ]
+        },{
+            "id": "pop_P",
+            "processes": [
+                {
+                    "id": "proc_P_lifetime",
+                    "arbiter": "ACC_ERLANG",
+                    "value": ["int_P_lifetime", ["*", "par_P_death_str", "int_P_lifetime"]]
+                },{
+                    "id": "proc_P_dev",
+                    "arbiter": "ACC_FIXED",
+                    "value": ["int_P_devtime"]
+                },{
+                    "id": "proc_P_size",
+                    "arbiter": "ACC_MEMORY",
+                    "value": []
+                }
+            ]
+        },{
+            "id": "pop_Afj",
+            "processes": [
+                {
+                    "id": "proc_Afj_lifetime",
+                    "arbiter": "ACC_ERLANG",
+                    "value": [
+                        ["fun_factor_size","proc_Afj_size","int_Af_lifetime","par_factor_size","par_factor_size_off"], 
+                        ["*", "par_A_death_str", ["fun_factor_size","proc_Afj_size","int_Af_lifetime","par_factor_size","par_factor_size_off"]]
+                    ],
+                    "hazpar": true
+                },{
+                    "id": "proc_Afj_fbm",
+                    "arbiter": "ACC_FIXED",
+                    "value": ["int_Af_gctime"]
+                },{
+                    "id": "proc_Afj_size",
+                    "arbiter": "ACC_MEMORY",
+                    "value": []
+                }
+            ]
+        },{
+            "id": "pop_Af",
+            "processes": [
+                {
+                    "id": "proc_Af_lifetime",
+                    "arbiter": "ACC_ERLANG",
+                    "value": [
+                        ["fun_factor_size","proc_Af_size","int_Af_lifetime","par_factor_size","par_factor_size_off"], 
+                        ["*", "par_A_death_str", ["fun_factor_size","proc_Af_size","int_Af_lifetime","par_factor_size","par_factor_size_off"]]
+                    ],
+                    "hazpar": true
+                },{
+                    "id": "proc_Af_bm",
+                    "arbiter": "NOAGE_CONST",
+                    "value": [["?", ["==", ["configure", 0], 0], 
+                              "trans_Af_bm",
+                              "0.0"]]
+                },{
+                    "id": "proc_Af_size",
+                    "arbiter": "ACC_MEMORY",
+                    "value": []
+                }
+            ]
+        },{
+            "id": "pop_Afg",
+            "processes": [
+                {
+                    "id": "proc_Afg_lifetime",
+                    "arbiter": "ACC_ERLANG",
+                    "value": [
+                        ["fun_factor_size","proc_Afg_size","int_Af_lifetime","par_factor_size","par_factor_size_off"], 
+                        ["*", "par_A_death_str", ["fun_factor_size","proc_Afg_size","int_Af_lifetime","par_factor_size","par_factor_size_off"]]
+                    ],
+                    "hazpar": true
+                },{
+                    "id": "proc_Afg_gc",
+                    "arbiter": "ACC_FIXED",
+                    "value": ["int_Af_gctime"]
+                },{
+                    "id": "proc_Afg_size",
+                    "arbiter": "ACC_MEMORY",
+                    "value": []
+                }
+            ]
+        }
+    ],
+    "transformations": [
+        {
+            "id": "trans_E_to_Eh",
+            "to": "pop_Eh",
+            "value": "proc_E_dev"
+        },{
+            "id": "trans_Eh_to_L",
+            "to": "pop_L",
+            "value": ["*", "par_E_to_L", "proc_Eh_dev"]
+        },{
+            "id": "trans_Afg_gc",
+            "value": "proc_Afg_gc"
+        },{
+            "id": "trans_Afg_to_E",
+            "to": "pop_E",
+            "value": ["*", "int_fecundity", "proc_Afg_gc"],
+            "if": ["==", ["configure", 0], 0]
+        },{
+            "id": "trans_Af_to_E",
+            "to": "pop_E",
+            "value": ["*", "int_fecundity", "pop_Af", "trans_Af_bm", ["/", "1.0", "int_Af_gctime"]],
+            "if": ["&&", ["==", ["configure", 0], 1], [">", "int_Af_gctime", "0.0"]]
+        },{
+            "id": "trans_Af",
+            "value": ["+", "pop_Afj", "pop_Af", "pop_Afg"]
+        },{
+            "id": "trans_Af_X",
+            "value": ["+", "proc_Afj_lifetime", "proc_Af_lifetime", "proc_Afg_lifetime"]
+        },{
+            "id": "trans_intro_Afj",
+            "to": "pop_Afj",
+            "value": ["experiment", 1],
+            "key": [
+                ["experiment", 2],
+                ["experiment", 3],
+                ["experiment", 4]
+            ],
+            "if": ["==", "TIME", ["experiment", 0]]
+        }
+    ],
+    "transfers": [
+        {
+            "id": "trans_Eh_to_Eh",
+            "from": "pop_Eh",
+            "to": "pop_Eh",
+            "value": [1.0, ["proc_Eh_lifetime", 0.0]],
+            "if": ["||",
+                    ["<", "bsvol", "par_Eh_bs_thr"],
+                    ["<", ["temp", "TIME_1"], "par_Eh_T_thr"]],
+            "note": "WARNING: This works only because the proc_Eh_dev counter is set to a fixed value!"
+        },{
+            "id": "trans_L_to_P",
+            "from": "proc_L_dev",
+            "to": "pop_P",
+            "value": ["par_L_to_P", [
+                "0.0", 
+                "0.0",
+                "proc_L_age"
+            ]]
+        },{
+            "id": "trans_P_to_Afj",
+            "from": "proc_P_dev",
+            "to": "pop_Afj",
+            "value": [["*", "par_P_to_A", "par_female"], [
+                "0.0", 
+                "0.0",
+                "proc_P_size"
+            ]]
+        },{
+            "id": "trans_Afj_to_Af",
+            "from": "proc_Afj_fbm",
+            "to": "pop_Af",
+            "value": ["1.0", [
+                "proc_Afj_lifetime",
+                "0.0",
+                "proc_Afj_size"
+            ]]
+        },{
+            "id": "trans_Af_to_Afg",
+            "from": "proc_Af_bm",
+            "to": "pop_Afg",
+            "value": ["1.0", [
+                "proc_Af_lifetime",
+                "0.0",
+                "proc_Af_size"
+            ]],
+            "if": ["==", ["configure", 0], 0]
+        },{
+            "id": "trans_Afg_to_Af",
+            "from": "proc_Afg_gc",
+            "to": "pop_Af",
+            "value": ["1.0", [
+                "proc_Afg_lifetime",
+                "0.0",
+                "proc_Afg_size"
+            ]],
+            "if": ["==", ["configure", 0], 0]
+        }
+    ]
+}

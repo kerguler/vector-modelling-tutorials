@@ -32,6 +32,7 @@ conda update -n base -c defaults conda && \
         r-nimble r-HDInterval r-IDPmisc r-truncnorm r-httr \
         r-IRkernel
 
+R -e 'install.packages(c("IRkernel", "devtools", "remotes"), repos="https://cran.rstudio.com")'
 R -e 'install.packages("TDLM", repos="https://cran.rstudio.com")'
 R -e 'install.packages("data.table", repos="https://cran.rstudio.com")'
 R -e 'install.packages("SimInf", repos="https://cran.rstudio.com", configure.args="--host=host")'
