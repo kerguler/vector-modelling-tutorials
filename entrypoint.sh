@@ -44,7 +44,7 @@ for i in $(seq 1 $N); do
     
     echo "Started JupyterLab for $USER on port $PORT"
 
-    echo "source('/home/$USER/notebooks/tutorials/mina/pinn-shinyv4V3.R'); \
+    echo "source('/home/$USER/notebooks/tutorials/mina/pinn-shinyv4V5.R'); \
           app <- shinyApp(ui, server); \
           shiny::runApp(app, host = '0.0.0.0', launch.browser = FALSE, port = ${RPORT}); " > /home/$USER/notebooks/tutorials/mina/app.R
 
