@@ -46,7 +46,7 @@ for i in $(seq 1 $N); do
     echo "source('/home/$USER/notebooks/tutorials/mina/pinn-shinyv4V3.R'); \
           app <- shinyApp(ui, server); \
           shiny::runApp(app, host = '0.0.0.0', launch.browser = FALSE, port = ${RPORT}); " > /home/$USER/notebooks/tutorials/mina/app.R
-    su $USER -c "TMPDIR=/home/$USER/tmp nohup R < /home/$USER/notebooks/tutorials/mina/app.R"
+    su $USER -c "TMPDIR=/home/$USER/tmp nohup R --vanilla < /home/$USER/notebooks/tutorials/mina/app.R"
 
     echo "Started R Shiny for $USER on port $RPORT"
 done
