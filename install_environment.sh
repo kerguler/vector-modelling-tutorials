@@ -53,7 +53,11 @@ git clone https://github.com/johnwilliamsmithjr/bayesTPC.git ./src/bayesTPC
 R -e "devtools::install_local('./src/bayesTPC', lib = .libPaths()[1], dependencies=FALSE, upgrade = 'never')"
 
 # For torch
+TORCH_DIR="/srv/torch"
+mkdir -p "$TORCH_DIR"
+chmod 777 "$TORCH_DIR"
 R -e "install.packages('torch', repos = 'https://cloud.r-project.org')"
+R --vanilla -e "Sys.setenv(TORCH_HOME='$TORCH_DIR'); library(torch); torch::install_torch()"
 
 # Activate R kernel for Jupyter Lab
 R -e "IRkernel::installspec(user = FALSE, prefix = '/opt/conda')"
