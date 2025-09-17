@@ -210,7 +210,7 @@ ui <- fluidPage(
           "Fit",
           shinycssloaders::withSpinner(
             plotOutput("plot_fit", height = 360),
-            type = 4, color = "#666"
+            type = 4, color = "#666666"
           )
         ),
         tabPanel("About",

@@ -28,7 +28,7 @@ conda update -n base -c defaults conda && \
         r-devtools r-drc \
         r-doParallel r-geosphere \
         r-PBSddesolve r-wesanderson \
-        r-deSolve r-shiny r-torch \
+        r-deSolve r-shiny r-torch r-shinycssloaders \
         r-nimble r-HDInterval r-IDPmisc r-truncnorm r-httr \
         r-IRkernel
 
