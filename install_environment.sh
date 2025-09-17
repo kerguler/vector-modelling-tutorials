@@ -21,6 +21,7 @@ conda update -n base -c defaults conda && \
         openjdk \
         cdsapi \
         cartopy \
+        libgdal-hdf5 \
         r-codetools \
         r-recommended \
         r-remotes \
