@@ -1,16 +1,11 @@
 import os
-HUB_CONNECT_URL = os.environ.get("HUB_CONNECT_URL", "http://jupyterhub:8000")
-compose_name = os.environ.get("COMPOSE_PROJECT_NAME", "")
-shared_data_folder = os.environ.get("SHARED_DATA_DIR", "")
-idle_token = os.environ.get("IDLE_CULLER_TOKEN")
+from dotenv import load_dotenv
+load_dotenv(dotenv_path="/srv/jupyterhub/.env")  # mount .env into Hub container
 
-import dotenv
-env = dotenv.load_dotenv(dotenv_path="/srv/jupyterhub/.env")
-if env:
-    HUB_CONNECT_URL = os.getenv("HUB_CONNECT_URL")
-    compose_name = os.getenv("COMPOSE_PROJECT_NAME")
-    shared_data_folder = os.getenv("SHARED_DATA_DIR")
-    idle_token = os.getenv("IDLE_CULLER_TOKEN")
+HUB_CONNECT_URL = os.getenv("HUB_CONNECT_URL", "http://jupyterhub:8000")
+compose_name = os.getenv("COMPOSE_PROJECT_NAME", "")
+shared_data_folder = os.getenv("SHARED_DATA_DIR", "")
+idle_token = os.getenv("IDLE_CULLER_TOKEN")
 
 # --- Core Hub ---
 c.JupyterHub.bind_url = "http://:8000"

@@ -23,4 +23,12 @@ RUN curl -L -o "/tmp/install.population.sh" "https://raw.githubusercontent.com/k
 # Clean up
 RUN rm -rf /var/lib/apt/lists/*
 
+# Copy the tutorials to the image
+COPY tutorials/ /srv/tutorials/
+COPY init_tutorials.sh /usr/local/bin/init_tutorials.sh
+RUN chmod +x /usr/local/bin/init_tutorials.sh
+
+ENTRYPOINT ["tini", "-g", "--", "init_tutorials.sh"]
+CMD ["jupyterhub-singleuser"]
+
 # Keep CMD/entrypoint from base image (starts single-user server for JupyterHub)
