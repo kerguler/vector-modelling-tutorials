@@ -1,0 +1,9 @@
+FROM jupyterhub/jupyterhub:5.2.1
+
+# Add spawner, authenticator, and idle culler
+RUN pip install --no-cache-dir \
+    dotenv \
+    dockerspawner==14.* \
+    jupyterhub-nativeauthenticator==1.* \
+    jupyterhub-idle-culler==1.* \
+    jupyterlab

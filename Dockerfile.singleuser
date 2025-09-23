@@ -1,0 +1,26 @@
+# Python + Lab base
+FROM quay.io/jupyter/minimal-notebook:python-3.11
+
+USER root
+
+# Generic system libraries
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    pkg-config
+
+# Ensure modules init script is sourced when shell starts
+#SHELL ["/bin/bash", "-c"]
+#RUN echo "source /etc/profile.d/modules.sh" >> /etc/bash.bashrc
+
+# Population + PopJSON
+RUN apt-get install -y \
+    libgsl-dev
+RUN curl -L -o "/tmp/install.population.sh" "https://raw.githubusercontent.com/kerguler/PopJSON/main/install.population.sh" && \
+    chmod +x /tmp/install.population.sh && \
+    /tmp/install.population.sh --verbose --keep-tests -d /tmp/population
+#RUN echo "module load population/${SPOP_VERSION}" >> /etc/bash.bashrc
+
+# Clean up
+RUN rm -rf /var/lib/apt/lists/*
+
+# Keep CMD/entrypoint from base image (starts single-user server for JupyterHub)

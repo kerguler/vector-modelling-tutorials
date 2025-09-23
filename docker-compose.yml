@@ -1,15 +1,43 @@
 services:
-  jupyterlabs:
+  jupyterhub:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: vector-modelling-tutorials
-    environment:
-      - N_USERS=50
-    image: vector-modelling-tutorials:latest
+      dockerfile: Dockerfile.hub
+    image: vector-modelling-tutorial-hub:latest
     restart: unless-stopped
-    ports:
-      - "8000-8099:8000-8099"
+    expose:
+      - "8000"
     volumes:
-      - "$HOME/data:/data:ro"
-      - "$HOME/results:/results:ro"
+      - hub-data:/srv/jupyterhub
+      - user-data:/srv/jupyter
+      - ./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      # .env is invisible to jupyterhub_config.py Without this
+      - ./.env:/srv/jupyterhub/.env:ro
+    environment:
+      # Used by your Hub config
+      - COMPOSE_PROJECT_NAME=jhub
+      - HUB_CONNECT_URL=http://jupyterhub:8000
+      # Provide this via .env or your shell before `docker compose up`
+      - IDLE_CULLER_TOKEN=${IDLE_CULLER_TOKEN:?set this in .env}
+    networks: [jhub]
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    depends_on:
+      - jupyterhub
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./certs:/etc/letsencrypt:ro    # place your LE certs here
+    networks: [jhub]
+
+networks:
+  jhub: {}
+
+volumes:
+  hub-data:
+  user-data:

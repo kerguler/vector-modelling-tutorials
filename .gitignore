@@ -1,3 +1,5 @@
+.env
+
 src/Miniconda3*
 src/rstudio*
 
