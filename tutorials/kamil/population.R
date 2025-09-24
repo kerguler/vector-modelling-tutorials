@@ -1,1 +1,1 @@
-node_modules/popjson/wrappers/population.R
+/usr/local/lib/node_modules/popjson/wrappers/population.R
