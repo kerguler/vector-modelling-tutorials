@@ -12,50 +12,22 @@ RUN apt-get update && apt-get install -y \
 #SHELL ["/bin/bash", "-c"]
 #RUN echo "source /etc/profile.d/modules.sh" >> /etc/bash.bashrc
 
-# For bayesTPC
-# RUN git clone https://github.com/johnwilliamsmithjr/bayesTPC.git /tmp/bayesTPC
-# For dynamAedes
-# RUN git clone --branch development https://github.com/mattmar/dynamAedes.git /tmp/dynamAedes
-# For arbocartoR
-# RUN git clone https://gitlab.cirad.fr/astre/arbocartoR.git /tmp/arbocartoR
-COPY ./src/ /tmp/
-# For R-torch
-ENV TORCH_DIR="/srv/torch"
-RUN mkdir -p "$TORCH_DIR" \
-    chmod 777 "$TORCH_DIR"
-
 RUN conda update -n base -c defaults conda && \
     conda config --add channels defaults
 
 RUN conda install -n base -c conda-forge -y \
-    numpy pandas xarray matplotlib
-
-RUN conda install -n base -c conda-forge -y \
-    netCDF4 gdal proj geos cartopy libgdal-hdf5
-
-RUN conda install -n base -c conda-forge -y \
-    mpi4py nodejs jupyter jupyterlab openjdk cdsapi zope.interface
-
-RUN conda install -n base -c conda-forge -y \
-    r-devtools r-drc r-codetools r-recommended r-remotes
-
-RUN conda install -n base -c conda-forge -y \
+    numpy pandas xarray matplotlib \
+    netCDF4 gdal proj geos cartopy libgdal-hdf5 \
+    mpi4py nodejs jupyter jupyterlab openjdk cdsapi zope.interface \
+    r-devtools r-drc r-codetools r-recommended r-remotes \
     r-tidyterra r-sf r-fs r-sass r-stringi r-stringr r-tidyr \
     r-reshape2 r-recipes r-units r-s2 r-bslib r-caret r-rmarkdown \
     r-Ecume r-sass r-bslib r-cachem r-httpuv r-htmlwidgets \
-    r-shiny r-dygraphs
-
-RUN conda install -n base -c conda-forge -y \
+    r-shiny r-dygraphs \
     r-doParallel r-geosphere r-wesanderson \
-    r-deSolve r-shiny r-shinycssloaders
-
-RUN conda install -n base -c conda-forge -y \
-    r-HDInterval r-IDPmisc r-truncnorm r-httr
-
-RUN conda install -n base -c conda-forge -y \
-    r-mathjaxr r-readr
-
-RUN conda install -n base -c conda-forge -y \
+    r-deSolve r-shiny r-shinycssloaders \
+    r-HDInterval r-IDPmisc r-truncnorm r-httr \
+    r-mathjaxr r-readr \
     r-igraph r-pracma
 
 RUN bash <<'EOF'
@@ -77,6 +49,22 @@ RUN bash <<'EOF'
   R -e 'install.packages(c("sf", "SimInf"), repos="https://cran.rstudio.com", configure.args="--host=host", dependencies=FALSE, upgrade = "never")'
   R -e 'install.packages(c("coda"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade = "never")'
   R -e 'install.packages(c("nimble"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade = "never")'
+EOF
+
+# For bayesTPC
+# RUN git clone https://github.com/johnwilliamsmithjr/bayesTPC.git /tmp/bayesTPC
+# For dynamAedes
+# RUN git clone --branch development https://github.com/mattmar/dynamAedes.git /tmp/dynamAedes
+# For arbocartoR
+# RUN git clone https://gitlab.cirad.fr/astre/arbocartoR.git /tmp/arbocartoR
+# Instead, copy from the local repository
+COPY ./src/ /tmp/
+RUN bash <<'EOF'
+  set -euo pipefail
+
+  # Activate conda
+  source /opt/conda/etc/profile.d/conda.sh
+  conda activate base
 
   # For arbocartoR
   R -e "remotes::install_local('/tmp/arbocartoR', dependencies=FALSE, upgrade = 'never')"
@@ -84,10 +72,23 @@ RUN bash <<'EOF'
   R -e "devtools::install_local('/tmp/dynamAedes', dependencies=FALSE, upgrade = 'never')"
   # For bayesTPC
   R -e "devtools::install_local('/tmp/bayesTPC', dependencies=FALSE, upgrade = 'never')"
-  # For R-torch
-  R -e "install.packages('torch', lib='/opt/conda/lib/R/library', repos = 'https://cloud.r-project.org')"
-  R -e "library(torch); torch::install_torch()"
 EOF
+
+# For R-torch
+# ENV TORCH_DIR="/srv/torch"
+# RUN mkdir -p "$TORCH_DIR" \
+#     chmod 777 "$TORCH_DIR"
+# RUN bash <<'EOF'
+#   set -euo pipefail
+# 
+#   # Activate conda
+#   source /opt/conda/etc/profile.d/conda.sh
+#   conda activate base
+# 
+#   # For R-torch
+#   R -e "install.packages('torch', lib='/opt/conda/lib/R/library', repos = 'https://cloud.r-project.org')"
+#   R -e "library(torch); torch::install_torch(from_source = TRUE)"
+# EOF
 
 # Population + PopJSON
 RUN apt-get install -y \
