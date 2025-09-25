@@ -1,0 +1,171 @@
+---
+title: "Explore R0 computations"
+output: rmarkdown::html_vignette
+date: "`r Sys.Date()`"
+vignette: >
+  %\VignetteIndexEntry{Explore R0 computations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+### Initialization
+
+```{r setup}
+
+# install if not already done:
+# remotes::install_gitlab("umr-astre/arbocartoR",  host = "https://forgemia.inra.fr")
+
+suppressPackageStartupMessages({
+  suppressWarnings({
+library(arbocartoR)
+library(matlib)
+library(fastmatrix)
+  })
+})
+```
+
+### Create matrices and calculate R0 on the basis of doi:10.1098/rsif.2009.0386
+
+```{r}
+
+# Select 4 parcels
+parcels %<>% .[grepl("Gatt", NOM_COM) | grepl("Saint-Jeannet", NOM_COM) | grepl("La Gaude", NOM_COM),]
+
+# build global data
+gdata = build_gdata()
+
+# define introductions
+introduction_pts <- build_E_random(
+  period_start <- "2022/08/10" %>% as.Date,
+  period_end  <- "2022/08/30" %>% as.Date,
+  n_ind = NULL,
+  n_events = 5,
+  stage = "Eh",
+  loc = parcels$ID[1])
+
+# run 1 simulations
+traj <- run_arbocartoR(parcels = parcels,
+                       meteo = meteo,
+                       gdata = gdata,
+                       n_sim = 1,
+                       introduction_pts = introduction_pts)
+
+# initialize R0 and loop
+R0 = 0
+i = 0
+
+# select on population one day
+epi_states_t <- c("A1gmE", "A1omE", "A2hmE", "A2gmE", "A2omE","A1gmI", "A1omI", "A2hmI", "A2gmI", "A2omI", "Eh", "Ih")
+# simplify names for Andrea
+epi_states_t_simplier <- c(paste0("E", 1:5), paste0("I", 1:5), "Eh", "Ih")
+
+# while R0 > 0
+while(R0 == 0 & i < nrow(traj[[1]][A1hm >0 & A2hm >0 & time > 1 & G2O > 0,])){
+  i <<- i + 1
+  
+  # select on population one day
+t <- traj[[1]][A1hm >0 & A2hm >0 & time > 1 & G2O > 0,][i,]
+
+# number of nulliparous mosquitoes looking for host
+MA1h <- t[,A1hm]
+# number of pareous mosquitoes looking for host
+MA2h <- t[,A2hm]
+# population size
+NH <- t[,sum(Sh, Eh, Ih)]
+# duration of extrinsec exposed stage
+deltaE2I <- t[,E2I]
+# daily transition rate from gorged to ovisposition site seeking
+gammaAg <- t[,G2O]
+# daily mortality rate for adult mosquitoes
+muA <- max(gdata$mu3A, gdata$mu1A * exp((t[,temperature] - 10) * gdata$mu2A) + gdata$mu3A)
+# daily mortality rate for adult mosquitoes looking for something (host or ovisposition site)
+muAr <- muA + gdata$muR
+
+# matrix T (mat_T) is the transmission part, describing the production of new infections
+mat_T = matrix(0, ncol = 12, nrow = 12)
+
+rownames(mat_T) <- colnames(mat_T) <- epi_states_t_simplier
+
+mat_T[1,12] <- (gdata$bHM*MA1h*gdata$gammaAh)/NH
+mat_T[4,12] <- (gdata$bHM*MA2h*gdata$gammaAh)/NH
+mat_T[11,8] <- gdata$bMH*gdata$gammaAh
+
+# matrix sigma (mat_sigma) is the transition part, describing changes in state (including removal by death or the acquisition of immunity)
+mat_sigma = matrix(0, ncol = 12, nrow = 12)
+
+rownames(mat_sigma) <- colnames(mat_sigma) <- epi_states_t_simplier
+
+mat_sigma[1,1] <- -(gammaAg+muA+1/deltaE2I)
+mat_sigma[2,1] <- gammaAg
+mat_sigma[6,1] <- 1/deltaE2I
+
+mat_sigma[2,2] <- -(gdata$gammaAo+muAr+1/deltaE2I)
+mat_sigma[3,2] <- gdata$gammaAo
+mat_sigma[7,2] <- 1/deltaE2I
+
+mat_sigma[3,3] <- -(gdata$gammaAh+muAr+1/deltaE2I)
+mat_sigma[4,3] <- gdata$gammaAo
+mat_sigma[8,3] <- 1/deltaE2I
+
+mat_sigma[4,4] <- -(gammaAg+muA+1/deltaE2I)
+mat_sigma[5,4] <- gammaAg
+mat_sigma[9,4] <- 1/deltaE2I
+
+mat_sigma[5,5] <- -(gdata$gammaAo+muAr+1/deltaE2I)
+mat_sigma[3,5] <- gdata$gammaAo
+mat_sigma[10,5] <- 1/deltaE2I
+
+### infectious
+
+mat_sigma[6,6] <- -(gammaAg+muA)
+mat_sigma[7,6] <- gammaAg
+
+mat_sigma[7,7] <- -(gdata$gammaAo+muAr)
+mat_sigma[8,7] <- gdata$gammaAo
+
+mat_sigma[8,8] <- -(gdata$gammaAh+muAr)
+mat_sigma[9,8] <- gdata$gammaAo
+
+mat_sigma[9,9] <- -(gammaAg+muA)
+mat_sigma[10,9] <- gammaAg
+
+mat_sigma[10,10] <- -(gdata$gammaAo+muAr)
+mat_sigma[9,10] <- gdata$gammaAo
+
+## human
+
+mat_sigma[11,11] <- -gdata$muH
+mat_sigma[12,11] <- gdata$muH
+mat_sigma[12,12] <- -gdata$rhoH
+
+# matrix E (mat_E) is an auxiliary matrix that singles out the rows and columns relevant for the reduced set of states
+mat_E = matrix(0, ncol = 3, nrow = 12)
+
+rownames(mat_E) <- names(epi_states_t)
+colnames(mat_E) <- colnames(mat_T)[rowSums(mat_T) != 0]
+
+mat_E[1,1] <- 1
+mat_E[4,2] <- 1
+mat_E[11,3] <- 1
+
+# matrix KL (mat_KL) is the NGM with Large domain
+mat_KL <- -mat_T %*% inv(mat_sigma)
+# approximate dominant eigenvalue
+R0 = fastmatrix::power.method(mat_KL, only.value = TRUE)
+
+# find the next-generation matrixR product of matrix
+K = (t(mat_E) %*% mat_T) %*% -(inv(mat_sigma) %*% mat_E)
+
+if(R0 == 0)
+  R0 = (1/2)*(tr(K) + sqrt(tr(K)^2-4*det(K)))
+
+}
+```
+

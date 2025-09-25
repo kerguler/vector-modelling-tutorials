@@ -1,0 +1,222 @@
+---
+title: "Tutorial: How to use arbocartoR"
+output: rmarkdown::html_vignette
+date: "`r Sys.Date()`"
+vignette: >
+  %\VignetteIndexEntry{Tutorial: How to use arbocartoR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+
+# Packages --------------------------------------------------------------------
+suppressPackageStartupMessages({
+  suppressWarnings({
+library(arbocartoR)
+library(data.table)
+library(magrittr)
+library(tidyterra)
+library(ggplot2)
+library(sf)
+library(TDLM)
+  })
+})
+```
+
+# Introduction
+
+This tutorial aims at describing the different features of the R package `arbocartoR`. 
+The main purpose of the `arbocartoR`'s package is to simulate spatial and temporal dynamics of Aedes mosquitoes populations, as well as epidemiological dynamics of three arbovirosis (dengue, zika and chikungunya) through human and vector populations.
+
+## General data
+Input data:
+
+* *parcels*: data.table where each row is a node/parcel and columns are attributes. The minimum required attributes are ids (ID), population count (POP), maximal fix/anthropic carrying capacity (Kfix, in number of larvae), maximal carrying capacity varying with rainfall (Kvar, in number of larvae). Optional attributes in case of use of meteorological data from meteorological stations: id of the associated meteorological station (STATION), average altitude (ALT_M).
+
+* *meteo*: data.table with meteorological data including four columns: node or meteorological station ids (ID), date (DATE), daily rainfall (RR, in mm), daily mean temperature (TP, in degrees)
+
+```{r}
+data(parcels)
+data(meteo)
+
+parcels
+meteo
+```
+
+Select a subset of parcels.
+
+```{r}
+parcels %<>% .[startsWith(ID, "06") & (grepl("Gatt", NOM_COM) | grepl("Saint-Jeannet", NOM_COM) | grepl("La Gaude", NOM_COM)),]
+```
+
+Run simple simulation
+
+```{r}
+start_time <- Sys.time()
+
+traj <- run_arbocartoR(parcels = parcels,
+                    meteo = meteo,
+                    n_sim = 1,
+                    start_date = min(meteo$DATE) %>% as.Date,
+                    end_date =  max(meteo$DATE) %>% as.Date)
+
+end_time <- Sys.time()
+
+end_time - start_time
+```
+
+## Local data
+
+# Introduction of human mobility
+
+```{r}
+
+SpatVec <- system.file("shape/SpatVec.shp", package = "arbocartoR") %>% terra::vect(.)
+SpatVec <- SpatVec[SpatVec$ID %in% parcels$ID, ]
+
+mMov <- build_mMov(SpatVec,
+                   law = "NGravExp",
+                   p2move = 0.715,
+                   verbose = T)
+
+SpatVec$pMovij <- mMov$proba_ij[rownames(mMov$proba_ij) == "060650102",]
+SpatVec$pMovji <- mMov$proba_ji[rownames(mMov$proba_ji) == "060650102",]
+
+ggplot(SpatVec) +
+  geom_spatvector(aes(fill = pMovij), color = NA) +
+  scale_fill_continuous(low = "white", high = "#590003") +
+  ggtitle("Probability to visit a parcel for residents of the introduction parcel: 061220000") +
+  labs(fill = "")
+
+ggplot(SpatVec) +
+  geom_spatvector(aes(fill = pMovji), color = NA) +
+  scale_fill_continuous(low = "white", high = "#590003")  +
+  ggtitle("Probability to visit the introduction parcel: 061220000, depending on the residence") +
+  labs(fill = "")
+
+```
+
+# Introduction of local preventive control
+
+Initialize the dataset for preventive control
+
+```{r}
+prev_control <- data.table(
+  action = character(),
+  loc = factor(),
+  start = structure(numeric(0), class = "Date"),
+  end = structure(numeric(0), class = "Date"),
+  p = numeric()
+)
+```
+
+Reduce the environment carrying capacities (destruction of breeding sites, action = "K") by 20% (p = 0.2) in the parcel "060640000" (loc) every day from July, 1 to July, 7.
+
+```{r}
+prev_control %<>% list(., data.table(
+  action = "K",
+  loc = "060640000",
+  start = as.Date("2022/07/01"),
+  end = as.Date("2022/07/07"),
+  p = 0.2)) %>% rbindlist(fill = TRUE)
+```
+
+Increase the larvae mortality (larviciding, action = "L") by 20% (p = 0.2) in the parcel "060640000" (loc) every day from July, 1 to July, 7 and by 50% in the parcel "061220000" (loc) every day from July, 7 to July, 15.
+
+```{r}
+prev_control %<>% list(., data.table(
+  action = "L",
+  loc = "060640000",
+  start = as.Date("2022/07/01"),
+  end = as.Date("2022/07/07"),
+  p = 0.2)) %>% rbindlist(fill = TRUE)
+
+prev_control %<>% list(., data.table(
+  action = "L",
+  loc = "061220000",
+  start = as.Date("2022/07/07"),
+  end = as.Date("2022/07/15"),
+  p = 0.5)) %>% rbindlist(fill = TRUE)
+
+```
+
+Increase the mosquito adult mortality  (fumigation, action = "A") by 20% (p = 0.2) in the parcel "061220000" (loc) every day from July, 1 to July, 7 and by 80% in the parcel "060640000" (loc) every day from July, 1 to July, 7.
+
+```{r}
+prev_control %<>% list(., data.table(
+  action = "A",
+  loc = "061220000",
+  start = as.Date("2022/07/01"),
+  end = as.Date("2022/07/07"),
+  p = 0.2)) %>% rbindlist(fill = TRUE)
+
+prev_control %<>% list(., data.table(
+  action = "A",
+  loc = "060640000",
+  start = as.Date("2022/07/01"),
+  end = as.Date("2022/07/07"),
+  p = 0.8)) %>% rbindlist(fill = TRUE)
+```
+
+```{r}
+
+# run simple simulation with prev_control
+start_time <- Sys.time()
+
+traj <- run_arbocartoR(parcels = parcels,
+                    meteo = meteo,
+                    n_sim = 1,
+                    start_date = min(meteo$DATE) %>% as.Date,
+                    end_date =  max(meteo$DATE) %>% as.Date,
+                    prev_control = prev_control)
+
+end_time <- Sys.time()
+end_time - start_time
+```
+
+# Set local dataset
+```{r}
+ldata <- build_ldata(parcels,
+                     meteo,
+                     vector = "Ae. albopictus (D)",
+                     start_date = "2022/01/01" %>% as.Date,
+                     end_date = "2022/11/30" %>% as.Date,
+                     # mMov = mMov,
+                     prev_control = prev_control)
+
+```
+
+# Introduction of exposed individuals
+
+```{r}
+introduction_pts <- build_E_random(
+  period_start <- "2022/07/01" %>% as.Date,
+  period_end  <- "2022/07/15" %>% as.Date,
+  n_ind = 10,
+  n_events = 1,
+  stage = "Eh",
+  loc = parcels$ID
+)
+
+# run simple simulation with prev_control
+start_time <- Sys.time()
+
+traj <- run_arbocartoR(parcels = parcels,
+                    ldata = ldata,
+                    n_sim = 1,
+                    start_date = "2022/01/01" %>% as.Date,
+                    end_date = "2022/11/30" %>% as.Date,
+                    introduction_pts = introduction_pts,
+  initMosq = 1e+05)
+
+end_time <- Sys.time()
+end_time - start_time
+```

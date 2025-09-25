@@ -1,0 +1,39 @@
+Package: arbocartoR
+Type: Package
+Title: Simulation tool to support Aedes-borne diseases emergence prepardness
+Version: 0.1.5
+Author: Hammami Pachka, Marti Renaud, Tran Annelise, Apolloni Andrea, Ortega Ewy, Arsevska Elena (Cirad - UMR ASTRE, funded by Mood project) 
+Maintainer: The package maintainer <pachka.hammami@cirad.fr>
+Description: Run dynamic prediction of Aedes vectors population (in time and space) and simulate epidemiological trajectories following introductions in disease free areas.
+License: CECILL C free licence + file LICENSE
+Language: en-US
+LazyData: true
+Encoding: UTF-8
+Depends: 
+    R (>= 4.0.0),
+    data.table (>= 1.14.10),
+    SimInf (>= 9.6.0),
+    magrittr (>= 2.0.3)
+Imports:
+    pbapply (>= 1.7-2),
+    terra (>= 1.7-65),
+    sf (>= 1.0-15),
+    dygraphs (>= 1.1.1.6),
+    stats,
+    TDLM (>= 1.0.0),
+    shiny (>= 1.8.0)
+Remotes:
+    EpiVec/TDLM
+Suggests: 
+    knitr (>= 1.42),
+    rmarkdown (>= 2.20),
+    testthat (>= 3.0.0),
+    tidyterra,
+    ggplot2,
+    fastmatrix,
+    matlib
+VignetteBuilder:
+    knitr, 
+    rmarkdown
+RoxygenNote: 7.3.2
+Config/testthat/edition: 3

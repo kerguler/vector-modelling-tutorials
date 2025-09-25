@@ -1,8 +1,5 @@
 .env
 
-src/Miniconda3*
-src/rstudio*
-
 *node_modules*
 tutorials/kamil/test/package.json
 tutorials/kamil/test/package-lock.json

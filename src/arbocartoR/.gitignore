@@ -1,0 +1,13 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+inst/doc
+.RDataTmp
+.RDataTmp1
+.RDataTmp2
+.RDataTmp3
+test
+output_ERA5_test.rda
+/doc/
+/Meta/

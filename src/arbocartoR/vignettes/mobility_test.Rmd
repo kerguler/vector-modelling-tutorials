@@ -1,0 +1,61 @@
+---
+title: "Validate mobility approach in arbocartoR"
+output: rmarkdown::html_vignette
+date: "`r Sys.Date()`"
+vignette: >
+  %\VignetteIndexEntry{Validate mobility approach in arbocartoR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Initialization
+
+```{r setup}
+
+### Packages
+
+# install if not already done:
+# remotes::install_gitlab("umr-astre/arbocartoR",  host = "https://forgemia.inra.fr")
+
+suppressPackageStartupMessages({
+  suppressWarnings({
+    library(magrittr)
+    library(arbocartoR)
+  })
+})
+```
+
+# Data
+Load test data (change the number to change the french department to work with)
+
+```{r}
+SpatVec <- system.file("shape/SpatVec.shp",
+                       package="arbocartoR") %>%
+  terra::vect(.)
+```
+
+
+# Generate the mobility metrics
+
+```{r}
+mobility_metrics <- build_mMov(SpatVec, p2move = 0.7)
+
+# daily probability to move from i (rows) to j (columns)
+pij <- mobility_metrics$proba_ij * mobility_metrics$p2move
+
+# daily probability that a person in i (columns) come from j (rows)
+pji <- mobility_metrics$proba_ji * (1 - mobility_metrics$pii)
+```
+
+# Documentation
+
+```{r eval = F}
+? build_mMov
+```

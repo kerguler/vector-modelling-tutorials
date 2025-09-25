@@ -1,0 +1,26 @@
+#####################################
+##               Import            ##
+#####################################
+importFrom("parallel", "makeCluster", "stopCluster", "mclapply")
+importFrom("doParallel", "registerDoParallel")
+importFrom("foreach", "%dopar%", "foreach", "%do%")
+importFrom("utils", "setTxtProgressBar", "txtProgressBar")
+importFrom("stats", "dgamma", "dlnorm", "lm", "predict", "rbinom", "rmultinom", "rpois", "rnorm", "sortedXyData", "quantile", "setNames", "glm")
+importFrom("drc", "drm")
+importFrom("geosphere", "daylength")
+importFrom("terra", "distance","crds","project","vect","rast")
+importFrom("abind", "abind")
+importFrom("methods", "new")
+importFrom("terra", "app")
+#####################################
+##               Export            ##
+#####################################
+export(adci)
+export(dici)
+export(dynamAedes.m)
+export(icci)
+export(psi)
+export(psi_sp)
+export(spreader)
+export(multipleIntro)
+export(get_rate)
