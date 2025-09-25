@@ -1,4 +1,10 @@
 services:
+  base:
+    build:
+      context: .
+      dockerfile: Dockerfile.base
+    image: vector-modelling-tutorial-base:latest
+
   jupyterhub:
     build:
       context: .

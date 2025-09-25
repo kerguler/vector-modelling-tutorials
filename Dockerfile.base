@@ -1,0 +1,117 @@
+# Python + Lab base
+FROM quay.io/jupyter/minimal-notebook:python-3.11
+
+USER root
+
+# Generic system libraries
+RUN apt-get update && apt-get install -y \
+    build-essential pkg-config \
+    vim wget \
+    libproj-dev proj-bin proj-data libgdal-dev \
+    libgsl-dev \
+    mpich \
+    nco cdo \
+    ca-certificates git \
+    && apt-get clean
+
+# Clean up
+RUN rm -rf /var/lib/apt/lists/*
+
+# Ensure modules init script is sourced when shell starts
+#SHELL ["/bin/bash", "-c"]
+#RUN echo "source /etc/profile.d/modules.sh" >> /etc/bash.bashrc
+
+RUN conda update -n base -c defaults conda && \
+    conda config --add channels defaults
+
+RUN conda install -n base -c conda-forge -y \
+    numpy pandas xarray matplotlib \
+    netCDF4 gdal proj geos cartopy libgdal-hdf5 \
+    mpi4py nodejs jupyter jupyterlab openjdk cdsapi zope.interface \
+    r-devtools r-drc r-codetools r-recommended r-remotes \
+    r-tidyterra r-sf r-fs r-sass r-stringi r-stringr r-tidyr \
+    r-reshape2 r-recipes r-units r-s2 r-bslib r-caret r-rmarkdown \
+    r-Ecume r-sass r-bslib r-cachem r-httpuv r-htmlwidgets \
+    r-shiny r-dygraphs \
+    r-doParallel r-geosphere r-wesanderson \
+    r-deSolve r-shiny r-shinycssloaders \
+    r-HDInterval r-IDPmisc r-truncnorm r-httr \
+    r-mathjaxr r-readr \
+    r-igraph r-pracma
+
+RUN bash <<'EOF'
+  set -euo pipefail
+
+  # Activate conda
+  source /opt/conda/etc/profile.d/conda.sh
+  conda activate base
+
+  # Install IRkernel inside conda R
+  R -e "install.packages('IRkernel', repos='https://cran.rstudio.com')"
+
+  # Register the kernel with Jupyter
+  R -e "IRkernel::installspec(user = FALSE, prefix='/opt/conda')"
+
+  # Install problematic packages
+  R -e 'install.packages(c("TDLM"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade = "never")'
+  R -e 'install.packages(c("devtools", "remotes", "data.table", "htmltools", "foreach", "ggplot2", "PBSddesolve"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade = "never")'
+  R -e 'install.packages(c("sf", "SimInf"), repos="https://cran.rstudio.com", configure.args="--host=host", dependencies=FALSE, upgrade = "never")'
+  R -e 'install.packages(c("coda"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade = "never")'
+  R -e 'install.packages(c("nimble"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade = "never")'
+EOF
+
+# For R-torch
+ENV TORCH_DIR="/srv/torch"
+RUN mkdir -p "$TORCH_DIR" \
+    chmod 777 "$TORCH_DIR"
+RUN bash <<'EOF'
+  set -euo pipefail
+
+  # Activate conda
+  source /opt/conda/etc/profile.d/conda.sh
+  conda activate base
+
+  # For R-torch
+  if [ "$(uname -m)" = "x86_64" ]; then
+    R -e "install.packages('torch', lib='/opt/conda/lib/R/library', repos = 'https://cloud.r-project.org')"
+    R -e "library(torch); torch::install_torch(from_source = TRUE)"
+  elif [ "$(uname -m)" = "aarch64" ]; then
+    R -e "install.packages('reticulate', lib='/opt/conda/lib/R/library', repos = 'https://cloud.r-project.org')"
+    R -e "library(reticulate)"
+    conda install -n base -c pytorch -y pytorch torchvision torchaudio cpuonly
+    R -e "torch <- import('torch')"
+  else
+    echo "Unsupported architecture $(uname -m) for torch" && exit 1;
+  fi
+EOF
+
+# --- Julia in a Conda env (safer invocation) ---
+# --- Official Julia (recommended) ---
+ENV JULIA_VERSION=1.10.5
+RUN if [ "$(uname -m)" = "x86_64" ]; then \
+      curl -fsSL https://julialang-s3.julialang.org/bin/linux/x64/${JULIA_VERSION%.*}/julia-${JULIA_VERSION}-linux-x86_64.tar.gz | tar -xz -C /opt; \
+    elif [ "$(uname -m)" = "aarch64" ]; then \
+      curl -fsSL https://julialang-s3.julialang.org/bin/linux/aarch64/${JULIA_VERSION%.*}/julia-${JULIA_VERSION}-linux-aarch64.tar.gz | tar -xz -C /opt; \
+    else \
+      echo "Unsupported architecture $(uname -m) for Julia" && exit 1; \
+    fi
+RUN ln -sf /opt/julia-${JULIA_VERSION}/bin/julia /usr/local/bin/julia
+# Shared depot
+ENV JULIA_DEPOT_PATH=/opt/julia_depot
+RUN mkdir -p ${JULIA_DEPOT_PATH} && \
+    chmod -R a+rwx ${JULIA_DEPOT_PATH}
+# Make it permanent for all users
+RUN echo "export JULIA_DEPOT_PATH=${JULIA_DEPOT_PATH}:$HOME/.julia" > /etc/profile.d/julia.sh
+# Clean cert vars
+ENV SSL_CERT_FILE=
+ENV CURL_CA_BUNDLE=
+ENV JULIA_PKG_SERVER=""
+ENV JULIA_PKG_USE_CLI_GIT="true"
+# Install system-wide packages into the shared depot
+RUN julia -e 'using Pkg; Pkg.add(["IJulia", "Dates", "DifferentialEquations", "Dierckx", "Plots", "CSV", "Interpolations", "QuadGK", "Statistics", "DataFrames", "NCDatasets", "MPI"]);'
+RUN julia -e 'using Pkg; Pkg.precompile();'
+# Install the Jupyter kernel globally
+RUN julia -e 'using IJulia; installkernel("Julia", env=Dict("JULIA_DEPOT_PATH"=>"'${JULIA_DEPOT_PATH}'"));'
+RUN mv $HOME/.local/share/jupyter/kernels/julia* /opt/conda/share/jupyter/kernels/
+
+# Keep CMD/entrypoint from base image (starts single-user server for JupyterHub)
