@@ -4,12 +4,14 @@ services:
       context: .
       dockerfile: Dockerfile.base
     image: vector-modelling-tutorial-base:latest
+    profiles: ["build"]
 
   tutorials-singleuser:
     build:
       context: .
       dockerfile: Dockerfile.singleuser
     image: vector-modelling-tutorial-user:latest
+    profiles: ["build"]
 
   tutorials-jupyterhub:
     build:

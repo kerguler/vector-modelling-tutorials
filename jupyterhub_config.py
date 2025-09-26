@@ -25,7 +25,7 @@ c.JupyterHub.log_level = "DEBUG"
 # --- Spawner: Docker ---
 c.JupyterHub.spawner_class = "dockerspawner.DockerSpawner"
 c.DockerSpawner.image = "vector-modelling-tutorial-user:latest"
-c.DockerSpawner.network_name = f"{compose_name}_jhub" if compose_name else "jhub_jhub"
+c.DockerSpawner.network_name = compose_name if compose_name else "tutorials-jhub" # f"{compose_name}_jhub" if compose_name else "jhub_jhub"
 c.DockerSpawner.use_internal_ip = True
 c.DockerSpawner.pull_policy = "IfNotPresent"
 
