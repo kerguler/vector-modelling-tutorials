@@ -12,18 +12,56 @@ require_pkgs <- function(pkgs){
 
 require_pkgs(c("shiny","ggplot2","dplyr","tidyr","deSolve", "shinycssloaders"))
 
-if (!requireNamespace("torch", quietly = TRUE)) install.packages("torch", repos = "https://cloud.r-project.org")
+if (R.version$arch == 'aarch64') {
+  library(reticulate)
+  use_condaenv('base', required = TRUE)
+  torch <- import('torch')
 
-library(torch)
+  make_torch_wrapper <- function(name) {
+    f <- torch[[name]]
+    assign(
+      paste0("torch_", name),
+      function(...) f(...),
+      envir = .GlobalEnv
+    )
+  }
 
-if (!torch_is_installed()) {
-  torch::install_torch()
-  showModal(modalDialog(
-    title = "Setup complete",
-    "Torch was just installed. Please restart the app (Session -> Restart R, then run again).",
-    easyClose = TRUE
-  ))
-  return(invisible(NULL))
+  # Wrap some common ops
+  methods <- c("tensor", "sin", "cos", "exp", "log", "add", "mul", "matmul", "float")
+  lapply(methods, make_torch_wrapper)
+
+  # R-wrapper for pytorch
+  # -------- reticulate -> torch --------------------
+  nn_linear <- function(in_features, out_features) {
+    torch$nn$Linear(as.integer(in_features), as.integer(out_features))
+  }
+  nn_relu <- function() {
+    torch$nn$ReLU()
+  }
+  torch_tensor <- function(x, dtype = torch$float32) {
+    torch$tensor(x, dtype = dtype)
+  }
+  nn_module <- function(name, initialize, forward) {
+    # Create a new subclass of nn.Module
+    torch$nn$Module[['__class__']](
+      `__init__` = initialize,
+      forward = forward
+    )
+  }
+} else {
+  if (!requireNamespace("torch", quietly = TRUE)) install.packages("torch", repos = "https://cloud.r-project.org")
+
+  library(torch)
+
+  if (!torch_is_installed()) {
+    torch::install_torch()
+    showModal(modalDialog(
+      title = "Setup complete",
+      "Torch was just installed. Please restart the app (Session -> Restart R, then run again).",
+      easyClose = TRUE
+    ))
+    return(invisible(NULL))
+  }
 }
 
 # -------- ground truth: simple seasonal linear ODE --------
@@ -80,7 +118,6 @@ feature_map <- function(t, period, H=2){
   }
   torch_cat(feats, dim = 2)
 }
-
 
 # -------- small MLP (shared by NN & PINN) --------
 mlp <- nn_module(
