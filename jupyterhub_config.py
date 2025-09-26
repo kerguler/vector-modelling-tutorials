@@ -50,6 +50,10 @@ if shared_data_folder:
 c.Spawner.mem_limit = "4G"
 c.Spawner.cpu_limit = 2
 
+# allow more time for user containers to come online
+c.Spawner.http_timeout = 120      # wait up to 120s for JupyterLab to reply
+c.Spawner.start_timeout = 180     # allow 3 minutes total for startup
+
 # Clean up stopped user containers automatically
 c.DockerSpawner.remove = True
 
