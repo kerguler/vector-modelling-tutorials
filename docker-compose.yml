@@ -5,6 +5,12 @@ services:
       dockerfile: Dockerfile.base
     image: vector-modelling-tutorial-base:latest
 
+  tutorials-singleuser:
+    build:
+      context: .
+      dockerfile: Dockerfile.singleuser
+    image: vector-modelling-tutorial-user:latest
+
   tutorials-jupyterhub:
     build:
       context: .

@@ -113,4 +113,7 @@ RUN julia -e 'using Pkg; Pkg.precompile();'
 RUN julia -e 'using IJulia; installkernel("Julia", env=Dict("JULIA_DEPOT_PATH"=>"'${JULIA_DEPOT_PATH}'"));'
 RUN mv $HOME/.local/share/jupyter/kernels/julia* /opt/conda/share/jupyter/kernels/
 
+RUN mkdir -p /home/jovyan/.local/share/jupyter/runtime && \
+    chown -R jovyan:users /home/jovyan/.local
+
 # Keep CMD/entrypoint from base image (starts single-user server for JupyterHub)

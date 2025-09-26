@@ -50,6 +50,9 @@ COPY tutorials/ /srv/tutorials/
 COPY init_tutorials.sh /usr/local/bin/init_tutorials.sh
 RUN chmod +x /usr/local/bin/init_tutorials.sh
 
+RUN mkdir -p /home/jovyan/.local/share/jupyter/runtime && \
+    chown -R jovyan:users /home/jovyan/.local
+
 # Tutorial preparation routine
 ENTRYPOINT ["tini", "-g", "--", "init_tutorials.sh"]
 CMD ["jupyterhub-singleuser"]
