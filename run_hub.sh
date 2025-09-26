@@ -41,7 +41,7 @@ ensure_env() {
   touch "$ENV_FILE"
 
   grep -q '^COMPOSE_PROJECT_NAME=' "$ENV_FILE" 2>/dev/null || \
-    echo "COMPOSE_PROJECT_NAME=jhub" >> "$ENV_FILE"
+    echo "COMPOSE_PROJECT_NAME=tutorials-jhub" >> "$ENV_FILE"
   
   grep -q '^HUB_CONNECT_URL=' "$ENV_FILE" 2>/dev/null || \
     echo "HUB_CONNECT_URL=http://tutorials-jupyterhub:8000" >> "$ENV_FILE"
