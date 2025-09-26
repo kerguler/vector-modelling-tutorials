@@ -34,7 +34,7 @@ services:
       # - HUB_CONNECT_URL=http://tutorials-jupyterhub:8000
       # Provide this via .env or your shell before `docker compose up`
       # - IDLE_CULLER_TOKEN=${IDLE_CULLER_TOKEN:?set this in .env}
-    networks: [tutorials-jhub]
+    networks: [jhub]
 
   tutorials-nginx:
     image: nginx:alpine
@@ -47,10 +47,10 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./certs:/etc/letsencrypt:ro    # place your LE certs here
-    networks: [tutorials-jhub]
+    networks: [jhub]
 
 networks:
-  tutorials-jhub: {}
+  jhub: {}
 
 volumes:
   tutorials-hub-data:
