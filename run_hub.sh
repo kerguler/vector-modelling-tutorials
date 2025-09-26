@@ -44,7 +44,7 @@ ensure_env() {
     echo "COMPOSE_PROJECT_NAME=jhub" >> "$ENV_FILE"
   
   grep -q '^HUB_CONNECT_URL=' "$ENV_FILE" 2>/dev/null || \
-    echo "HUB_CONNECT_URL=http://jupyterhub:8000" >> "$ENV_FILE"
+    echo "HUB_CONNECT_URL=http://tutorials-jupyterhub:8000" >> "$ENV_FILE"
 
   if ! grep -q '^IDLE_CULLER_TOKEN=' "$ENV_FILE" 2>/dev/null; then
     echo "Generating IDLE_CULLER_TOKEN into .env"
