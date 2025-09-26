@@ -4,7 +4,7 @@ load_dotenv(dotenv_path="/srv/jupyterhub/.env")  # mount .env into Hub container
 
 HUB_CONNECT_URL = os.getenv("HUB_CONNECT_URL", "http://tutorials-jupyterhub:8000")
 compose_name = os.getenv("COMPOSE_PROJECT_NAME", "")
-shared_data_folder = os.getenv("SHARED_DATA_DIR", "")
+shared_data_folder = os.getenv("SHARED_DATA_FOLDER", "")
 idle_token = os.getenv("IDLE_CULLER_TOKEN")
 
 # --- Core Hub ---
