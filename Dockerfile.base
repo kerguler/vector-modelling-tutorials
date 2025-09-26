@@ -37,7 +37,7 @@ RUN conda install -n base -c conda-forge -y \
     r-deSolve r-shiny r-shinycssloaders \
     r-HDInterval r-IDPmisc r-truncnorm r-httr \
     r-mathjaxr r-readr r-igraph r-pracma \
-    r-pbdZMQ r-uuid
+    r-pbdZMQ r-uuid r-repr
 
 RUN bash <<'EOF'
   set -euo pipefail
@@ -47,7 +47,7 @@ RUN bash <<'EOF'
   conda activate base
 
   # Install IRkernel inside conda R
-  R -e "install.packages('IRkernel', repos='https://cran.rstudio.com', dependencies=FALSE, upgrade = "never")"
+  R -e "install.packages(c('IRdisplay','IRkernel'), repos='https://cran.rstudio.com', dependencies=FALSE, upgrade = "never")"
 
   # Register the kernel with Jupyter
   R -e "IRkernel::installspec(user = FALSE, prefix='/opt/conda')"
