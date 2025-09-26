@@ -78,7 +78,7 @@ main() {
 
   echo "== Clearing stale Hub proxy PID (if any) =="
   # This runs a short-lived Hub container to delete the pid file in the mounted volume.
-  $COMPOSE run --rm -u root jupyterhub sh -lc 'rm -f /srv/jupyterhub/jupyterhub-proxy.pid' || true
+  $COMPOSE run --rm -u root tutorials-jupyterhub sh -lc 'rm -f /srv/jupyterhub/jupyterhub-proxy.pid' || true
 
   # pull_if_missing "$DS_IMAGE"
   echo "== Building singleuser image =="
