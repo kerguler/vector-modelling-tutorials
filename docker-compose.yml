@@ -1,18 +1,4 @@
 services:
-  tutorials-base:
-    build:
-      context: .
-      dockerfile: Dockerfile.base
-    image: vector-modelling-tutorial-base:latest
-    profiles: ["build"]
-
-  tutorials-singleuser:
-    build:
-      context: .
-      dockerfile: Dockerfile.singleuser
-    image: vector-modelling-tutorial-user:latest
-    profiles: ["build"]
-
   tutorials-jupyterhub:
     build:
       context: .
@@ -26,14 +12,7 @@ services:
       - tutorials-user-data:/srv/jupyter
       - ./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py:ro
       - /var/run/docker.sock:/var/run/docker.sock
-      # .env is invisible to jupyterhub_config.py Without this
       - ./.env:/srv/jupyterhub/.env:ro
-    # environment:
-      # Used by your Hub config
-      # - COMPOSE_PROJECT_NAME=tutorials-jhub
-      # - HUB_CONNECT_URL=http://tutorials-jupyterhub:8000
-      # Provide this via .env or your shell before `docker compose up`
-      # - IDLE_CULLER_TOKEN=${IDLE_CULLER_TOKEN:?set this in .env}
     networks: [jhub]
 
   tutorials-nginx:
@@ -46,8 +25,22 @@ services:
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./certs:/etc/letsencrypt:ro    # place your LE certs here
+      - ./certs:/etc/letsencrypt:ro
     networks: [jhub]
+
+  tutorials-singleuser:
+    build:
+      context: .
+      dockerfile: Dockerfile.singleuser
+    image: vector-modelling-tutorial-user:latest
+    profiles: ["build"]
+
+  tutorials-base:
+    build:
+      context: .
+      dockerfile: Dockerfile.base
+    image: vector-modelling-tutorial-base:latest
+    profiles: ["build"]
 
 networks:
   jhub: {}

@@ -62,7 +62,7 @@ EOF
 
 # For R-torch
 ENV TORCH_DIR="/srv/torch"
-RUN mkdir -p "$TORCH_DIR" \
+RUN mkdir -p "$TORCH_DIR" && \
     chmod 777 "$TORCH_DIR"
 RUN bash <<'EOF'
   set -euo pipefail
