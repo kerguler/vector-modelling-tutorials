@@ -3,10 +3,6 @@
 set -euo pipefail
 
 # === Settings ===
-DS_IMAGE="vector-modelling-tutorial-user:latest"
-#
-HUB_IMAGE="jupyterhub/jupyterhub:5.2.1"
-NGINX_IMAGE="nginx:alpine"
 ENV_FILE=".env"
 
 # Pick docker compose command (v2 or v1)
@@ -18,10 +14,6 @@ else
   echo "ERROR: Docker Compose not found. Install Docker Desktop / docker compose." >&2
   exit 1
 fi
-
-have_image() {
-  docker image inspect "$1" >/dev/null 2>&1
-}
 
 gen_token() {
   # Prefer Python for portability; fall back to openssl if available
@@ -58,31 +50,20 @@ ensure_env() {
   fi
 }
 
-pull_if_missing() {
-  local img="$1"
-  if have_image "$img"; then
-    echo "Image present: $img"
-  else
-    echo "Pulling: $img"
-    docker pull "$img"
-  fi
-}
-
 main() {
   echo "== Ensuring .env =="
   ensure_env
 
-  echo "== Ensuring images are available =="
-  pull_if_missing "$HUB_IMAGE"
-  pull_if_missing "$NGINX_IMAGE"
+  echo "== Building the base image =="
+  $COMPOSE build tutorials-base
 
-  echo "== Clearing stale Hub proxy PID (if any) =="
-  # This runs a short-lived Hub container to delete the pid file in the mounted volume.
-  $COMPOSE run --rm -u root tutorials-jupyterhub sh -lc 'rm -f /srv/jupyterhub/jupyterhub-proxy.pid' || true
-
-  # pull_if_missing "$DS_IMAGE"
   echo "== Building singleuser image =="
-  docker build -f Dockerfile.singleuser -t "$DS_IMAGE" .    
+  $COMPOSE build tutorials-singleuser
+
+  echo "== Building jupyterhub image =="
+  $COMPOSE build tutorials-jupyterhub
+  echo "== Clearing stale Hub proxy PID (if any) =="
+  $COMPOSE run --rm -u root tutorials-jupyterhub sh -lc 'rm -f /srv/jupyterhub/jupyterhub-proxy.pid' || true
 
   echo "== Starting stack =="
   $COMPOSE --env-file $ENV_FILE up -d 
