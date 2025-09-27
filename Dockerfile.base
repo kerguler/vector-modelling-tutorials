@@ -27,7 +27,7 @@ RUN conda update -n base -c defaults conda && \
 RUN conda install -n base -c conda-forge -y \
     numpy pandas xarray matplotlib \
     netCDF4 gdal proj geos cartopy libgdal-hdf5 \
-    mpi4py nodejs jupyter jupyterlab openjdk cdsapi zope.interface \
+    mpi4py nodejs jupyter jupyterlab jupyter-server-proxy openjdk cdsapi zope.interface \
     r-devtools r-drc r-codetools r-recommended r-remotes \
     r-tidyterra r-sf r-fs r-sass r-stringi r-stringr r-tidyr \
     r-reshape2 r-recipes r-units r-s2 r-bslib r-caret r-rmarkdown \
