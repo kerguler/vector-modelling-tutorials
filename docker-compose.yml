@@ -13,6 +13,7 @@ services:
       - ./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py:ro
       - /var/run/docker.sock:/var/run/docker.sock
       - ./.env:/srv/jupyterhub/.env:ro
+      - ./data:/srv/shared:ro
     networks: [jhub]
 
   tutorials-nginx:
