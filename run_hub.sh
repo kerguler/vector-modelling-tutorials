@@ -54,9 +54,6 @@ main() {
   echo "== Ensuring .env =="
   ensure_env
 
-  echo "== Building the base image =="
-  $COMPOSE build tutorials-base
-
   echo "== Building singleuser image =="
   $COMPOSE build tutorials-singleuser
 

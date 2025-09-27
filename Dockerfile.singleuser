@@ -1,5 +1,5 @@
 # Python + Lab base
-FROM vector-modelling-tutorial-base:latest
+FROM kerguler/vector-modelling-tutorial-base:latest
 
 USER root
 

@@ -36,13 +36,6 @@ services:
     image: vector-modelling-tutorial-user:latest
     profiles: ["build"]
 
-  tutorials-base:
-    build:
-      context: .
-      dockerfile: Dockerfile.base
-    image: vector-modelling-tutorial-base:latest
-    profiles: ["build"]
-
 networks:
   jhub: {}
 
