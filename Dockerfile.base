@@ -54,7 +54,7 @@ RUN bash <<'EOF'
 
   # Install problematic packages
   R -e 'install.packages(c("TDLM"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade = "never")'
-  R -e 'install.packages(c("devtools", "remotes", "data.table", "htmltools", "foreach", "ggplot2", "PBSddesolve"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade = "never")'
+  R -e 'install.packages(c("devtools", "remotes", "data.table", "htmltools", "foreach", "S7", "ggplot2", "PBSddesolve"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade = "never")'
   R -e 'install.packages(c("sf", "SimInf"), repos="https://cran.rstudio.com", configure.args="--host=host", dependencies=FALSE, upgrade = "never")'
   R -e 'install.packages(c("coda"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade = "never")'
   R -e 'install.packages(c("nimble"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade = "never")'
