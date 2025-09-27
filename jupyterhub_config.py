@@ -37,7 +37,7 @@ c.Spawner.default_url = "/lab"
 
 # Per-user persistent home
 c.DockerSpawner.volumes = {
-    "jupyter-{username}": "/home/jovyan"
+    "tutorials-{username}": "/home/jovyan"
 }
 
 if shared_data_folder:
