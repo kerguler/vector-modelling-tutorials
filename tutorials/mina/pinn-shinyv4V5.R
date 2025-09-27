@@ -328,9 +328,11 @@ server <- function(input, output, session){
   
 }
 
-# shinyApp(ui, server)
+port <- as.numeric(Sys.getenv("PORT", "8050"))   # fallback to 8050 if not set
+host <- Sys.getenv("HOST", "127.0.0.1")
+
 shinyApp(ui = ui, server = server, options = list(
-  host = "127.0.0.1",
-  port = 8050,
+  host = host,
+  port = port,
   launch.browser = FALSE
 ))
