@@ -50,10 +50,11 @@ COPY tutorials/ /srv/tutorials/
 COPY init_tutorials.sh /usr/local/bin/init_tutorials.sh
 RUN chmod +x /usr/local/bin/init_tutorials.sh
 
+RUN chmod +x /home/jovyan/tutorials/mina/shiny-wrapper.R
 RUN cat >> /home/jovyan/.jupyter/jupyter_server_config.py <<'EOF'
 c.ServerProxy.servers = {
     'shiny': {
-        'command': ['Rscript', '/home/jovyan/tutorials/mina/pinn-shinyv4V5.R'],
+        'command': ['Rscript', '/home/jovyan/tutorials/mina/shiny-wrapper.R'],
         'timeout': 3000,
         'launcher_entry': {
             'title': 'Shiny App',
