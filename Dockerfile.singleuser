@@ -54,7 +54,7 @@ RUN cat >> /home/jovyan/.jupyter/jupyter_server_config.py <<'EOF'
 c.ServerProxy.servers = {
     'shiny': {
         'command': ['Rscript', '/home/jovyan/tutorials/mina/pinn-shinyv4V5.R'],
-        'timeout': 30,
+        'timeout': 3000,
         'launcher_entry': {
             'title': 'Shiny App',
             'icon_path': ''  # you can give a PNG/SVG path if you like
@@ -62,9 +62,6 @@ c.ServerProxy.servers = {
     }
 }
 EOF
-
-# RUN mkdir -p /home/jovyan/.local/share/jupyter/runtime && \
-#     chown -R jovyan:users /home/jovyan/.local
 
 # Tutorial preparation routine
 ENTRYPOINT ["tini", "-g", "--", "init_tutorials.sh"]

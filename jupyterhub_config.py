@@ -35,6 +35,9 @@ c.DockerSpawner.hub_connect_url = HUB_CONNECT_URL
 # Users land in JupyterLab
 c.Spawner.default_url = "/lab"
 
+# Per-user container name
+c.DockerSpawner.name_template = "tutorials-{userid}-{username}"
+
 # Per-user persistent home
 c.DockerSpawner.volumes = {
     "tutorials-{username}": "/home/jovyan"
