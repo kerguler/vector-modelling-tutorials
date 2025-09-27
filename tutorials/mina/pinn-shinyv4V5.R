@@ -331,6 +331,8 @@ server <- function(input, output, session){
 port <- as.numeric(Sys.getenv("PORT", "8050"))   # fallback to 8050 if not set
 host <- Sys.getenv("HOST", "127.0.0.1")
 
+cat(sprintf("Starting RShiny server on %s:%s\n", host, port))
+
 shinyApp(ui = ui, server = server, options = list(
   host = host,
   port = port,
