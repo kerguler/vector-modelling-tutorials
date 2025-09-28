@@ -35,6 +35,8 @@ services:
       dockerfile: Dockerfile.singleuser
     image: vector-modelling-tutorial-user:latest
     profiles: ["build"]
+    volumes:
+      - ./tutorials:/home/jovyan/tutorials:ro
 
 networks:
   jhub: {}
