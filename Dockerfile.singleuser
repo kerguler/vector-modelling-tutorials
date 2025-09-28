@@ -45,4 +45,5 @@ RUN bash <<'EOF'
   R -e "devtools::install_local('/tmp/bayesTPC', dependencies=FALSE, upgrade = 'never')"
 EOF
 
-# Keep CMD/entrypoint from base image (starts single-user server for JupyterHub)
+# Start single-user server for JupyterHub
+CMD ["jupyterhub-singleuser"]
