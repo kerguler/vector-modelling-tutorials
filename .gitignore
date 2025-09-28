@@ -6,4 +6,5 @@ tutorials/kamil/test/package-lock.json
 
 __pycache__
 
-data
+data/aegy_syms_uncompressed_workshopNicosia_it10_2025-09-09.RDS
+data/t2m_CERRA_2024.nc
