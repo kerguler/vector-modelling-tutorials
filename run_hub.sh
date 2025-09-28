@@ -48,6 +48,12 @@ ensure_env() {
     echo "Adding SHARED_DATA_FOLDER into .env"
     echo "SHARED_DATA_FOLDER=$(pwd)/data" >> "$ENV_FILE"
   fi
+
+  if ! grep -q '^SHARED_TUTORIALS_FOLDER=' "$ENV_FILE" 2>/dev/null; then
+    # Default to ./tutorials relative to the project root
+    echo "Adding SHARED_TUTORIALS_FOLDER into .env"
+    echo "SHARED_TUTORIALS_FOLDER=$(pwd)/tutorials" >> "$ENV_FILE"
+  fi
 }
 
 main() {

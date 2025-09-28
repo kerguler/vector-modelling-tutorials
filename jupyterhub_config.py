@@ -5,6 +5,7 @@ load_dotenv(dotenv_path="/srv/jupyterhub/.env")  # mount .env into Hub container
 HUB_CONNECT_URL = os.getenv("HUB_CONNECT_URL", "http://tutorials-jupyterhub:8000")
 compose_name = os.getenv("COMPOSE_PROJECT_NAME", "")
 shared_data_folder = os.getenv("SHARED_DATA_FOLDER", "")
+shared_tutorials_folder = os.getenv("SHARED_TUTORIALS_FOLDER", "")
 idle_token = os.getenv("IDLE_CULLER_TOKEN")
 
 # --- Core Hub ---
@@ -46,6 +47,12 @@ c.DockerSpawner.volumes = {
 if shared_data_folder:
     c.DockerSpawner.volumes[shared_data_folder] = {
         "bind": "/srv/shared",
+        "mode": "ro",
+    }
+
+if shared_tutorials_folder:
+    c.DockerSpawner.volumes[shared_tutorials_folder] = {
+        "bind": "/srv/tutorials",
         "mode": "ro",
     }
 
