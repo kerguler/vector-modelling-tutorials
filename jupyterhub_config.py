@@ -60,6 +60,12 @@ if shared_tutorials_folder:
 c.Spawner.mem_limit = "4G"
 c.Spawner.cpu_limit = 2
 
+c.DockerSpawner.extra_host_config = {
+    "storage_opt": {
+        "size": "5G"
+    }
+}
+
 # allow more time for user containers to come online
 c.Spawner.http_timeout = 120      # wait up to 120s for JupyterLab to reply
 c.Spawner.start_timeout = 180     # allow 3 minutes total for startup

@@ -14,6 +14,8 @@ RUN apt-get update && apt-get install -y \
     ca-certificates git \
     && apt-get clean
 
+RUN update-ca-certificates
+
 # Clean up
 RUN rm -rf /var/lib/apt/lists/*
 
@@ -25,7 +27,7 @@ RUN conda update -n base -c defaults conda && \
     conda config --add channels defaults
 
 RUN conda install -n base -c conda-forge -y \
-    numpy pandas xarray matplotlib \
+    numpy pandas xarray matplotlib certifi\
     netCDF4 gdal proj geos cartopy libgdal-hdf5 \
     mpi4py nodejs jupyter jupyterlab jupyter-server-proxy openjdk cdsapi zope.interface \
     r-devtools r-drc r-codetools r-recommended r-remotes \
