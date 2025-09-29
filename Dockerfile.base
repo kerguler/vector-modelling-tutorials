@@ -104,11 +104,11 @@ RUN mkdir -p ${JULIA_DEPOT_PATH} && \
 # Make it permanent for all users
 RUN echo "export JULIA_DEPOT_PATH=${JULIA_DEPOT_PATH}:$HOME/.julia" > /etc/profile.d/julia.sh
 # Install system-wide packages into the shared depot
+ENV JULIA_PKG_SERVER=""
+ENV JULIA_PKG_USE_CLI_GIT="true"
 RUN unset SSL_CERT_FILE && \
     unset CURL_CA_BUNDLE && \
-    JULIA_PKG_SERVER="" JULIA_PKG_USE_CLI_GIT="true" \
     julia -e 'using Pkg; Pkg.add(["IJulia", "Dates", "DifferentialEquations", "Dierckx", "Plots", "CSV", "Interpolations", "QuadGK", "Statistics", "DataFrames", "NCDatasets", "MPI"]);' && \
-    JULIA_PKG_SERVER="" JULIA_PKG_USE_CLI_GIT="true" \
     julia -e 'using Pkg; Pkg.precompile();'
 # Install the Jupyter kernel globally
 RUN julia -e 'using IJulia; installkernel("Julia", env=Dict( \
