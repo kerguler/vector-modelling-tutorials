@@ -4,20 +4,25 @@ FROM quay.io/jupyter/minimal-notebook:python-3.11
 USER root
 
 # Generic system libraries
-RUN apt-get update && apt-get install -y \
-    build-essential pkg-config \
-    vim wget \
-    libproj-dev proj-bin proj-data libgdal-dev \
-    libgsl-dev \
-    mpich \
-    nco cdo \
-    ca-certificates git \
-    && apt-get clean
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    # System utilities
+    software-properties-common \
+    vim wget curl git tzdata gnupg ca-certificates supervisor parallel \
+    \
+    # Core build tools
+    build-essential gcc g++ gfortran make cmake libc6-dev \
+    \
+    # package / library dependencies
+    libcurl4-openssl-dev libssl-dev libxml2-dev \
+    libproj-dev proj-bin proj-data libudunits2-dev \
+    libgdal-dev gdal-bin libgeos-dev libsqlite3-dev \
+    libnetcdff-dev libgsl-dev libxt6 \
+    \
+    # HPC / scientific tools
+    mpich nco cdo execstack \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN update-ca-certificates
-
-# Clean up
-RUN rm -rf /var/lib/apt/lists/*
 
 # Ensure modules init script is sourced when shell starts
 #SHELL ["/bin/bash", "-c"]
@@ -27,19 +32,32 @@ RUN conda update -n base -c defaults conda && \
     conda config --add channels defaults
 
 RUN conda install -n base -c conda-forge -y \
-    numpy pandas xarray matplotlib certifi\
+    # --- Core scientific Python stack ---
+    numpy pandas xarray matplotlib certifi \
     netCDF4 gdal proj geos cartopy libgdal-hdf5 \
-    mpi4py nodejs jupyter jupyterlab jupyter-server-proxy openjdk cdsapi zope.interface \
+    mpi4py cdsapi zope.interface \
+    \
+    # --- Jupyter / development tools ---
+    nodejs jupyter jupyterlab jupyter-server-proxy openjdk \
+    \
+    # --- R base & dev tools ---
     r-devtools r-drc r-codetools r-recommended r-remotes \
-    r-tidyterra r-sf r-fs r-sass r-stringi r-stringr r-tidyr \
-    r-reshape2 r-recipes r-units r-s2 r-bslib r-caret r-rmarkdown \
-    r-Ecume r-sass r-bslib r-cachem r-httpuv r-htmlwidgets \
-    r-shiny r-dygraphs \
-    r-doParallel r-geosphere r-wesanderson \
-    r-deSolve r-shiny r-shinycssloaders \
-    r-HDInterval r-IDPmisc r-truncnorm r-httr \
-    r-mathjaxr r-readr r-igraph r-pracma \
-    r-pbdZMQ r-uuid r-repr
+    \
+    # --- R tidyverse / data handling ---
+    r-fs r-stringi r-stringr r-tidyr r-reshape2 r-recipes r-readr \
+    \
+    # --- R spatial / geospatial ---
+    r-tidyterra r-sf r-units r-s2 r-geosphere \
+    \
+    # --- R modeling / statistics ---
+    r-caret r-deSolve r-HDInterval r-IDPmisc r-truncnorm r-httr r-pracma \
+    \
+    # --- R visualization & reporting ---
+    r-rmarkdown r-dygraphs r-htmlwidgets r-shiny r-shinycssloaders \
+    r-wesanderson r-bslib r-sass \
+    \
+    # --- R utilities / misc ---
+    r-Ecume r-cachem r-httpuv r-mathjaxr r-igraph r-pbdZMQ r-uuid r-repr
 
 RUN bash <<'EOF'
   set -euo pipefail
@@ -57,9 +75,9 @@ RUN bash <<'EOF'
   # Install problematic packages
   R -e 'install.packages(c("TDLM"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade = "never")'
   R -e 'install.packages(c("devtools", "remotes", "data.table", "htmltools", "foreach", "S7", "ggplot2", "PBSddesolve"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade = "never")'
-  R -e 'install.packages(c("sf", "SimInf"), repos="https://cran.rstudio.com", configure.args="--host=host", dependencies=FALSE, upgrade = "never")'
+  R -e 'install.packages(c("sf", "SimInf"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade = "never")'
   R -e 'install.packages(c("coda"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade = "never")'
-  R -q -e "install.packages(c('nimble'), repos='https://cran.rstudio.com', type='source', configure.args='--host=host', INSTALL_opts=c('--configure-vars=\"PKG_CXXFLAGS=-w PKG_CFLAGS=-w\"'), quiet=TRUE, dependencies=FALSE, upgrade = \"never\")"
+  R -q -e "install.packages(c('nimble'), repos='https://cran.rstudio.com', type='source', INSTALL_opts=c('--configure-vars=\"PKG_CXXFLAGS=-w PKG_CFLAGS=-w\"'), quiet=TRUE, dependencies=FALSE, upgrade = \"never\")"
 EOF
 
 # Create a user-specific library path
