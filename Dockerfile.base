@@ -59,7 +59,7 @@ RUN bash <<'EOF'
   R -e 'install.packages(c("devtools", "remotes", "data.table", "htmltools", "foreach", "S7", "ggplot2", "PBSddesolve"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade = "never")'
   R -e 'install.packages(c("sf", "SimInf"), repos="https://cran.rstudio.com", configure.args="--host=host", dependencies=FALSE, upgrade = "never")'
   R -e 'install.packages(c("coda"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade = "never")'
-  R -e 'install.packages(c("nimble"), repos="https://cran.rstudio.com", configure.args="--host=host", dependencies=FALSE, upgrade = "never")'
+  CXXFLAGS="-w" R -e 'install.packages(c("nimble"), repos="https://cran.rstudio.com", configure.args="--host=host", dependencies=FALSE, upgrade = "never")'
 EOF
 
 # Create a user-specific library path
