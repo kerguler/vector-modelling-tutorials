@@ -76,14 +76,14 @@ RUN bash <<'EOF'
   conda activate base
 
   # Install IRkernel
-  R -e "install.packages(c('IRdisplay','IRkernel'), repos='https://cran.rstudio.com', dependencies=FALSE, upgrade='never')"
+  R -e "install.packages(c('IRdisplay','IRkernel'), repos='https://cran.rstudio.com', configure.vars=\"CC=/usr/bin/gcc CXX=/usr/bin/g++ FC=/usr/bin/gfortran\"), dependencies=FALSE, upgrade='never')"
   R -e "IRkernel::installspec(user = FALSE, prefix='/opt/conda')"
 
   # Install CRAN packages (from source)
-  R -e 'install.packages(c("SimInf", "TDLM", "devtools", "remotes", "data.table", "htmltools", "foreach", "S7", "ggplot2", "PBSddesolve", "coda"), repos="https://cran.rstudio.com", dependencies=FALSE, upgrade="never")'
+  R -e 'install.packages(c("SimInf", "TDLM", "devtools", "remotes", "data.table", "htmltools", "foreach", "S7", "ggplot2", "PBSddesolve", "coda"), repos="https://cran.rstudio.com", configure.vars="CC=/usr/bin/gcc CXX=/usr/bin/g++ FC=/usr/bin/gfortran"), dependencies=FALSE, upgrade="never")'
 
   # Nimble (suppress warnings)
-  R -q -e "install.packages('nimble', repos='https://cran.rstudio.com', type='source', INSTALL_opts=c('--configure-vars=\"PKG_CXXFLAGS=-w PKG_CFLAGS=-w\"'), quiet=TRUE, dependencies=FALSE, upgrade='never')"
+  R -q -e "install.packages('nimble', repos='https://cran.rstudio.com', type='source', configure.vars=\"CC=/usr/bin/gcc CXX=/usr/bin/g++ FC=/usr/bin/gfortran\"), INSTALL_opts=c('--configure-vars=\"PKG_CXXFLAGS=-w PKG_CFLAGS=-w\"'), quiet=TRUE, dependencies=FALSE, upgrade='never')"
 EOF
 
 # User-specific R library
