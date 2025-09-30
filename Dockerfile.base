@@ -65,6 +65,11 @@ RUN conda install -n base -c conda-forge -y \
 # ===================================================================
 # 3. R: CRAN packages (compiled with system gcc/g++)
 # ===================================================================
+# Set R to use system GCC/G++
+ENV CC=/usr/bin/gcc \
+    CXX=/usr/bin/g++ \
+    FC=/usr/bin/gfortran
+
 RUN bash <<'EOF'
   set -euo pipefail
   source /opt/conda/etc/profile.d/conda.sh
