@@ -89,30 +89,7 @@ RUN mkdir -p /home/jovyan/R/library && \
 ENV R_LIBS_USER=/home/jovyan/R/library
 
 # ===================================================================
-# 4. R-torch
-# ===================================================================
-#ENV TORCH_DIR="/srv/torch"
-#RUN mkdir -p "$TORCH_DIR" && chmod 777 "$TORCH_DIR"
-
-#RUN bash <<'EOF'
-#  set -euo pipefail
-#  source /opt/conda/etc/profile.d/conda.sh
-#  conda activate base
-
-#  if [ "$(uname -m)" = "x86_64" ]; then
-#    R -e "install.packages('torch', lib='/opt/conda/lib/R/library', repos = 'https://cloud.r-project.org')"
-#    R -e "library(torch); torch::install_torch(from_source = TRUE)"
-#  elif [ "$(uname -m)" = "aarch64" ]; then
-#    R -e "install.packages('reticulate', lib='/opt/conda/lib/R/library', repos = 'https://cloud.r-project.org')"
-#    conda install -n base -c pytorch -y pytorch torchvision torchaudio cpuonly
-#    R -e "library(reticulate); use_condaenv('base', required = TRUE); torch <- import('torch')"
-#  else
-#    echo "Unsupported architecture $(uname -m) for torch" && exit 1;
-#  fi
-#EOF
-
-# ===================================================================
-# 5. Julia
+# 4. Julia
 # ===================================================================
 ENV JULIA_VERSION=1.10.5
 RUN if [ "$(uname -m)" = "x86_64" ]; then \
@@ -145,7 +122,7 @@ RUN julia -e 'using IJulia; installkernel("Julia", env=Dict("JULIA_DEPOT_PATH"=>
 RUN chmod -R a+rwx ${JULIA_DEPOT_PATH}
 
 # ===================================================================
-# 6. Certificates fix (Python)
+# 5. Certificates fix (Python)
 # ===================================================================
 RUN python3 - <<'EOF'
 import os, certifi
@@ -153,6 +130,25 @@ path = "/etc/profile.d/python-certs.sh"
 with open(path, "a") as f:
     f.write(f'export SSL_CERT_FILE={certifi.where()}\n')
     f.write('export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt\n')
+EOF
+
+# ===================================================================
+# 6. R-torch
+# ===================================================================
+ENV TORCH_DIR="/srv/torch"
+RUN mkdir -p "$TORCH_DIR" && chmod 777 "$TORCH_DIR"
+
+RUN bash <<'EOF'
+  set -eo pipefail
+  source /opt/conda/etc/profile.d/conda.sh
+  conda activate base
+
+  if [ "$(uname -m)" = "x86_64" ]; then
+    R -e "install.packages('torch', lib='/opt/conda/lib/R/library', repos = 'https://cloud.r-project.org')"
+    R -e "library(torch); torch::install_torch(from_source = TRUE)"
+  else
+    echo "Unsupported architecture $(uname -m) for torch" && exit 1;
+  fi
 EOF
 
 # ===================================================================
