@@ -91,25 +91,25 @@ ENV R_LIBS_USER=/home/jovyan/R/library
 # ===================================================================
 # 4. R-torch
 # ===================================================================
-ENV TORCH_DIR="/srv/torch"
-RUN mkdir -p "$TORCH_DIR" && chmod 777 "$TORCH_DIR"
+#ENV TORCH_DIR="/srv/torch"
+#RUN mkdir -p "$TORCH_DIR" && chmod 777 "$TORCH_DIR"
 
-RUN bash <<'EOF'
-  set -euo pipefail
-  source /opt/conda/etc/profile.d/conda.sh
-  conda activate base
+#RUN bash <<'EOF'
+#  set -euo pipefail
+#  source /opt/conda/etc/profile.d/conda.sh
+#  conda activate base
 
-  if [ "$(uname -m)" = "x86_64" ]; then
-    R -e "install.packages('torch', lib='/opt/conda/lib/R/library', repos = 'https://cloud.r-project.org')"
-    R -e "library(torch); torch::install_torch(from_source = TRUE)"
-  elif [ "$(uname -m)" = "aarch64" ]; then
-    R -e "install.packages('reticulate', lib='/opt/conda/lib/R/library', repos = 'https://cloud.r-project.org')"
-    conda install -n base -c pytorch -y pytorch torchvision torchaudio cpuonly
-    R -e "library(reticulate); use_condaenv('base', required = TRUE); torch <- import('torch')"
-  else
-    echo "Unsupported architecture $(uname -m) for torch" && exit 1;
-  fi
-EOF
+#  if [ "$(uname -m)" = "x86_64" ]; then
+#    R -e "install.packages('torch', lib='/opt/conda/lib/R/library', repos = 'https://cloud.r-project.org')"
+#    R -e "library(torch); torch::install_torch(from_source = TRUE)"
+#  elif [ "$(uname -m)" = "aarch64" ]; then
+#    R -e "install.packages('reticulate', lib='/opt/conda/lib/R/library', repos = 'https://cloud.r-project.org')"
+#    conda install -n base -c pytorch -y pytorch torchvision torchaudio cpuonly
+#    R -e "library(reticulate); use_condaenv('base', required = TRUE); torch <- import('torch')"
+#  else
+#    echo "Unsupported architecture $(uname -m) for torch" && exit 1;
+#  fi
+#EOF
 
 # ===================================================================
 # 5. Julia
