@@ -48,7 +48,7 @@ RUN conda run -n pyenv python -m ipykernel install --name "python-env" --display
 # --- R environment ---
 RUN conda create -n renv -c conda-forge -y \
     r-base \
-    r-irkernel \
+    r-irkernel r-irdisplay \
     r-devtools r-drc r-codetools r-recommended r-remotes \
     r-fs r-stringi r-stringr r-tidyr r-reshape2 r-recipes r-readr \
     r-tidyterra r-sf r-units r-s2 r-geosphere \
@@ -69,8 +69,8 @@ RUN bash <<'EOF'
   conda activate renv
 
   # Install IRkernel
-  R -e "install.packages(c('IRdisplay','IRkernel'), repos='https://cran.rstudio.com', dependencies=FALSE, upgrade='never')"
-  R -e "IRkernel::installspec(user = FALSE, prefix='/opt/conda')"
+  # R -e "install.packages(c('IRdisplay','IRkernel'), repos='https://cran.rstudio.com', dependencies=FALSE, upgrade='never')"
+  # R -e "IRkernel::installspec(user = FALSE, prefix='/opt/conda')"
 
   # Install CRAN packages (from source)
   R -e 'install.packages("SimInf", repos="https://cloud.r-project.org", configure.args="--build=x86_64-pc-linux-gnu --host=x86_64-conda-linux-gnu")'
