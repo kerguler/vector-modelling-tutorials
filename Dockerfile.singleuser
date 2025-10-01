@@ -15,7 +15,7 @@ RUN bash <<'EOF'
 
   # Activate conda
   source /opt/conda/etc/profile.d/conda.sh
-  conda activate base
+  conda activate renv
 
   # For arbocartoR
   if [ -d "/tmp/arbocartoR" ]; then

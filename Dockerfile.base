@@ -34,37 +34,31 @@ RUN update-ca-certificates
 RUN conda update -n base -c defaults -y conda && \
     conda config --add channels defaults
 
-RUN conda install -n base -c conda-forge -y \
-    # --- Python scientific stack ---
+# --- Python environment ---
+RUN conda create -n pyenv -c conda-forge -y \
+    python=3.11 \
     numpy pandas xarray matplotlib certifi \
     netCDF4 gdal proj geos cartopy libgdal-hdf5 \
     mpi4py cdsapi zope.interface \
-    gsl openblas \
-    \
-    # --- Jupyter / dev tools ---
     nodejs jupyter jupyterlab jupyter-server-proxy openjdk \
-    \
-    # --- R base & dev tools ---
-    r-base r-devtools r-drc r-codetools r-recommended r-remotes \
-    \
-    # --- R tidyverse / data handling ---
+    ipykernel
+
+RUN conda run -n pyenv python -m ipykernel install --name "python-env" --display-name "Python (pyenv)"
+
+# --- R environment ---
+RUN conda create -n renv -c conda-forge -y \
+    r-base \
+    r-irkernel \
+    r-devtools r-drc r-codetools r-recommended r-remotes \
     r-fs r-stringi r-stringr r-tidyr r-reshape2 r-recipes r-readr \
-    \
-    # --- R spatial / geospatial (binaries!) ---
     r-tidyterra r-sf r-units r-s2 r-geosphere \
-    \
-    # --- R modeling / statistics ---
     r-nimble r-caret r-deSolve r-HDInterval r-IDPmisc r-truncnorm r-httr r-pracma \
-    \
-    # --- R visualization & reporting ---
     r-rmarkdown r-dygraphs r-htmlwidgets r-shiny r-shinycssloaders \
     r-wesanderson r-bslib r-sass \
-    \
-    # --- R utilities / misc ---
     r-Ecume r-cachem r-httpuv r-mathjaxr r-igraph r-pbdZMQ r-uuid r-repr \
-    \
-    # --- Additional R packages ---
     r-coda r-ggplot2 r-htmltools r-foreach r-data.table r-PBSddesolve r-S7 r-SimInf r-doParallel
+
+RUN conda run -n renv R -e "IRkernel::installspec(name = 'R-renv', displayname = 'R (renv)')"
 
 # ===================================================================
 # 3. R: CRAN packages (compiled with system gcc/g++)
@@ -72,7 +66,7 @@ RUN conda install -n base -c conda-forge -y \
 RUN bash <<'EOF'
   set -eo pipefail
   source /opt/conda/etc/profile.d/conda.sh
-  conda activate base
+  conda activate renv
 
   # Install IRkernel
   R -e "install.packages(c('IRdisplay','IRkernel'), repos='https://cran.rstudio.com', dependencies=FALSE, upgrade='never')"
@@ -141,7 +135,7 @@ RUN mkdir -p "$TORCH_DIR" && chmod 777 "$TORCH_DIR"
 RUN bash <<'EOF'
   set -eo pipefail
   source /opt/conda/etc/profile.d/conda.sh
-  conda activate base
+  conda activate renv
 
   if [ "$(uname -m)" = "x86_64" ]; then
     R -e "install.packages('torch', lib='/opt/conda/lib/R/library', repos = 'https://cloud.r-project.org')"

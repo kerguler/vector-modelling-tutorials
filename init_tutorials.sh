@@ -2,7 +2,6 @@
 set -e
 
 if [ ! -d /home/jovyan/tutorials ]; then
-  # cp -r /srv/tutorials /home/jovyan/tutorials
   ln -s /srv/tutorials /home/jovyan/tutorials
 fi
 
