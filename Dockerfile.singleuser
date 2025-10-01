@@ -11,7 +11,7 @@ RUN curl -L -o "/tmp/install.population.sh" "https://raw.githubusercontent.com/k
 
 COPY ./src/ /tmp/
 RUN bash <<'EOF'
-  set -euo pipefail
+  set -eo pipefail
 
   # Activate conda
   source /opt/conda/etc/profile.d/conda.sh
