@@ -132,18 +132,18 @@ EOF
 ENV TORCH_DIR="/srv/torch"
 RUN mkdir -p "$TORCH_DIR" && chmod 777 "$TORCH_DIR"
 
-RUN bash <<'EOF'
-  set -eo pipefail
-  source /opt/conda/etc/profile.d/conda.sh
-  conda activate renv
+#RUN bash <<'EOF'
+#  set -eo pipefail
+#  source /opt/conda/etc/profile.d/conda.sh
+#  conda activate renv
 
-  if [ "$(uname -m)" = "x86_64" ]; then
-    R -e "install.packages('torch', lib='/opt/conda/lib/R/library', repos = 'https://cloud.r-project.org')"
-    R -e "library(torch); torch::install_torch(from_source = TRUE)"
-  else
-    echo "Unsupported architecture $(uname -m) for torch" && exit 1;
-  fi
-EOF
+#  if [ "$(uname -m)" = "x86_64" ]; then
+#    R -e "install.packages('torch', lib='/opt/conda/lib/R/library', repos = 'https://cloud.r-project.org')"
+#    R -e "library(torch); torch::install_torch(from_source = TRUE)"
+#  else
+#    echo "Unsupported architecture $(uname -m) for torch" && exit 1;
+#  fi
+#EOF
 
 # ===================================================================
 # Keep CMD/entrypoint from base image (starts Jupyter singleuser)
