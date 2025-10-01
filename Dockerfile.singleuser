@@ -3,6 +3,8 @@ FROM kerguler/vector-modelling-tutorial-base:latest
 
 USER root
 
+RUN conda remove gsl openblas
+
 # Population + PopJSON
 RUN curl -L -o "/tmp/install.population.sh" "https://raw.githubusercontent.com/kerguler/PopJSON/main/install.population.sh" && \
     chmod +x /tmp/install.population.sh && \
