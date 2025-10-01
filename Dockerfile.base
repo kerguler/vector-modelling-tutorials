@@ -69,12 +69,13 @@ RUN conda install -n base -c conda-forge -y \
 # 3. R: CRAN packages (compiled with system gcc/g++)
 # ===================================================================
 RUN bash <<'EOF'
-  set -euo pipefail
+  set -eo pipefail
   source /opt/conda/etc/profile.d/conda.sh
   conda activate base
 
   # Install IRkernel
-  R -e "install.packages(c('IRdisplay','IRkernel'), repos='https://cran.rstudio.com', configure.vars='CC=/usr/bin/gcc CXX=/usr/bin/g++ FC=/usr/bin/gfortran', dependencies=FALSE, upgrade='never')"
+  # R -e "install.packages(c('IRdisplay','IRkernel'), repos='https://cran.rstudio.com', configure.vars='CC=/usr/bin/gcc CXX=/usr/bin/g++ FC=/usr/bin/gfortran', dependencies=FALSE, upgrade='never')"
+  R -e "install.packages(c('IRdisplay','IRkernel'), repos='https://cran.rstudio.com', dependencies=FALSE, upgrade='never')"
   R -e "IRkernel::installspec(user = FALSE, prefix='/opt/conda')"
 
   # Install CRAN packages (from source)
