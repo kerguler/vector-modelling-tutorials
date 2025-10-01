@@ -47,9 +47,10 @@ RUN conda run -n pyenv python -m ipykernel install --name "python-env" --display
 
 # --- R environment ---
 RUN conda create -n renv -c conda-forge -y \
+    gxx_linux-64 gcc_linux-64 binutils_linux-64 \
     r-base \
     r-irkernel r-irdisplay \
-    r-devtools r-drc r-codetools r-recommended r-remotes \
+    r-rcpp r-RcppArmadillo r-RcppEigen r-devtools r-drc r-codetools r-recommended r-remotes \
     r-fs r-stringi r-stringr r-tidyr r-reshape2 r-recipes r-readr \
     r-tidyterra r-sf r-units r-s2 r-geosphere \
     r-nimble r-caret r-deSolve r-HDInterval r-IDPmisc r-truncnorm r-httr r-pracma \
