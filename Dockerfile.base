@@ -53,23 +53,21 @@ RUN conda install -n base -c conda-forge -y \
     r-tidyterra r-sf r-units r-s2 r-geosphere \
     \
     # --- R modeling / statistics ---
-    r-caret r-deSolve r-HDInterval r-IDPmisc r-truncnorm r-httr r-pracma \
+    r-nimble r-caret r-deSolve r-HDInterval r-IDPmisc r-truncnorm r-httr r-pracma \
     \
     # --- R visualization & reporting ---
     r-rmarkdown r-dygraphs r-htmlwidgets r-shiny r-shinycssloaders \
     r-wesanderson r-bslib r-sass \
     \
     # --- R utilities / misc ---
-    r-Ecume r-cachem r-httpuv r-mathjaxr r-igraph r-pbdZMQ r-uuid r-repr
+    r-Ecume r-cachem r-httpuv r-mathjaxr r-igraph r-pbdZMQ r-uuid r-repr \
+    \
+    # --- Additional R packages ---
+    r-coda r-ggplot2 r-htmltools r-foreach r-data.table r-PBSddesolve r-S7 r-SimInf
 
 # ===================================================================
 # 3. R: CRAN packages (compiled with system gcc/g++)
 # ===================================================================
-# Set R to use system GCC/G++
-ENV CC=/usr/bin/gcc \
-    CXX=/usr/bin/g++ \
-    FC=/usr/bin/gfortran
-
 RUN bash <<'EOF'
   set -euo pipefail
   source /opt/conda/etc/profile.d/conda.sh
@@ -80,10 +78,8 @@ RUN bash <<'EOF'
   R -e "IRkernel::installspec(user = FALSE, prefix='/opt/conda')"
 
   # Install CRAN packages (from source)
-  R -e 'install.packages(c("SimInf", "TDLM", "devtools", "remotes", "data.table", "htmltools", "foreach", "S7", "ggplot2", "PBSddesolve", "coda"), repos="https://cran.rstudio.com", configure.vars="CC=/usr/bin/gcc CXX=/usr/bin/g++ FC=/usr/bin/gfortran", dependencies=FALSE, upgrade="never")'
-
-  # Nimble (suppress warnings)
-  R -q -e "install.packages('nimble', repos='https://cran.rstudio.com', type='source', configure.vars='CC=/usr/bin/gcc CXX=/usr/bin/g++ FC=/usr/bin/gfortran', INSTALL_opts=c('--configure-vars=\"PKG_CXXFLAGS=-w PKG_CFLAGS=-w\"'), quiet=TRUE, dependencies=FALSE, upgrade='never')"
+  # R -e 'install.packages(c("SimInf", "TDLM", "devtools", "remotes", "data.table", "htmltools", "foreach", "S7", "ggplot2", "PBSddesolve", "coda"), repos="https://cran.rstudio.com", configure.vars="CC=/usr/bin/gcc CXX=/usr/bin/g++ FC=/usr/bin/gfortran", dependencies=FALSE, upgrade="never")'
+  R -e 'install.packages("TDLM", repos="https://cran.rstudio.com", dependencies=FALSE, upgrade="never")'
 EOF
 
 # User-specific R library
