@@ -3,6 +3,12 @@ FROM kerguler/vector-modelling-tutorial-base:latest
 
 USER root
 
+# Population + PopJSON
+RUN curl -L -o "/tmp/install.population.sh" "https://raw.githubusercontent.com/kerguler/PopJSON/main/install.population.sh" && \
+    chmod +x /tmp/install.population.sh && \
+    /tmp/install.population.sh --verbose --keep-tests -d /tmp/population
+#RUN echo "module load population/${SPOP_VERSION}" >> /etc/bash.bashrc
+
 COPY ./src/ /tmp/
 RUN bash <<'EOF'
   set -eo pipefail
@@ -10,12 +16,6 @@ RUN bash <<'EOF'
   # Activate conda
   source /opt/conda/etc/profile.d/conda.sh
   conda activate base
-
-  # For Population + PopJSON
-  curl -L -o "/tmp/install.population.sh" "https://raw.githubusercontent.com/kerguler/PopJSON/main/install.population.sh" && \
-    chmod +x /tmp/install.population.sh && \
-    /tmp/install.population.sh --verbose --keep-tests -d /tmp/population
-  echo "module load population/${SPOP_VERSION}" >> /etc/bash.bashrc
 
   # For arbocartoR
   if [ -d "/tmp/arbocartoR" ]; then
