@@ -20,7 +20,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     libcurl4-openssl-dev libssl-dev libxml2-dev \
     libproj-dev proj-bin proj-data libudunits2-dev \
     libgdal-dev gdal-bin libgeos-dev libsqlite3-dev \
-    libnetcdff-dev libgsl-dev libxt6 \
+    libnetcdff-dev libgsl-dev libgslcblas0 libxt6 \
     \
     # HPC / scientific tools
     mpich nco cdo execstack \
@@ -39,6 +39,7 @@ RUN conda install -n base -c conda-forge -y \
     numpy pandas xarray matplotlib certifi \
     netCDF4 gdal proj geos cartopy libgdal-hdf5 \
     mpi4py cdsapi zope.interface \
+    gsl openblas \
     \
     # --- Jupyter / dev tools ---
     nodejs jupyter jupyterlab jupyter-server-proxy openjdk \
