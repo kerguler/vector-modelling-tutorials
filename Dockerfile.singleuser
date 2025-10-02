@@ -3,13 +3,8 @@ FROM kerguler/vector-modelling-tutorial-base:latest
 
 USER root
 
-COPY ./src/ /tmp/
-
-# Copy the tutorials to the image
-# COPY tutorials/ /srv/tutorials/
 COPY init_tutorials.sh /usr/local/bin/init_tutorials.sh
 RUN chmod +x /usr/local/bin/init_tutorials.sh
 
-# Tutorial preparation routine
 ENTRYPOINT ["tini", "-g", "--", "init_tutorials.sh"]
 CMD ["jupyterhub-singleuser"]
