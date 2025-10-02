@@ -3,14 +3,8 @@ FROM kerguler/vector-modelling-tutorial-base:latest
 
 USER root
 
-RUN chown -R $NB_UID:$NB_GID /opt/conda
+COPY init_tutorials.sh /usr/local/bin/init_tutorials.sh
+RUN chmod +x /usr/local/bin/init_tutorials.sh
 
-RUN ln -s /srv/tutorials $HOME/tutorials
-RUN chown -R $NB_UID:$NB_GID $HOME
-
-# Tutorial preparation routine
-# ENTRYPOINT ["tini", "-g", "--", "init_tutorials.sh"]
-
-USER $NB_UID
-
+ENTRYPOINT ["tini", "-g", "--", "init_tutorials.sh"]
 CMD ["jupyterhub-singleuser"]
