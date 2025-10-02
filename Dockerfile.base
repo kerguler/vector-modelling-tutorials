@@ -1,7 +1,7 @@
 # ===================================================================
 # Base image: Jupyter minimal-notebook with Python 3.11
 # ===================================================================
-FROM quay.io/jupyter/minimal-notebook:python-3.11
+FROM quay.io/jupyter/minimal-notebook:python-3.11 as base
 
 USER root
 
@@ -29,8 +29,12 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 RUN update-ca-certificates
 
 # ===================================================================
-# 2. Conda: Python + R binaries
+# Tutorial image: Python + R (+torch) + Julia
 # ===================================================================
+FROM base as tutorials
+
+USER root
+
 RUN conda update -n base -c defaults -y conda && \
     conda config --add channels defaults
 
