@@ -92,7 +92,7 @@ RUN if [ -d "/tmp/arbocartoR" ]; then \
       echo "Using local arbocartoR"; \
     else \
       echo "Cloning arbocartoR from GitLab"; \
-      && git clone https://gitlab.cirad.fr/astre/arbocartoR.git /tmp/arbocartoR; \
+      git clone https://gitlab.cirad.fr/astre/arbocartoR.git /tmp/arbocartoR; \
     fi
 RUN conda run -n RGIS R -e "remotes::install_local('/tmp/arbocartoR', dependencies=FALSE, upgrade = 'never')"
 
@@ -101,7 +101,7 @@ RUN if [ -d "/tmp/dynamAedes" ]; then \
       echo "Using local dynamAedes"; \
     else \
       echo "Cloning dynamAedes from GitHub"; \
-      && git clone --branch development https://github.com/mattmar/dynamAedes.git /tmp/dynamAedes; \
+      git clone --branch development https://github.com/mattmar/dynamAedes.git /tmp/dynamAedes; \
     fi
 RUN conda run -n RGIS R -e "devtools::install_local('/tmp/dynamAedes', dependencies=FALSE, upgrade = 'never')"
 
@@ -110,9 +110,14 @@ RUN if [ -d "/tmp/bayesTPC" ]; then \
       echo "Using local bayesTPC"; \
     else \
       echo "Cloning bayesTPC from GitHub"; \
-      && git clone https://github.com/johnwilliamsmithjr/bayesTPC.git /tmp/bayesTPC; \
+      git clone https://github.com/johnwilliamsmithjr/bayesTPC.git /tmp/bayesTPC; \
     fi
 RUN conda run -n RGIS R -e "devtools::install_local('/tmp/bayesTPC', dependencies=FALSE, upgrade = 'never')"
+
+# ===================================================================
+# Tutorial image: Python + R (+torch) + Julia
+# ===================================================================
+FROM packages as packages-julia
 
 # --------------------------
 # --- Environment: Julia ---
@@ -154,6 +159,11 @@ RUN chmod -R a+rwx ${JULIA_DEPOT_PATH}
 #    f.write('export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt\n')
 #EOF
 
+# ===================================================================
+# Tutorial image: Python + R (+torch) + Julia
+# ===================================================================
+FROM packages-julia as packages-torch
+
 # ---------------
 # --- R-torch ---
 # ---------------
@@ -176,6 +186,11 @@ RUN if [ "$(uname -m)" = "x86_64" ]; then \
     else \
       echo "Unsupported architecture $(uname -m) for torch" && exit 1; \
     fi
+
+# ===================================================================
+# Tutorial image: Python + R (+torch) + Julia
+# ===================================================================
+FROM packages-torch as packages-all
 
 # -----------------
 # --- Finish up ---
