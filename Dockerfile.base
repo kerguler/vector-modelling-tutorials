@@ -122,7 +122,7 @@ FROM packages as packages-julia
 # --------------------------
 # --- Environment: Julia ---
 # --------------------------
-ENV JULIA_VERSION=1.10.5
+ENV JULIA_VERSION=1.11.7
 ENV JULIA_DEPOT_PATH=/opt/julia_depot
 ENV JULIA_PKG_SERVER=""
 ENV JULIA_PKG_USE_CLI_GIT="true"
@@ -145,14 +145,7 @@ RUN unset SSL_CERT_FILE \
     && unset CURL_CA_BUNDLE \
     && julia -e 'using Pkg; \
         Pkg.activate("/opt/julia_project"); \
-        Pkg.add(["IJulia", "Dates", "Dierckx", "Plots", "CSV", "Interpolations", "QuadGK", "Statistics", "DataFrames", "NCDatasets", "MPI"]); \
-        Pkg.precompile()'
-
-RUN unset SSL_CERT_FILE \
-    && unset CURL_CA_BUNDLE \
-    && julia -e 'using Pkg; \
-        Pkg.activate("/opt/julia_project"); \
-        Pkg.add("DifferentialEquations"); \
+        Pkg.add(["DifferentialEquations", "IJulia", "Dates", "Dierckx", "Plots", "CSV", "Interpolations", "QuadGK", "Statistics", "DataFrames", "NCDatasets", "MPI"]); \
         Pkg.precompile()'
 
 RUN julia -e 'using IJulia; installkernel("JuliaGIS", env=Dict("JULIA_DEPOT_PATH"=>"'${JULIA_DEPOT_PATH}'","SSL_CERT_FILE"=>"","CURL_CA_BUNDLE"=>""));' \
