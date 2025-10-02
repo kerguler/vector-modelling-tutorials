@@ -1,12 +1,11 @@
 #!/bin/bash
 set -e
 
-chown -R $NB_UID:$NB_GID /opt/conda
-
 if [ ! -d /home/jovyan/tutorials ]; then
-  ln -s /srv/tutorials $HOME/tutorials
+  ln -s /srv/tutorials /home/jovyan/tutorials
 fi
 
-chown -R $NB_UID:$NB_GID $HOME
+# ensure jovyan owns its full home (covers .local too)
+chown -R jovyan:users /home/jovyan
 
 exec start.sh "$@"
