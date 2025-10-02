@@ -3,47 +3,7 @@ FROM kerguler/vector-modelling-tutorial-base:latest
 
 USER root
 
-# Population + PopJSON
-RUN curl -L -o "/tmp/install.population.sh" "https://raw.githubusercontent.com/kerguler/PopJSON/main/install.population.sh" && \
-    chmod +x /tmp/install.population.sh && \
-    /tmp/install.population.sh --verbose --keep-tests -d /tmp/population
-#RUN echo "module load population/${SPOP_VERSION}" >> /etc/bash.bashrc
-
 COPY ./src/ /tmp/
-RUN bash <<'EOF'
-  set -eo pipefail
-
-  # Activate conda
-  source /opt/conda/etc/profile.d/conda.sh
-  conda activate renv
-
-  # For arbocartoR
-  if [ -d "/tmp/arbocartoR" ]; then
-    echo "Using local arbocartoR"
-  else
-    echo "Cloning arbocartoR from GitLab"
-    git clone https://gitlab.cirad.fr/astre/arbocartoR.git /tmp/arbocartoR
-  fi
-  R -e "remotes::install_local('/tmp/arbocartoR', dependencies=FALSE, upgrade = 'never')"
-
-  # For dynamAedes
-  if [ -d "/tmp/dynamAedes" ]; then
-    echo "Using local dynamAedes"
-  else
-    echo "Cloning dynamAedes from GitHub"
-    git clone --branch development https://github.com/mattmar/dynamAedes.git /tmp/dynamAedes
-  fi
-  R -e "devtools::install_local('/tmp/dynamAedes', dependencies=FALSE, upgrade = 'never')"
-
-  # For bayesTPC
-  if [ -d "/tmp/bayesTPC" ]; then
-    echo "Using local bayesTPC"
-  else
-    echo "Cloning bayesTPC from GitHub"
-    git clone https://github.com/johnwilliamsmithjr/bayesTPC.git /tmp/bayesTPC
-  fi
-  R -e "devtools::install_local('/tmp/bayesTPC', dependencies=FALSE, upgrade = 'never')"
-EOF
 
 # Copy the tutorials to the image
 # COPY tutorials/ /srv/tutorials/

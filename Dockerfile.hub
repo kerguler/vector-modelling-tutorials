@@ -6,4 +6,4 @@ RUN pip install --no-cache-dir \
     dockerspawner==14.* \
     jupyterhub-nativeauthenticator==1.* \
     jupyterhub-idle-culler==1.* \
-    jupyterlab
+    jupyter jupyterlab jupyter-server-proxy 
