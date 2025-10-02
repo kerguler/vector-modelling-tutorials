@@ -139,11 +139,15 @@ RUN ln -sf /opt/julia-${JULIA_VERSION}/bin/julia /usr/local/bin/julia
 RUN mkdir -p ${JULIA_DEPOT_PATH} && chmod -R a+rwx ${JULIA_DEPOT_PATH} \
     && echo "export JULIA_DEPOT_PATH=${JULIA_DEPOT_PATH}:$HOME/.julia" > /etc/profile.d/julia.sh
 
+RUN rm -rf /opt/julia_project/Manifest.toml
+
 RUN unset SSL_CERT_FILE \
     && unset CURL_CA_BUNDLE \
     && julia -e 'using Pkg; \
         Pkg.activate("/opt/julia_project"); \
+        Pkg.update(); \
         Pkg.add(["IJulia", "Dates", "DifferentialEquations", "Dierckx", "Plots", "CSV", "Interpolations", "QuadGK", "Statistics", "DataFrames", "NCDatasets", "MPI"]); \
+        Pkg.update(); \
         Pkg.precompile()'
 
 RUN julia -e 'using IJulia; installkernel("JuliaGIS", env=Dict("JULIA_DEPOT_PATH"=>"'${JULIA_DEPOT_PATH}'","SSL_CERT_FILE"=>"","CURL_CA_BUNDLE"=>""));' \
