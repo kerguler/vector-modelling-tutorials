@@ -141,7 +141,7 @@ RUN mkdir -p ${JULIA_DEPOT_PATH} && chmod -R a+rwx ${JULIA_DEPOT_PATH} \
 
 RUN unset SSL_CERT_FILE \
     && unset CURL_CA_BUNDLE \
-    && julia -e 'using Pkg; Pkg.add(["IJulia", "Dates", "DifferentialEquations", "Dierckx", "Plots", "CSV", "Interpolations", "QuadGK", "Statistics", "DataFrames", "NCDatasets", "MPI"]); Pkg.precompile();'
+    && julia -e 'using Pkg; Pkg.add(["IJulia", "Dates", "DifferentialEquations", "Dierckx", "Plots", "CSV", "Interpolations", "QuadGK", "Statistics", "DataFrames", "NCDatasets", "MPI"]); Pkg.update(); Pkg.precompile();'
 
 RUN julia -e 'using IJulia; installkernel("JuliaGIS", env=Dict("JULIA_DEPOT_PATH"=>"'${JULIA_DEPOT_PATH}'","SSL_CERT_FILE"=>"","CURL_CA_BUNDLE"=>""));' \
     && mv $HOME/.local/share/jupyter/kernels/julia* /opt/conda/share/jupyter/kernels/
