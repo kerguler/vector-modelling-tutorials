@@ -1,10 +1,10 @@
 # Python + Lab base
 FROM kerguler/vector-modelling-tutorial-base:latest
 
-USER root
+# USER root
 
-COPY init_tutorials.sh /usr/local/bin/init_tutorials.sh
-RUN chmod +x /usr/local/bin/init_tutorials.sh
+# COPY init_tutorials.sh /usr/local/bin/init_tutorials.sh
+# RUN chmod +x /usr/local/bin/init_tutorials.sh
 
-ENTRYPOINT ["tini", "-g", "--", "init_tutorials.sh"]
+# ENTRYPOINT ["tini", "-g", "--", "init_tutorials.sh"]
 CMD ["jupyterhub-singleuser"]
