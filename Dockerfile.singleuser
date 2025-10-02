@@ -7,4 +7,4 @@ FROM kerguler/vector-modelling-tutorial-base:latest
 # RUN chmod +x /usr/local/bin/init_tutorials.sh
 
 # ENTRYPOINT ["tini", "-g", "--", "init_tutorials.sh"]
-CMD ["jupyterhub-singleuser"]
+# CMD ["jupyterhub-singleuser"]
