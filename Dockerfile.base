@@ -145,9 +145,14 @@ RUN unset SSL_CERT_FILE \
     && unset CURL_CA_BUNDLE \
     && julia -e 'using Pkg; \
         Pkg.activate("/opt/julia_project"); \
-        Pkg.update(); \
-        Pkg.add(["IJulia", "Dates", "DifferentialEquations", "Dierckx", "Plots", "CSV", "Interpolations", "QuadGK", "Statistics", "DataFrames", "NCDatasets", "MPI"]); \
-        Pkg.update(); \
+        Pkg.add(["IJulia", "Dates", "Dierckx", "Plots", "CSV", "Interpolations", "QuadGK", "Statistics", "DataFrames", "NCDatasets", "MPI"]); \
+        Pkg.precompile()'
+
+RUN unset SSL_CERT_FILE \
+    && unset CURL_CA_BUNDLE \
+    && julia -e 'using Pkg; \
+        Pkg.activate("/opt/julia_project"); \
+        Pkg.add(["DifferentialEquations"); \
         Pkg.precompile()'
 
 RUN julia -e 'using IJulia; installkernel("JuliaGIS", env=Dict("JULIA_DEPOT_PATH"=>"'${JULIA_DEPOT_PATH}'","SSL_CERT_FILE"=>"","CURL_CA_BUNDLE"=>""));' \
