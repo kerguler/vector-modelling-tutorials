@@ -142,7 +142,7 @@ RUN mkdir -p ${JULIA_DEPOT_PATH} && chmod -R a+rwx ${JULIA_DEPOT_PATH} \
 RUN unset SSL_CERT_FILE \
     && unset CURL_CA_BUNDLE \
     && julia -e 'using Pkg; \
-        Pkg.activate("/opt/julia_project", shared=true); \
+        Pkg.activate("/opt/julia_project"); \
         Pkg.add(["IJulia", "Dates", "DifferentialEquations", "Dierckx", "Plots", "CSV", "Interpolations", "QuadGK", "Statistics", "DataFrames", "NCDatasets", "MPI"]); \
         Pkg.precompile()'
 
