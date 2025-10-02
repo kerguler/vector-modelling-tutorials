@@ -82,6 +82,11 @@ RUN conda run -n RGIS R -e "IRkernel::installspec(name = 'RGIS', displayname = '
 RUN conda run -n RGIS R -e 'install.packages("TDLM", repos="https://cran.rstudio.com", dependencies=FALSE, upgrade="never")'
 RUN conda run -n RGIS R -e 'install.packages("SimInf", repos="https://cloud.r-project.org", configure.args="--build=x86_64-pc-linux-gnu --host=x86_64-conda-linux-gnu", dependencies=FALSE, upgrade="never")'
 
+# ===================================================================
+# Tutorial image: Python + R (+torch) + Julia
+# ===================================================================
+FROM tutorials as packages
+
 # arbocartoR
 RUN if [ -d "/tmp/arbocartoR" ]; then \
       echo "Using local arbocartoR"; \
