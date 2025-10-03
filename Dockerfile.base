@@ -64,6 +64,7 @@ RUN conda run -n PythonGIS python -m ipykernel install --name "PythonGIS" --disp
 # --- Environment: RGIS ---
 # -------------------------
 RUN conda create -n RGIS -c conda-forge -y \
+    libgdal-hdf5 \
     r-base \
     r-irkernel r-irdisplay \
     r-rcpp r-RcppArmadillo r-RcppEigen r-devtools r-drc r-codetools r-recommended r-remotes \
@@ -173,7 +174,7 @@ FROM packages-julia as packages-torch
 # ---------------
 RUN conda create -n RtorchGIS -c conda-forge -y \
     python=3.11 \
-    ipykernel \
+    ipykernel jupyter-server-proxy \
     r-base \
     r-shiny r-shinycssloaders \
     r-pkgconfig r-stringi r-stringr r-gtable r-isoband r-S7 r-generics r-tibble r-tidyselect r-purrr r-cpp11 r-deSolve r-ggplot2 r-dplyr r-tidyr \
