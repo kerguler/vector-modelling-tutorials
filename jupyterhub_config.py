@@ -16,7 +16,9 @@ c.JupyterHub.log_level = "INFO"
 c.JupyterHub.cleanup_servers = True
 
 # Auth: NativeAuthenticator + temporary bypass so admin can log in
-c.JupyterHub.authenticator_class = "nativeauthenticator.NativeAuthenticator"
+from nativeauthenticator import NativeAuthenticator
+c.JupyterHub.authenticator_class = NativeAuthenticator
+#c.JupyterHub.authenticator_class = "nativeauthenticator.NativeAuthenticator"
 c.NativeAuthenticator.open_signup = True        # show Sign Up
 c.Authenticator.admin_users = {"admin"}         # the admin username
 c.Authenticator.any_allow_config = True         # silence warning
