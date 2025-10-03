@@ -39,6 +39,8 @@ COPY ./src/ /tmp/
 
 RUN conda update -n base -c defaults -y conda \
     && conda config --add channels defaults \
+    && conda install -n base -c conda-forge -y jupyter-server-proxy && \
+    && jupyter server extension enable jupyter_server_proxy \
     && conda clean -afy
 
 # ------------------------------
@@ -179,6 +181,8 @@ RUN conda create -n RtorchGIS -c conda-forge -y \
     r-shiny r-shinycssloaders \
     r-pkgconfig r-stringi r-stringr r-gtable r-isoband r-S7 r-generics r-tibble r-tidyselect r-purrr r-cpp11 r-deSolve r-ggplot2 r-dplyr r-tidyr \
     r-irkernel r-irdisplay
+
+RUN conda run -n RtorchGIS jupyter server extension enable jupyter_server_proxy
 
 RUN conda run -n RtorchGIS python -m ipykernel install --name "RtorchGIS" --display-name "Python (R-PINN)" \
     && mv /usr/local/share/jupyter/kernels/* /opt/conda/share/jupyter/kernels/
