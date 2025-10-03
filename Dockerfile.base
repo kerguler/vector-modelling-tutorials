@@ -39,7 +39,7 @@ COPY ./src/ /tmp/
 
 RUN conda update -n base -c defaults -y conda \
     && conda config --add channels defaults \
-    && conda install -n base -c conda-forge -y jupyter-server-proxy && \
+    && conda install -n base -c conda-forge -y jupyter-server-proxy \
     && jupyter server extension enable jupyter_server_proxy \
     && conda clean -afy
 
