@@ -20,7 +20,7 @@ c.JupyterHub.authenticator_class = "nativeauthenticator.NativeAuthenticator"
 c.NativeAuthenticator.open_signup = True        # show Sign Up
 c.Authenticator.admin_users = {"admin"}         # the admin username
 c.Authenticator.any_allow_config = True         # silence warning
-c.Authenticator.allow_all = False               # <-- TEMPORARY, we will remove later
+c.Authenticator.allow_all = True               # <-- TEMPORARY, we will remove later
 c.JupyterHub.log_level = "DEBUG"
 
 # --- Spawner: Docker ---
