@@ -11,5 +11,9 @@ RUN pip install --no-cache-dir --upgrade pip \
     jupyter \
     jupyterlab
 
-# Entrypoint script to run DB upgrade once before starting
-CMD bash -c "jupyterhub upgrade-db && jupyterhub -f /srv/jupyterhub/jupyterhub_config.py"
+# Copy initialization script
+COPY init_jhub.sh /usr/local/bin/init_jhub.sh
+RUN chmod +x /usr/local/bin/init_jhub.sh
+
+# Run init script at container start
+CMD ["bash", "/usr/local/bin/init_jhub.sh"]
