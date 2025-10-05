@@ -15,13 +15,18 @@ c.JupyterHub.db_url = "sqlite:////srv/jupyterhub/jupyterhub.sqlite"
 c.JupyterHub.log_level = "INFO"
 c.JupyterHub.cleanup_servers = True
 
-# Auth: NativeAuthenticator + temporary bypass so admin can log in
-c.JupyterHub.authenticator_class = "nativeauthenticator.NativeAuthenticator"
-c.NativeAuthenticator.open_signup = True        # show Sign Up
-c.Authenticator.admin_users = {"admin"}         # the admin username
-c.Authenticator.any_allow_config = True         # silence warning
-c.Authenticator.allow_all = True               # <-- TEMPORARY, we will remove later
-c.JupyterHub.log_level = "DEBUG"
+# Auth: PAMAuthenticator
+c.JupyterHub.authenticator_class = "jupyterhub.auth.PAMAuthenticator"
+# PAM uses system accounts — users must exist on the host.
+# To create users manually (Linux):
+#   sudo useradd -m username && sudo passwd username
+# Admin users (these must also exist in the host system)
+c.Authenticator.admin_users = {"admin"}
+# PAM service name — "login" works for most systems,
+# but could be "sshd", "lightdm", or custom, depending on /etc/pam.d/.
+c.PAMAuthenticator.service = "login"
+# Optional: automatically create the user’s home directory if missing
+c.PAMAuthenticator.create_system_users = True
 
 # --- Spawner: Docker ---
 c.JupyterHub.spawner_class = "dockerspawner.DockerSpawner"
@@ -29,14 +34,8 @@ c.DockerSpawner.image = "vector-modelling-tutorial-user:latest"
 c.DockerSpawner.network_name = f"{compose_name}_jhub" if compose_name else "jhub_jhub"
 c.DockerSpawner.use_internal_ip = True
 c.DockerSpawner.pull_policy = "IfNotPresent"
-
-# Callback from single-user servers to Hub
 c.DockerSpawner.hub_connect_url = HUB_CONNECT_URL
-
-# Users land in JupyterLab
 c.Spawner.default_url = "/lab"
-
-# Per-user container name
 c.DockerSpawner.name_template = "tutorials-{username}"
 
 # Per-user persistent home
