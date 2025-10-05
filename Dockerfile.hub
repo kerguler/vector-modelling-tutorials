@@ -11,7 +11,7 @@ ENV MAMBA_ROOT_PREFIX=/opt/conda
 ENV PATH=$MAMBA_ROOT_PREFIX/envs/hubenv/bin:$PATH
 
 # --- Install JupyterHub + required packages in conda env ---
-RUN /usr/local/bin/micro_mamba run -n hubenv pip install --no-cache-dir \
+RUN micromamba run -n hubenv pip install --no-cache-dir \
     dotenv \
     dockerspawner==14.* \
     jupyterhub==5.2.* \
@@ -21,4 +21,4 @@ RUN /usr/local/bin/micro_mamba run -n hubenv pip install --no-cache-dir \
     jupyterlab
 
 # --- Default command: run JupyterHub from conda environment ---
-CMD ["/usr/local/bin/micro_mamba", "run", "-n", "hubenv", "jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py"]
+CMD ["micromamba", "run", "-n", "hubenv", "jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py"]
