@@ -18,6 +18,13 @@ c.JupyterHub.db_url = "sqlite:////srv/jupyterhub/jupyterhub.sqlite"
 c.JupyterHub.log_level = "INFO"
 c.JupyterHub.cleanup_servers = True
 
+c.JupyterHub.template_paths = ['/srv/jupyterhub/custom']
+c.JupyterHub.logo_file = '/srv/jupyterhub/custom/logo.png'
+c.JupyterHub.extra_static_paths = ['/srv/jupyterhub/custom']
+c.JupyterHub.template_vars = {
+    'extra_css_urls': ['/hub/static/custom/custom.css']
+}
+
 # Auth: OAuthenticator
 c.JupyterHub.authenticator_class = GoogleOAuthenticator
 c.GoogleOAuthenticator.client_id = os.getenv("GOOGLE_CLIENT_ID")

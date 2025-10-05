@@ -1,0 +1,24 @@
+/* Replace the JupyterHub logo on login page */
+.jp-Logo, .jupyterhub-logo {
+  background-image: url("/hub/static/custom/logo.png") !important;
+  background-size: contain !important;
+  width: 180px !important;
+  height: 60px !important;
+  background-repeat: no-repeat;
+  display: inline-block;
+}
+
+/* Replace the loading spinner */
+/*
+#loading {
+  background: url("/hub/static/custom/loading.gif") center center no-repeat !important;
+  background-size: 64px 64px !important;
+}
+*/
+
+/* Optional: hide default spinner icon */
+/*
+#loading .progress-bar {
+  display: none !important;
+}
+*/
