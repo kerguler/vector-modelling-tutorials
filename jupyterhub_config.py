@@ -24,8 +24,8 @@ c.GoogleOAuthenticator.client_id = os.getenv("GOOGLE_CLIENT_ID")
 c.GoogleOAuthenticator.client_secret = os.getenv("GOOGLE_CLIENT_SECRET")
 c.GoogleOAuthenticator.oauth_callback_url = os.getenv("OAUTH_CALLBACK_URL")
 # Admin users (these must also exist in the host system)
-c.Authenticator.admin_users = {"admin", "kerguler@gmail.com"}
-c.Authenticator.allowed_users = {"admin", "kerguler@gmail.com"}
+c.Authenticator.admin_users = {"kerguler@gmail.com"}
+c.Authenticator.allowed_users = {"kerguler@gmail.com", "veclim.cyi@gmail.com"}
 
 # --- Spawner: Docker ---
 c.JupyterHub.spawner_class = "dockerspawner.DockerSpawner"
