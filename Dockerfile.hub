@@ -9,7 +9,7 @@ RUN pip install --no-cache-dir \
     dotenv \
     dockerspawner==14.* \
     jupyterhub-idle-culler==1.* \
-    jupyterhub-pam-password \
+    jupyterhub-change-password \
     jupyter jupyterlab
 
 # RUN useradd -m admin && echo "admin:admin" | chpasswd
