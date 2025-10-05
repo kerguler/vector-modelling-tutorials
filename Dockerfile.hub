@@ -11,4 +11,5 @@ RUN pip install --no-cache-dir --upgrade pip \
     jupyter \
     jupyterlab
 
-CMD ["jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py", "upgrade-db"]
+# Entrypoint script to run DB upgrade once before starting
+CMD bash -c "jupyterhub upgrade-db && jupyterhub -f /srv/jupyterhub/jupyterhub_config.py"
