@@ -2,18 +2,10 @@ FROM jupyterhub/jupyterhub:5.2.1
 
 RUN apt-get update && apt-get install -y sqlite3
 
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir \
+# Add spawner, authenticator, and idle culler
+RUN pip install --no-cache-dir \
     dotenv \
-    dockerspawner \
-    jupyterhub-nativeauthenticator \
-    jupyterhub-idle-culler \
-    jupyter \
-    jupyterlab
-
-# Copy initialization script
-COPY init_jhub.sh /usr/local/bin/init_jhub.sh
-RUN chmod +x /usr/local/bin/init_jhub.sh
-
-# Run init script at container start
-CMD ["bash", "/usr/local/bin/init_jhub.sh"]
+    dockerspawner==14.* \
+    jupyterhub-nativeauthenticator==1.5.* \
+    jupyterhub-idle-culler==1.* \
+    jupyter jupyterlab
