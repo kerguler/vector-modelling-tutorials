@@ -12,8 +12,9 @@ RUN pip install --no-cache-dir \
     jupyterhub-pam-password \
     jupyter jupyterlab
 
-# --- Optional: create an admin user on the Hub system ---
-RUN useradd -m admin && echo "admin:admin" | chpasswd
+# RUN useradd -m admin && echo "admin:admin" | chpasswd
+RUN useradd -m admin && \
+    echo "admin:$(openssl passwd -6 admin)" | chpasswd -e
 
 WORKDIR /srv/jupyterhub
 
