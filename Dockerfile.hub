@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
 RUN pip install --no-cache-dir \
     dotenv \
     dockerspawner==14.* \
+    oauthenticator==16.* \
     jupyterhub-idle-culler==1.* \
     jupyter jupyterlab
 

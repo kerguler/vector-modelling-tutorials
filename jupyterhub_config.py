@@ -2,11 +2,14 @@ import os
 from dotenv import load_dotenv
 load_dotenv(dotenv_path="/srv/jupyterhub/.env")  # mount .env into Hub container
 
+from oauthenticator.google import GoogleOAuthenticator
+
 HUB_CONNECT_URL = os.getenv("HUB_CONNECT_URL", "http://tutorials-jupyterhub:8000")
 compose_name = os.getenv("COMPOSE_PROJECT_NAME", "")
 shared_data_folder = os.getenv("SHARED_DATA_FOLDER", "")
 shared_tutorials_folder = os.getenv("SHARED_TUTORIALS_FOLDER", "")
 idle_token = os.getenv("IDLE_CULLER_TOKEN")
+provider = os.getenv("OAUTH_PROVIDER", "google").strip().lower()
 
 # --- Core Hub ---
 c.JupyterHub.bind_url = "http://:8000"
@@ -15,19 +18,14 @@ c.JupyterHub.db_url = "sqlite:////srv/jupyterhub/jupyterhub.sqlite"
 c.JupyterHub.log_level = "INFO"
 c.JupyterHub.cleanup_servers = True
 
-# Auth: PAMAuthenticator
-c.JupyterHub.authenticator_class = "jupyterhub.auth.PAMAuthenticator"
-# PAM uses system accounts — users must exist on the host.
-# To create users manually (Linux):
-#   sudo useradd -m username && sudo passwd username
+# Auth: OAuthenticator
+c.JupyterHub.authenticator_class = GoogleOAuthenticator
+c.GoogleOAuthenticator.client_id = os.getenv("GOOGLE_CLIENT_ID")
+c.GoogleOAuthenticator.client_secret = os.getenv("GOOGLE_CLIENT_SECRET")
+c.GoogleOAuthenticator.oauth_callback_url = os.getenv("OAUTH_CALLBACK_URL")
 # Admin users (these must also exist in the host system)
-c.Authenticator.admin_users = {"admin"}
-c.Authenticator.allowed_users = {"admin"}
-# PAM service name — "login" works for most systems,
-# but could be "sshd", "lightdm", or custom, depending on /etc/pam.d/.
-c.PAMAuthenticator.service = "login"
-# Optional: automatically create the user’s home directory if missing
-c.PAMAuthenticator.create_system_users = True
+c.Authenticator.admin_users = {"admin", "kerguler@gmail.com"}
+c.Authenticator.allowed_users = {"admin", "kerguler@gmail.com"}
 
 # --- Spawner: Docker ---
 c.JupyterHub.spawner_class = "dockerspawner.DockerSpawner"
