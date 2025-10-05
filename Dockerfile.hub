@@ -1,13 +1,22 @@
 FROM jupyterhub/jupyterhub:5.2.1
 
-RUN apt-get update && apt-get install -y sqlite3
+RUN apt-get update && apt-get install -y sqlite3 curl bzip2
 
-# Add spawner, authenticator, and idle culler
-RUN pip install --no-cache-dir \
+# Install Mambaforge (Conda)
+ENV MAMBA_ROOT_PREFIX=/opt/conda
+RUN curl -fsSL https://micro.mamba.pm/api/mamba/os-linux-64/latest | tar -xvj -C /usr/local/bin/ && \
+    micro_mamba create -y -n hubenv python=3.11 && \
+    micro_mamba clean --all --yes
+
+# --- Install JupyterHub + required packages in conda env ---
+RUN /usr/local/bin/micro_mamba run -n hubenv pip install --no-cache-dir \
     dotenv \
     dockerspawner==14.* \
     jupyterhub==5.2.* \
-    jupyterhub-nativeauthenticator==1.4.* \
+    "jupyterhub-nativeauthenticator>=1.4.0,<1.5.0" \
     jupyterhub-idle-culler==1.* \
     jupyter \
     jupyterlab
+
+# --- Default command: run JupyterHub from conda environment ---
+CMD ["/usr/local/bin/micro_mamba", "run", "-n", "hubenv", "jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py"]
