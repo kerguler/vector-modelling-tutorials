@@ -9,6 +9,7 @@ RUN pip install --no-cache-dir \
     dotenv \
     dockerspawner==14.* \
     jupyterhub-idle-culler==1.* \
+    jupyterhub-pam-password \
     jupyter jupyterlab
 
 # --- Optional: create an admin user on the Hub system ---
