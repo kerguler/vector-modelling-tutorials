@@ -22,6 +22,7 @@ c.JupyterHub.authenticator_class = "jupyterhub.auth.PAMAuthenticator"
 #   sudo useradd -m username && sudo passwd username
 # Admin users (these must also exist in the host system)
 c.Authenticator.admin_users = {"admin"}
+c.Authenticator.allowed_users = {"admin"}
 # PAM service name — "login" works for most systems,
 # but could be "sshd", "lightdm", or custom, depending on /etc/pam.d/.
 c.PAMAuthenticator.service = "login"
