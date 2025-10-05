@@ -2,11 +2,13 @@ FROM jupyterhub/jupyterhub:5.2.1
 
 RUN apt-get update && apt-get install -y sqlite3 curl bzip2
 
-# Install Mambaforge (Conda)
+# --- Install MicroMamba (from GitHub releases) ---
+ADD https://github.com/mamba-org/micromamba-releases/releases/latest/download/micromamba-linux-64 /usr/local/bin/micromamba
+RUN chmod +x /usr/local/bin/micromamba
+
+# --- Set up environment root ---
 ENV MAMBA_ROOT_PREFIX=/opt/conda
-RUN curl -fsSL https://micro.mamba.pm/api/mamba/os-linux-64/latest | tar -xvj -C /usr/local/bin/ && \
-    micro_mamba create -y -n hubenv python=3.11 && \
-    micro_mamba clean --all --yes
+ENV PATH=$MAMBA_ROOT_PREFIX/envs/hubenv/bin:$PATH
 
 # --- Install JupyterHub + required packages in conda env ---
 RUN /usr/local/bin/micro_mamba run -n hubenv pip install --no-cache-dir \
