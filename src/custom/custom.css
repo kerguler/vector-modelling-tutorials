@@ -1,6 +1,6 @@
 /* Replace the JupyterHub logo on login page */
 .jp-Logo, .jupyterhub-logo {
-  background-image: url("/hub/static/custom/logo.png") !important;
+  background-image: url("/hub/static/custom/logo.svg") !important;
   background-size: contain !important;
   width: 180px !important;
   height: 60px !important;

@@ -19,7 +19,7 @@ c.JupyterHub.log_level = "INFO"
 c.JupyterHub.cleanup_servers = True
 
 c.JupyterHub.template_paths = ['/srv/jupyterhub/custom']
-c.JupyterHub.logo_file = '/srv/jupyterhub/custom/logo.png'
+c.JupyterHub.logo_file = '/srv/jupyterhub/custom/logo.svg'
 c.JupyterHub.extra_static_paths = ['/srv/jupyterhub/custom']
 c.JupyterHub.template_vars = {
     'extra_css_urls': ['/hub/static/custom/custom.css']
