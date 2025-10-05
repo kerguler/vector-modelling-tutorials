@@ -9,12 +9,14 @@ RUN pip install --no-cache-dir \
     dotenv \
     dockerspawner==14.* \
     jupyterhub-idle-culler==1.* \
-    jupyterhub-change-password \
     jupyter jupyterlab
 
 # RUN useradd -m admin && echo "admin:admin" | chpasswd
 RUN useradd -m admin && \
     echo "admin:$(openssl passwd -6 admin)" | chpasswd -e
+
+COPY ./reset_user_password.py /srv/jupyterhub/
+RUN chmod +x /srv/jupyterhub/reset_user_password.py
 
 WORKDIR /srv/jupyterhub
 

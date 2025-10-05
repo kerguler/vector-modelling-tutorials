@@ -28,18 +28,6 @@ c.Authenticator.allowed_users = {"admin"}
 c.PAMAuthenticator.service = "login"
 # Optional: automatically create the user’s home directory if missing
 c.PAMAuthenticator.create_system_users = True
-# Enable users to change their passwords
-c.JupyterHub.services = [
-    {
-        'name': 'change-password',
-        'command': ['jupyterhub-change-password-service'],
-        'url': 'http://127.0.0.1:8888',
-        'environment': {
-            'CONFIGPROXY_AUTH_TOKEN': os.getenv('CONFIGPROXY_AUTH_TOKEN', ''),
-        },
-        'admin': True,
-    }
-]
 
 # --- Spawner: Docker ---
 c.JupyterHub.spawner_class = "dockerspawner.DockerSpawner"
