@@ -12,8 +12,9 @@ services:
       - tutorials-user-data:/srv/jupyter
       - ./jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py:ro
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./.env:/srv/jupyterhub/.env:ro
       - ./data:/srv/shared:ro
+    secrets:
+      - hub_env
     networks: [jhub]
 
   tutorials-nginx:
@@ -42,3 +43,7 @@ networks:
 volumes:
   tutorials-hub-data:
   tutorials-user-data:
+
+secrets:
+  hub_env:
+    file: /srv/jupyterhub/secrets/.env

@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-load_dotenv(dotenv_path="/srv/jupyterhub/.env")  # mount .env into Hub container
+load_dotenv(dotenv_path="/run/secrets/hub_env")  # mount .env into Hub container
 
 from oauthenticator.google import GoogleOAuthenticator
 
