@@ -17,10 +17,10 @@ ENV PATH=$MAMBA_ROOT_PREFIX/envs/hubenv/bin:$PATH
 RUN micromamba create -y -n hubenv python=3.11 && \
     micromamba run -n hubenv pip install --no-cache-dir \
         dotenv \
-        "dockerspawner==14.*" \
-        "jupyterhub==5.2.*" \
-        "jupyterhub-nativeauthenticator>=1.4.0,<1.5.0" \
-        "jupyterhub-idle-culler==1.*" \
+        dockerspawner \
+        jupyterhub \
+        jupyterhub-nativeauthenticator \
+        jupyterhub-idle-culler \
         jupyter \
         jupyterlab && \
     micromamba clean --all --yes
