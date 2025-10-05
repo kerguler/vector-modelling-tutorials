@@ -5,6 +5,8 @@ import string
 import subprocess
 import smtplib
 from email.message import EmailMessage
+from dotenv import load_dotenv
+load_dotenv(dotenv_path="/srv/jupyterhub/.env")  # mount .env into Hub container
 
 # -----------------------------------------------------
 # CONFIGURATION
