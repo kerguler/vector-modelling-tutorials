@@ -64,7 +64,7 @@ main() {
   $COMPOSE build tutorials-singleuser
 
   echo "== Building jupyterhub image =="
-  $COMPOSE build tutorials-jupyterhub
+  $COMPOSE build --no-cache tutorials-jupyterhub
   echo "== Clearing stale Hub proxy PID (if any) =="
   $COMPOSE run --rm -u root tutorials-jupyterhub sh -lc 'rm -f /srv/jupyterhub/jupyterhub-proxy.pid' || true
 

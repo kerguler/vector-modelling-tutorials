@@ -2,10 +2,13 @@ FROM jupyterhub/jupyterhub:5.2.1
 
 RUN apt-get update && apt-get install -y sqlite3
 
-# Add spawner, authenticator, and idle culler
-RUN pip install --no-cache-dir \
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir \
     dotenv \
-    dockerspawner==14.* \
-    jupyterhub-nativeauthenticator==1.* \
-    jupyterhub-idle-culler==1.* \
-    jupyter jupyterlab
+    dockerspawner \
+    jupyterhub-nativeauthenticator \
+    jupyterhub-idle-culler \
+    jupyter \
+    jupyterlab
+
+CMD ["jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py", "upgrade-db"]
