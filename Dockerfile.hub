@@ -1,6 +1,9 @@
 FROM jupyterhub/jupyterhub:5.2.1
 
-RUN apt-get update && apt-get install -y sqlite3 curl bzip2
+RUN apt-get update && apt-get install -y \
+    sqlite3 curl bzip2 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # --- Install MicroMamba (from GitHub releases) ---
 ADD https://github.com/mamba-org/micromamba-releases/releases/latest/download/micromamba-linux-64 /usr/local/bin/micromamba
@@ -11,14 +14,16 @@ ENV MAMBA_ROOT_PREFIX=/opt/conda
 ENV PATH=$MAMBA_ROOT_PREFIX/envs/hubenv/bin:$PATH
 
 # --- Install JupyterHub + required packages in conda env ---
-RUN micromamba run -n hubenv pip install --no-cache-dir \
-    dotenv \
-    dockerspawner==14.* \
-    jupyterhub==5.2.* \
-    "jupyterhub-nativeauthenticator>=1.4.0,<1.5.0" \
-    jupyterhub-idle-culler==1.* \
-    jupyter \
-    jupyterlab
+RUN micromamba create -y -n hubenv python=3.11 && \
+    micromamba run -n hubenv pip install --no-cache-dir \
+        dotenv \
+        "dockerspawner==14.*" \
+        "jupyterhub==5.2.*" \
+        "jupyterhub-nativeauthenticator>=1.4.0,<1.5.0" \
+        "jupyterhub-idle-culler==1.*" \
+        jupyter \
+        jupyterlab && \
+    micromamba clean --all --yes
 
 # --- Default command: run JupyterHub from conda environment ---
 CMD ["micromamba", "run", "-n", "hubenv", "jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py"]
