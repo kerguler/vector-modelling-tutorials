@@ -2,7 +2,6 @@ FROM jupyterhub/jupyterhub:5.2.1
 
 RUN apt-get update && apt-get install -y \
     sqlite3 \
-    libpam0g-dev \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --no-cache-dir \
@@ -11,13 +10,6 @@ RUN pip install --no-cache-dir \
     oauthenticator==16.* \
     jupyterhub-idle-culler==1.* \
     jupyter jupyterlab
-
-# RUN useradd -m admin && echo "admin:admin" | chpasswd
-RUN useradd -m admin && \
-    echo "admin:$(openssl passwd -6 admin)" | chpasswd -e
-
-COPY ./reset_user_password.py /srv/jupyterhub/
-RUN chmod +x /srv/jupyterhub/reset_user_password.py
 
 WORKDIR /srv/jupyterhub
 
