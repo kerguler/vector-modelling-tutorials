@@ -19,7 +19,8 @@ COPY ./src/lab-branding/page_config.json /opt/conda/etc/jupyter/labconfig/page_c
 
 # Build with devDependencies (typescript) enabled
 RUN cd /tmp/lab-branding \
- && npm ci --include=dev \
+ && npm install --package-lock-only --include=dev --no-audit --no-fund \
+ && npm_config_production=false npm ci \
  && npm run build \
  && PY_PREFIX=$(python -c 'import sys; print(sys.prefix)') \
  && mkdir -p "$PY_PREFIX/share/jupyter/labextensions/lab-branding" \
