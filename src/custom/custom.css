@@ -1,14 +1,16 @@
 /* Replace the JupyterHub logo on login page */
-.jpy-logo, .jupyterhub-logo {
+/*
+#jupyterhub-logo .jpy-logo {
   background-image: url("/hub/static/custom/logo.svg") !important;
   background-size: contain !important;
   padding-bottom: 4px !important;
   margin-top: -8px !important;
-  /* width: 180px !important; */
-  /* height: 60px !important; */
+  width: 180px !important;
+  height: 60px !important;
   background-repeat: no-repeat;
   display: inline-block;
 }
+*/
 
 /* Replace the loading spinner */
 /*

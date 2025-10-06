@@ -1,0 +1,19 @@
+{
+  "name": "lab-branding",
+  "version": "0.0.1",
+  "private": true,
+  "jupyterlab": {
+    "extension": "lib/index.js",
+    "outputDir": "labextension"
+  },
+  "scripts": {
+    "build": "tsc -p ."
+  },
+  "dependencies": {
+    "@jupyterlab/application": "^4",
+    "@lumino/widgets": "^2"
+  },
+  "devDependencies": {
+    "typescript": "^5"
+  }
+}

@@ -3,7 +3,28 @@ FROM kerguler/vector-modelling-tutorial-base:latest
 
 USER root
 
+# Ensure Node is available
+RUN conda install -n base -c conda-forge -y nodejs
+
+# Copy the tiny extension source
+COPY ./src/lab-branding/ /tmp/lab-branding/
 COPY ./src/custom /srv/jupyterhub/custom
+
+# Copy branding assets (logo) to Hub static so Lab can fetch them at /hub/static/...
+COPY ./src/custom/lab-logo.svg /usr/local/share/jupyterhub/static/branding/lab-logo.svg
+
+# Disable stock logo/splash
+RUN mkdir -p /opt/conda/etc/jupyter/labconfig
+COPY ./src/lab-branding/page_config.json /opt/conda/etc/jupyter/labconfig/page_config.json
+
+# Build with devDependencies (typescript) enabled
+RUN cd /tmp/lab-branding \
+ && npm ci --include=dev \
+ && npm run build \
+ && PY_PREFIX=$(python -c 'import sys; print(sys.prefix)') \
+ && mkdir -p "$PY_PREFIX/share/jupyter/labextensions/lab-branding" \
+ && cp -r labextension/* "$PY_PREFIX/share/jupyter/labextensions/lab-branding/" \
+ && rm -rf /tmp/lab-branding
 
 COPY init_tutorials.sh /usr/local/bin/init_tutorials.sh
 RUN chmod +x /usr/local/bin/init_tutorials.sh
