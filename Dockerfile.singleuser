@@ -3,8 +3,6 @@ FROM kerguler/vector-modelling-tutorial-base:latest
 
 USER root
 
-COPY ./src/custom /srv/jupyterhub/custom
-
 COPY init_tutorials.sh /usr/local/bin/init_tutorials.sh
 RUN chmod +x /usr/local/bin/init_tutorials.sh
 

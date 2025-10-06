@@ -11,8 +11,6 @@ RUN pip install --no-cache-dir \
     jupyterhub-idle-culler==1.* \
     jupyter jupyterlab
 
-COPY ./src/custom /srv/jupyterhub/custom
-
 WORKDIR /srv/jupyterhub
 
 # --- Entrypoint ---
