@@ -12,7 +12,8 @@ idle_token = os.getenv("IDLE_CULLER_TOKEN")
 provider = os.getenv("OAUTH_PROVIDER", "google").strip().lower()
 
 # --- Core Hub ---
-c.JupyterHub.bind_url = "http://:8000"
+c.JupyterHub.base_url = "/tutorials"
+c.JupyterHub.bind_url = "http://:8000/tutorials"
 c.JupyterHub.cookie_secret_file = "/srv/jupyterhub/jupyterhub_cookie_secret"
 c.JupyterHub.db_url = "sqlite:////srv/jupyterhub/jupyterhub.sqlite"
 c.JupyterHub.log_level = "INFO"
@@ -95,8 +96,15 @@ c.JupyterHub.services = [
             "jupyterhub-idle-culler",
             "--timeout=3600",
             "--cull-every=300",
-            "--url=http://127.0.0.1:8000/hub/api",
+            "--url=http://127.0.0.1:8000/tutorials/hub/api",
         ],
         "api_token": idle_token,
     }
 ]
+
+c.JupyterHub.tornado_settings = {
+    "headers": {
+        "X-Forwarded-Proto": "https",
+    }
+}
+
