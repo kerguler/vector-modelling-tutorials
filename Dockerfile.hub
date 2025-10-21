@@ -11,6 +11,9 @@ RUN pip install --no-cache-dir \
     jupyterhub-idle-culler==1.* \
     jupyter jupyterlab
 
+COPY veclim_theme/templates /usr/local/share/jupyterhub/templates
+COPY veclim_theme/static /usr/local/share/jupyterhub/static
+
 WORKDIR /srv/jupyterhub
 
 # --- Entrypoint ---
