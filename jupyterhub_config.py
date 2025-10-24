@@ -18,7 +18,7 @@ c.JupyterHub.cookie_secret_file = "/srv/jupyterhub/jupyterhub_cookie_secret"
 c.JupyterHub.db_url = "sqlite:////srv/jupyterhub/jupyterhub.sqlite"
 c.JupyterHub.log_level = "INFO"
 c.JupyterHub.cleanup_servers = True
-c.JupyterHub.logo_file = "/usr/local/share/jupyterhub/static/images/veclim_logo.png"
+c.JupyterHub.logo_file = "/usr/local/share/jupyterhub/static/images/veclim_logo.svg"
 
 # Auth: OAuthenticator
 c.JupyterHub.authenticator_class = GoogleOAuthenticator
