@@ -118,11 +118,11 @@
         <div class="container-fluid">
           {% block logo %}
             <span id="jupyterhub-logo" class="navbar-brand">
-              <a href="{{ logo_url or base_url }}">
+              <a href="https://veclim.com">
                 <img src='{{ base_url }}logo'
                      alt='JupyterHub logo'
                      class='jpy-logo'
-                     title='Home' />
+                     title='HOME' />
               </a>
             </span>
           {% endblock logo %}
@@ -138,18 +138,15 @@
             </button>
           {% endif %}
           <div class="collapse navbar-collapse" id="thenavbar">
-            <ul class="navbar-nav me-auto mb-0">
+            <ul class="nav navbar-nav me-2">
               {% if user %}
                 {% block nav_bar_left_items %}
                   <li class="nav-item">
-                    <a class="nav-link" href="{{ base_url }}home">Home</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{ base_url }}token">Token</a>
+                    <a class="nav-link" href="{{ base_url }}home">HOME</a>
                   </li>
                   {% if 'admin-ui' in parsed_scopes %}
                     <li class="nav-item">
-                      <a class="nav-link" href="{{ base_url }}admin">Admin</a>
+                      <a class="nav-link" href="{{ base_url }}admin">ADMIN</a>
                     </li>
                   {% endif %}
                   {% if services %}
@@ -158,7 +155,7 @@
                          class="nav-link dropdown-toggle"
                          data-bs-toggle="dropdown"
                          role="button"
-                         aria-expanded="false">Services</a>
+                         aria-expanded="false">SERVICES</a>
                       <ul class="dropdown-menu">
                         {% for service in services %}
                           {% block service scoped %}
@@ -172,37 +169,27 @@
                   {% endif %}
                 {% endblock nav_bar_left_items %}
               {% endif %}
-            </ul>
-            <ul class="nav navbar-nav me-2">
               {% block nav_bar_right_items %}
-                <li class="nav-item">
-                  {% block theme_toggle %}
-                    <button class="btn btn-sm"
-                            id="dark-theme-toggle"
-                            aria-label="Toggle dark mode"
-                            title="Toggle dark mode">
-                      <i aria-hidden="true" class="fa fa-circle-half-stroke"></i>
-                    </button>
-                  {% endblock theme_toggle %}
-                </li>
-                <li class="nav-item">
                   {% block login_widget %}
-                    <span id="login_widget">
                       {% if user %}
+                      <li class="nav-item" style="padding-top: 8px;">
                         <span class="me-1">{{ user.name }}</span>
+                      </li>
+                      <li class="nav-item">
                         <a id="logout"
                            role="button"
                            class="btn btn-sm btn-outline-contrast"
-                           href="{{ logout_url }}"> <i aria-hidden="true" class="fa fa-sign-out"></i>Logout</a>
+                           href="{{ logout_url }}">LOGOUT</a>
+                      </li>
                       {% else %}
+                      <li class="nav-item">
                         <a id="login"
                            role="button"
                            class="btn btn-sm btn-outline-contrast"
-                           href="{{ login_url }}">Login</a>
+                           href="{{ login_url }}">LOGIN</a>
+                      </li>
                       {% endif %}
-                    </span>
                   {% endblock login_widget %}
-                </li>
               {% endblock nav_bar_right_items %}
             </ul>
           </div>
@@ -221,7 +208,7 @@
     {% block footer %}
     {% endblock footer %}
     {% call modal('Error', btn_label='OK') %}
-      <div class="ajax-error alert-danger">The error</div>
+      <div class="ajax-error alert-danger">THE ERROR</div>
     {% endcall %}
     {% block script %}
     {% endblock script %}

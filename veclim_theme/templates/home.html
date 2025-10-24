@@ -3,10 +3,11 @@
   {% set announcement = announcement_home %}
 {% endif %}
 {% block main %}
-  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;">
+  <div id="front-page-logo">
     <img src="{{ base_url }}static/images/veclim_logo.png" alt="VEClim" style="height:80px;margin-bottom:1rem;">
-    <h2 style="color:#1b3958;font-weight:600;">VEClim JupyterHub Control Panel</h2>
-    <p style="color:#555;margin-bottom:1.5rem;">Early-warning decision support platform for climate-sensitive vector-borne disease risk</p>
+    <h2 style="font-weight:600;">VEClim JupyterHub Control Panel</h2>
+    <p>Early-warning decision support platform for climate-sensitive vector-borne disease risk</p>
+    <p style="margin-bottom:1.5rem;">If you haven't already done so, please send us an <a target="_blank" rel="noopener noreferrer" href="mailto:kamil@awkwardoldbugger.com?cc=kerguler@cyi.ac.cy&subject=Request%20access%20to%20VEClim%20resources">email</a> to request access. We are planning an expansion of our computational resources to ensure that we can provide access to anyone interested.</p>
   </div>
   <div class="container">
     <h1 class="visually-hidden">JupyterHub home page</h1>

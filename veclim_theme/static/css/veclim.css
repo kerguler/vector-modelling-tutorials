@@ -1,3 +1,128 @@
+@font-face {
+	font-family: "Inter";
+	src: url("../fonts/Inter/Inter-VariableFont_slnt,wght.ttf") format("truetype");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Inter-Bold";
+	src: url("../fonts/Inter/static/Inter-Bold.ttf") format("truetype");
+}
+
+html,
+body {
+    color: var(--primary-color1);
+}
+
+#front-page-logo {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.navbar.navbar-expand-sm.bg-body-tertiary.mb-4 {
+    background-color: white !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 0px 6px 0px black;
+    padding: 0px;
+    padding-bottom: 1px;
+    margin-left: -6px !important;
+    margin: 0px;
+    align-content: center;
+    flex-wrap: wrap;
+    height: 47px;
+}
+
 #jupyterhub-logo .jpy-logo {
-    height: 38px;
+    width: 120px;
+    height: 36px;
+}
+
+#thenavbar {
+    background: white;
+    font-family: Inter-Bold, sens-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--primary-color1);
+    text-align: center;
+    justify-content: flex-end;
+}
+
+.me-1,
+#logout,
+#login,
+#thenavbar a {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+}
+
+#login,
+#logout {
+    padding-top: 3px !important;
+}
+
+#login_widget .me-1 {
+    padding-top: 3px !important;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#front-page-logo {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    height:100%;
+    padding-top:30px;
+}
+
+.btn.btn-jupyter.btn-lg,
+.btn.btn-sm.btn-outline-contrast {
+    color: var(--primary-color1) !important;
+    border-color: var(--primary-color1) !important;
+    border-radius: 20px;
+    font-size: 14px !important;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 4px;
+    margin-top: 4px;
+    padding: 0px 8px 0px 8px !important;
+}
+
+.btn.btn-jupyter.btn-lg:hover,
+.btn.btn-sm.btn-outline-contrast:hover {
+    color: #ffffff !important;
+    background-color: var(--primary-color1) !important;
+}
+
+:root {
+  --primary-color1: #1b3958;
+  --primary-color2: #f15a48;
+  --secondary-color1: #167997;
+  --secondary-color2: #50c0ad;
+  --secondary-color3: #c6e0ee;
+  --tertiary-color2: #f27c2a;
+  --neutral-color1: #d1d3d4;
+  --neutral-color1-0p8: rgba(230, 231, 232, 0.9);
+  --neutral-color2: #e6e7e8;
+  --neutral-color3: #f1f2f2;
+  --secondary-color3-zpf: rgba(198, 224, 238, 0.5);
+  --www-color-float-bg1: #e0eef7;
+  --www-color-float-bg2: #c6e1f0;
+  --www-color-float-fg1: #1b3958;
+  --risk-container: rgba(255, 255, 255, 0.75);
+  --risk-item: #e6e7e8;
+  --risk-item-0: #fcc021;
+  --risk-item-1: #f27c2a;
+  --risk-item-2: #b42226;
+  --acc-item-0: #f27c2a;
+  --acc-item-1: #fcc021;
+  --acc-item-2: #50c0ad;
+  --meteo-text: #167997;
 }
