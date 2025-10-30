@@ -67,6 +67,8 @@ RUN conda run -n PythonGIS python -m ipykernel install --name "PythonGIS" --disp
 # -------------------------
 RUN conda create -n RGIS -c conda-forge -y \
     libgdal-hdf5 \
+    gdal proj proj-data \
+    openjdk \
     r-base \
     r-irkernel r-irdisplay \
     r-rcpp r-RcppArmadillo r-RcppEigen r-devtools r-drc r-codetools r-recommended r-remotes \
