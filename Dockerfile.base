@@ -91,8 +91,8 @@ RUN conda run -n RGIS R -e 'install.packages("SimInf", repos="https://cloud.r-pr
 # --- Environment: RbayesTPC ---
 # ------------------------------
 
-RUN conda create -n RbayesTPC --clone RGIS -c conda-forge -y \
-    compilers \
+RUN conda create -n RbayesTPC --clone RGIS \
+    && conda install -n RbayesTPC -c conda-forge -y compilers \
     && conda clean -afy
 
 RUN conda run -n RbayesTPC R -e "IRkernel::installspec(name = 'RbayesTPC', displayname = 'R (bayesTPC)')" \
