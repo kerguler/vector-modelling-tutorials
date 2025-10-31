@@ -87,17 +87,6 @@ RUN conda run -n RGIS R -e "IRkernel::installspec(name = 'RGIS', displayname = '
 RUN conda run -n RGIS R -e 'install.packages("TDLM", repos="https://cran.rstudio.com", dependencies=FALSE, upgrade="never")'
 RUN conda run -n RGIS R -e 'install.packages("SimInf", repos="https://cloud.r-project.org", configure.args="--build=x86_64-pc-linux-gnu --host=x86_64-conda-linux-gnu", dependencies=FALSE, upgrade="never")'
 
-# ------------------------------
-# --- Environment: RbayesTPC ---
-# ------------------------------
-
-RUN conda create -n RbayesTPC --clone RGIS \
-    && conda install -n RbayesTPC -c conda-forge -y compilers \
-    && conda clean -afy
-
-RUN conda run -n RbayesTPC R -e "IRkernel::installspec(name = 'RbayesTPC', displayname = 'R (bayesTPC)')" \
-    && mv $HOME/.local/share/jupyter/kernels/* /opt/conda/share/jupyter/kernels/
-
 # ===================================================================
 # Tutorial image: Python + R (+torch) + Julia
 # ===================================================================
@@ -128,7 +117,7 @@ RUN if [ -d "/tmp/bayesTPC" ]; then \
       echo "Cloning bayesTPC from GitHub"; \
       git clone https://github.com/johnwilliamsmithjr/bayesTPC.git /tmp/bayesTPC; \
     fi
-RUN conda run -n RbayesTPC R -e "devtools::install_local('/tmp/bayesTPC', dependencies=FALSE, upgrade = 'never')"
+RUN conda run -n RGIS R -e "devtools::install_local('/tmp/bayesTPC', dependencies=FALSE, upgrade = 'never')"
 
 # ===================================================================
 # Tutorial image: Python + R (+torch) + Julia
