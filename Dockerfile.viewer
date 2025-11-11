@@ -1,7 +1,7 @@
 FROM python:3.11-slim
 
-# Install nbviewer directly from PyPI
-RUN pip install --no-cache-dir nbviewer==0.4.3
+# Install latest nbviewer
+RUN pip install --no-cache-dir nbviewer==1.0.1
 
 # Default environment and working directory
 ENV NBVIEWER_BASEURL=/tutorials-viewer \
