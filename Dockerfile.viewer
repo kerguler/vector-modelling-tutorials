@@ -1,7 +1,7 @@
 FROM python:3.11-slim
 
 # Install nbviewer
-RUN pip install --no-cache-dir nbviewer==1.0.1
+RUN pip install --no-cache-dir nbviewer==1.0.1 nbconvert==6.5.4
 
 # --- Add a tiny launcher that restores cgi.escape and runs nbviewer ---
 WORKDIR /srv/tutorials
