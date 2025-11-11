@@ -54,6 +54,7 @@ services:
       - NBVIEWER_BASEURL=/tutorials-viewer
       - NBVIEWER_LOCALFILES=/srv/tutorials
       - NBVIEWER_LOCALFILE_PATH=/srv/tutorials
+      - NBVIEWER_JUPYTERHUB_URL=https://veclim.com/tutorials
     networks: [jhub]
 
 networks:
