@@ -46,9 +46,14 @@ services:
     command: >
       python3 -m nbviewer
         --localfiles=/srv/tutorials
+        --localfile_path=/srv/tutorials
         --base-url=/tutorials-viewer
         --port=80
         --no-cache
+    environment:
+      - NBVIEWER_BASEURL=/tutorials-viewer
+      - NBVIEWER_LOCALFILES=/srv/tutorials
+      - NBVIEWER_LOCALFILE_PATH=/srv/tutorials
     networks: [jhub]
 
 networks:
