@@ -40,8 +40,8 @@ services:
   tutorials-viewer:
     build:
       context: .
-      dockerfile: Dockerfile.nbviewer
-    container_name: vector-modelling-tutorial-nbviewer
+      dockerfile: Dockerfile.viewer
+    container_name: vector-modelling-tutorial-viewer
     restart: unless-stopped
     volumes:
       - ./tutorials:/srv/tutorials:ro
