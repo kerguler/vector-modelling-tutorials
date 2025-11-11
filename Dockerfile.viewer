@@ -1,0 +1,21 @@
+FROM python:3.11-slim
+
+# Install nbviewer directly from PyPI
+RUN pip install --no-cache-dir nbviewer==0.4.3
+
+# Default environment and working directory
+ENV NBVIEWER_BASEURL=/tutorials-viewer \
+    NBVIEWER_LOCALFILES=/srv/tutorials \
+    NBVIEWER_LOCALFILE_PATH=/srv/tutorials \
+    JUPYTERHUB_URL=https://veclim.com/tutorials
+
+WORKDIR /srv/tutorials
+
+# Start nbviewer
+CMD ["python3", "-m", "nbviewer",
+     "--localfiles=/srv/tutorials",
+     "--localfile-path=/srv/tutorials",
+     "--base-url=/tutorials-viewer",
+     "--port=80",
+     "--no-cache",
+     "--jupyterhub-url=https://veclim.com/tutorials"]
