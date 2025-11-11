@@ -1,18 +1,20 @@
-FROM python:3.11-slim
+FROM condaforge/miniforge3
 
-# Install nbviewer
-RUN pip install --no-cache-dir \
-    nbviewer==1.0.1 \
-    nbconvert==6.5.4 \
-    lxml[html_clean]
+# create and activate environment
+RUN conda create -y -n nbviewer-env nbviewer -c conda-forge && \
+    conda clean -afy
+ENV PATH=/opt/conda/envs/nbviewer-env/bin:$PATH
 
-# --- Add a tiny launcher that restores cgi.escape and runs nbviewer ---
 WORKDIR /srv/tutorials
-COPY start-nbviewer.py /usr/local/bin/start-nbviewer.py
-
 ENV NBVIEWER_BASEURL=/tutorials-viewer \
     NBVIEWER_LOCALFILES=/srv/tutorials \
     NBVIEWER_LOCALFILE_PATH=/srv/tutorials \
     JUPYTERHUB_URL=https://veclim.com/tutorials
 
-CMD ["python3", "/usr/local/bin/start-nbviewer.py"]
+CMD nbviewer \
+    --localfiles=/srv/tutorials \
+    --localfile-path=/srv/tutorials \
+    --base-url=/tutorials-viewer \
+    --port=80 \
+    --no-cache \
+    --jupyterhub-url=https://veclim.com/tutorials
