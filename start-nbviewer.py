@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
-import cgi, html, runpy, sys
+import sys, html, runpy
+
+# ---- minimal compatibility shim for removed stdlib module ----
+try:
+    import cgi
+except ModuleNotFoundError:
+    import types
+    cgi = types.SimpleNamespace()
 setattr(cgi, "escape", html.escape)
 
+# ---- run nbviewer with all arguments ----
 sys.argv = [
     "nbviewer",
     "--localfiles=/srv/tutorials",
