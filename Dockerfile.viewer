@@ -1,23 +1,15 @@
 FROM python:3.11-slim
 
-# Install latest nbviewer
-RUN pip install --no-cache-dir nbviewer==1.0.1 \
-    && python3 - <<'PY'
-        import html, pathlib
-        p = pathlib.Path("/usr/local/lib/python3.11/site-packages/nbviewer")
-        for f in p.rglob("*.py"):
-            text = f.read_text()
-            if "from cgi import escape" in text:
-                f.write_text(text.replace("from cgi import escape", "from html import escape"))
-        PY
+# Install nbviewer
+RUN pip install --no-cache-dir nbviewer==1.0.1
 
-# Default environment and working directory
+# --- Add a tiny launcher that restores cgi.escape and runs nbviewer ---
+WORKDIR /srv/tutorials
+COPY start-nbviewer.py /usr/local/bin/start-nbviewer.py
+
 ENV NBVIEWER_BASEURL=/tutorials-viewer \
     NBVIEWER_LOCALFILES=/srv/tutorials \
     NBVIEWER_LOCALFILE_PATH=/srv/tutorials \
     JUPYTERHUB_URL=https://veclim.com/tutorials
 
-WORKDIR /srv/tutorials
-
-# Start nbviewer
-CMD ["python3", "-m", "nbviewer", "--localfiles=/srv/tutorials", "--localfile-path=/srv/tutorials", "--base-url=/tutorials-viewer", "--port=80", "--no-cache", "--jupyterhub-url=https://veclim.com/tutorials"]
+CMD ["python3", "/usr/local/bin/start-nbviewer.py"]
