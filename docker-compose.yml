@@ -37,6 +37,20 @@ services:
     image: vector-modelling-tutorial-user:latest
     profiles: ["build"]
 
+  tutorials-viewer:
+    image: jupyter/nbviewer:latest
+    container_name: vector-modelling-tutorial-nbviewer
+    restart: unless-stopped
+    volumes:
+      - ./tutorials:/srv/tutorials:ro
+    command: >
+      python3 -m nbviewer
+        --localfiles=/srv/tutorials
+        --base-url=/tutorials-viewer
+        --port=80
+        --no-cache
+    networks: [jhub]
+
 networks:
   jhub: {}
 

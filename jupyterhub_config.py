@@ -91,6 +91,10 @@ c.JupyterHub.load_roles = [
         "description": "Allow idle-culler service to list users and cull servers",
         "scopes": ["list:users", "read:servers", "delete:servers"],
         "services": ["culler"],
+    }, {
+        "name": "nbviewer",
+        "description": "External read-only viewer",
+        "scopes": ["read:users"],
     }
 ]
 
@@ -104,6 +108,22 @@ c.JupyterHub.services = [
             "--url=http://127.0.0.1:8000/tutorials/hub/api",
         ],
         "api_token": idle_token,
+    }, {
+        "name": "nbviewer",
+        "url": "http://tutorials-viewer:80",      # internal Docker name + port
+        "oauth_no_confirm": True,                 # nbviewer doesn’t need login
+        "display": False,                         # hide from /hub/services
+        "admin": False,
+        "api_token": "",                          # no token needed for read-only
+    }
+]
+
+c.JupyterHub.extra_services = [
+    {
+        "name": "nbviewer",
+        "url": "http://tutorials-viewer:80",
+        "public": True,   # allow unauthenticated access
+        "prefix": "/tutorials-viewer"
     }
 ]
 
