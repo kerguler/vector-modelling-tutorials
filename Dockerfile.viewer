@@ -1,7 +1,15 @@
-FROM python:3.10-slim
+FROM python:3.11-slim
 
 # Install latest nbviewer
-RUN pip install --no-cache-dir nbviewer==1.0.1
+RUN pip install --no-cache-dir nbviewer==1.0.1 \
+    && python3 - <<'PY'
+        import html, pathlib
+        p = pathlib.Path("/usr/local/lib/python3.11/site-packages/nbviewer")
+        for f in p.rglob("*.py"):
+            text = f.read_text()
+            if "from cgi import escape" in text:
+                f.write_text(text.replace("from cgi import escape", "from html import escape"))
+        PY
 
 # Default environment and working directory
 ENV NBVIEWER_BASEURL=/tutorials-viewer \
