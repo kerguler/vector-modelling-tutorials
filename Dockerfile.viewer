@@ -1,7 +1,8 @@
 FROM condaforge/miniforge3
 
-# create and activate environment
-RUN conda create -y -n nbviewer-env nbviewer -c conda-forge && \
+# make and activate an environment
+RUN conda create -y -n nbviewer-env python=3.11 nbconvert=6.5.4 lxml[html_clean] jinja2=3.1.2 tornado=6.3.3 traitlets=5.9.0 && \
+    conda run -n nbviewer-env pip install nbviewer==1.0.1 && \
     conda clean -afy
 ENV PATH=/opt/conda/envs/nbviewer-env/bin:$PATH
 
@@ -11,10 +12,5 @@ ENV NBVIEWER_BASEURL=/tutorials-viewer \
     NBVIEWER_LOCALFILE_PATH=/srv/tutorials \
     JUPYTERHUB_URL=https://veclim.com/tutorials
 
-CMD nbviewer \
-    --localfiles=/srv/tutorials \
-    --localfile-path=/srv/tutorials \
-    --base-url=/tutorials-viewer \
-    --port=80 \
-    --no-cache \
-    --jupyterhub-url=https://veclim.com/tutorials
+COPY start-nbviewer.py /usr/local/bin/start-nbviewer.py
+CMD ["python3", "/usr/local/bin/start-nbviewer.py"]
