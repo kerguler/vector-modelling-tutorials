@@ -2,8 +2,6 @@ import os
 from dotenv import load_dotenv
 load_dotenv(dotenv_path="/run/secrets/hub_env")  # mount .env into Hub container
 
-from tornado.web import StaticFileHandler
-
 from oauthenticator.google import GoogleOAuthenticator
 
 HUB_CONNECT_URL = os.getenv("HUB_CONNECT_URL", "http://tutorials-jupyterhub:8000")
@@ -114,23 +112,3 @@ c.JupyterHub.tornado_settings = {
         "X-Forwarded-Proto": "https",
     }
 }
-
-def _attach_viewer(app):
-    """Attach /tutorials/viewer route after JupyterHub fully loads."""
-    app.add_handlers(".*$", [
-        (r"/tutorials/viewer/(.*)",
-         StaticFileHandler,
-         {"path": "/srv/tutorials-html", "default_filename": "index.html"})
-    ])
-    app.log.info("Static viewer attached at /tutorials/viewer")
-
-c.JupyterHub.load_roles = [
-    {
-        "name": "attach-viewer",
-        "scopes": ["read:hub"],
-        "services": ["viewer"]
-    }
-]
-
-# Hook into the ready event
-c.JupyterHub.hub_ready_hook = _attach_viewer

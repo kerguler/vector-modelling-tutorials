@@ -29,6 +29,7 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./certs:/etc/letsencrypt:ro
+      - ./tutorials-html:/srv/tutorials-html:ro
     networks: [jhub]
 
   tutorials-singleuser:
