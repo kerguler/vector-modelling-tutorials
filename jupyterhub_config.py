@@ -118,7 +118,7 @@ c.JupyterHub.tornado_settings = {
 # Serve pre-rendered static tutorials under /tutorials-viewer
 c.JupyterHub.extra_handlers = [
     (
-        r'/tutorials-viewer/(.*)', 
+        r'/viewer/(.*)', 
         StaticFileHandler, 
         {'path': '/srv/tutorials-html'}
     )
