@@ -2,6 +2,8 @@ import os
 from dotenv import load_dotenv
 load_dotenv(dotenv_path="/run/secrets/hub_env")  # mount .env into Hub container
 
+from tornado.web import StaticFileHandler
+
 from oauthenticator.google import GoogleOAuthenticator
 
 HUB_CONNECT_URL = os.getenv("HUB_CONNECT_URL", "http://tutorials-jupyterhub:8000")
@@ -113,3 +115,11 @@ c.JupyterHub.tornado_settings = {
     }
 }
 
+# Serve pre-rendered static tutorials under /tutorials-viewer
+c.JupyterHub.extra_handlers = [
+    (
+        r'/tutorials-viewer/(.*)', 
+        StaticFileHandler, 
+        {'path': '/srv/tutorials-html'}
+    )
+]
