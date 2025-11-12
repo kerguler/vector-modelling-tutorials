@@ -115,11 +115,22 @@ c.JupyterHub.tornado_settings = {
     }
 }
 
-# Serve pre-rendered static tutorials under /tutorials-viewer
-c.JupyterHub.extra_handlers = [
-    (
-        r'/viewer/(.*)', 
-        StaticFileHandler, 
-        {'path': '/srv/tutorials-html'}
-    )
+def _attach_viewer(app):
+    """Attach /tutorials/viewer route after JupyterHub fully loads."""
+    app.add_handlers(".*$", [
+        (r"/tutorials/viewer/(.*)",
+         StaticFileHandler,
+         {"path": "/srv/tutorials-html", "default_filename": "index.html"})
+    ])
+    app.log.info("Static viewer attached at /tutorials/viewer")
+
+c.JupyterHub.load_roles = [
+    {
+        "name": "attach-viewer",
+        "scopes": ["read:hub"],
+        "services": ["viewer"]
+    }
 ]
+
+# Hook into the ready event
+c.JupyterHub.hub_ready_hook = _attach_viewer
