@@ -72,6 +72,7 @@
   <!--end block extra head layout.html-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@^5/css/all.min.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@^5/css/v4-shims.min.css" type="text/css" />
+  <link rel="stylesheet" href="{{  static_url("css/theme/veclim.css") }}" type="text/css">
 </head>
 
 <body class="nbviewer">
@@ -90,6 +91,7 @@
           <span class="sr-only">Toggle navigation</span>
           <i class="fa fa-bars"></i>
         </button>
+        <div id="jupyterhub-logo">
               <a href="https://veclim.com">
                 <img src='{{ static_url("img/veclim_logo.svg") }}'
                      alt='JupyterHub logo'
@@ -98,7 +100,7 @@
                      width='120px'
                      height='36px' />
               </a>
-
+        </div>
       </div>
 
       <div class="collapse navbar-collapse">

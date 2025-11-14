@@ -1,0 +1,108 @@
+@font-face {
+	font-family: "Inter";
+	src: url("/static/fonts/Inter/Inter-VariableFont_slnt,wght.ttf") format("truetype");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Inter-Bold";
+	src: url("/static/fonts/Inter/static/Inter-Bold.ttf") format("truetype");
+}
+
+html,
+body {
+    color: var(--primary-color1);
+}
+
+#menubar {
+    background-color: white !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 0px 6px 0px black;
+    padding: 0px;
+    padding-bottom: 1px;
+    margin-left: -6px !important;
+    margin: 0px;
+    align-content: center;
+    flex-wrap: wrap;
+    height: 47px;
+    min-height: auto;
+}
+
+#menubar .navbar-nav li a {
+    font-family: Inter-Bold, sens-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--primary-color1);
+}
+
+#menubar .container {
+    padding: 0px;
+    margin: 0px;
+}
+
+#jupyterhub-logo .jpy-logo {
+    width: 120px;
+    height: 36px;
+    margin-left: 0px;
+}
+
+#thenavbar {
+    background: white;
+    font-family: Inter-Bold, sens-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--primary-color1);
+    text-align: center;
+    justify-content: flex-end;
+}
+
+/*.btn.btn-jupyter.btn-lg,*/
+.btn.btn-sm.btn-outline-contrast {
+    color: var(--primary-color1) !important;
+    border-color: var(--primary-color1) !important;
+    border-radius: 20px;
+    font-size: 14px !important;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 4px;
+    margin-top: 4px;
+    padding: 0px 8px 0px 8px !important;
+}
+
+.btn.btn-jupyter.btn-lg:hover,
+.btn.btn-sm.btn-outline-contrast:hover {
+    color: #ffffff !important;
+    background-color: var(--primary-color1) !important;
+}
+
+:root {
+  --primary-color1: #1b3958;
+  --primary-color2: #f15a48;
+  --secondary-color1: #167997;
+  --secondary-color2: #50c0ad;
+  --secondary-color3: #c6e0ee;
+  --tertiary-color2: #f27c2a;
+  --neutral-color1: #d1d3d4;
+  --neutral-color1-0p8: rgba(230, 231, 232, 0.9);
+  --neutral-color2: #e6e7e8;
+  --neutral-color3: #f1f2f2;
+  --secondary-color3-zpf: rgba(198, 224, 238, 0.5);
+  --www-color-float-bg1: #e0eef7;
+  --www-color-float-bg2: #c6e1f0;
+  --www-color-float-fg1: #1b3958;
+  --risk-container: rgba(255, 255, 255, 0.75);
+  --risk-item: #e6e7e8;
+  --risk-item-0: #fcc021;
+  --risk-item-1: #f27c2a;
+  --risk-item-2: #b42226;
+  --acc-item-0: #f27c2a;
+  --acc-item-1: #fcc021;
+  --acc-item-2: #50c0ad;
+  --meteo-text: #167997;
+}
