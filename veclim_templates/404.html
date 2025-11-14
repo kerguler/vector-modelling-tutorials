@@ -4,9 +4,9 @@
 {% if 'HTTP 404' in message %}
 <p>The remote resource was not found. </p>
 {% elif message %}
-<script>
-    console.log({{ from_base() }});
-</script>
+
+<p>{{ from_base() }}</p>
+
 <p>{{message}}</p>
 {% endif %}
 {% endblock %}
