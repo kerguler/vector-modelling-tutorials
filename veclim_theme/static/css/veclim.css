@@ -39,16 +39,10 @@ body {
 }
 
 .navbar-collapse {
-    right: 0px;
-    top: 65px;
     flex-basis: 100%;
     flex-grow: 1;
     align-items: center;
     display: flex;
-    position: absolute;
-    box-shadow: 0px 0px 6px 0px black;
-    background-color: white;
-    padding: 5px 0px 12px 0px;
 }
 
 .navbar-toggler {
@@ -64,6 +58,18 @@ body {
 @media (max-width: 576px) {
     #jupyterhub-logo {
         margin-left: 0px;
+    }
+    .navbar-collapse {
+        right: 0px;
+        top: 65px;
+        flex-basis: 100%;
+        flex-grow: 1;
+        align-items: center;
+        display: flex;
+        position: absolute;
+        box-shadow: 0px 0px 6px 0px black;
+        background-color: white;
+        padding: 5px 0px 12px 0px;
     }
 }
 
