@@ -1,15 +1,16 @@
-c = get_config()
+from nbviewer.app import NBViewer
+from nbviewer.providers.local import LocalProvider
 
-# Base URL under proxy
-c.NBViewer.base_url = '/tutorials-viewer/'
-
-# Provider setup
-c.NBViewer.provider = 'local'
-c.LocalProvider.localfiles = '/srv/tutorials'
-
-# 👇 this replaces --localfiles-urlpath
-c.LocalProvider.urlpath = '/'
-
-# Port and debugging
+c = NBViewer.config
+c.NBViewer.base_url = "/tutorials-viewer/"
+c.NBViewer.provider = "local"
 c.NBViewer.port = 8080
 c.NBViewer.debug = True
+
+# Local provider settings
+c.LocalProvider.localfiles = "/srv/tutorials"
+c.LocalProvider.urlpath = "/"
+
+app = NBViewer()
+app.initialize([])
+app.start()
