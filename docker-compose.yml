@@ -37,6 +37,17 @@ services:
     image: vector-modelling-tutorial-user:latest
     profiles: ["build"]
 
+  tutorials-viewer:
+    build:
+      context: .
+      dockerfile: Dockerfile.viewer
+    container_name: vector-modelling-tutorial-viewer
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./tutorials:/srv/tutorials:ro
+      - ./veclim_templates:/srv/templates:ro
+
 networks:
   jhub: {}
 

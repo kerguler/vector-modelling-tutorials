@@ -1,0 +1,3 @@
+FROM jupyter/nbviewer
+
+CMD ["python3", "-m", "nbviewer", "--localfiles=/srv/tutorials", "--template-path=/srv/templates", "--static-path=/srv/templates/static", "--port=8080", "--no-cache"]
