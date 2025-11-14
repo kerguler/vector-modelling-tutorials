@@ -47,6 +47,7 @@ services:
     volumes:
       - ./tutorials:/srv/tutorials:ro
       - ./veclim_templates:/srv/templates:ro
+      - ./nbviewer_config.py:/srv/nbviewer_config.py:ro
     networks: [jhub]
 
 networks:
