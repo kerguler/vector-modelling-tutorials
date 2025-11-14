@@ -37,7 +37,7 @@ body {
 }
 
 #menubar .navbar-nav li a {
-    font-family: Inter-Bold, sens-serif;
+    font-family: 'Inter-Bold', sens-serif;
     font-weight: 700;
     font-size: 14px;
     text-decoration: none;
@@ -87,7 +87,7 @@ div.output_subarea {
 
 #thenavbar {
     background: white;
-    font-family: Inter-Bold, sens-serif;
+    font-family: 'Inter-Bold', sens-serif;
     font-weight: 700;
     font-size: 14px;
     text-decoration: none;
