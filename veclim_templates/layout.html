@@ -173,7 +173,34 @@
   <script src="{{ static_url("components/headroom.js/dist/headroom.min.js") }}"></script>
   <script src="{{ static_url("components/headroom.js/dist/jQuery.headroom.min.js") }}"></script>
 
-  {% block extra_script %}{% endblock %}
+  {% block extra_script %}
+  <script>
+    // Disable Bootstrap collapse animation instantly
+    $(function() {
+      // Replace the collapse plugin's toggle method to skip animation
+      $.fn.collapse.Constructor.TRANSITION_DURATION = 0; // disable transition
+      var collapseProto = $.fn.collapse.Constructor.prototype;
+
+      // Override the show() method to immediately expand
+      collapseProto.show = function() {
+        if (this.transitioning || this.$element.hasClass('in')) return;
+        this.$element
+          .removeClass('collapse')
+          .addClass('collapse in')
+          .css({ height: 'auto' });
+      };
+
+      // Override the hide() method to immediately collapse
+      collapseProto.hide = function() {
+        if (this.transitioning || !this.$element.hasClass('in')) return;
+        this.$element
+          .removeClass('collapse in')
+          .addClass('collapse')
+          .css({ height: '0px' });
+      };
+    });
+  </script>
+  {% endblock %}
 
   {% if google_analytics_id %}
   <script>
