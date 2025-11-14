@@ -76,13 +76,20 @@ body {
 
 @media (min-width: 576px) {
     .navbar-expand-sm .navbar-collapse {
-        display: none;
+        display: none !important;
+    }
+    .navbar-expand-sm .navbar-toggler {
+        display: flex !important;
+        flex-basis: auto;
     }
 }
 @media (min-width: 650px) {
     .navbar-expand-sm .navbar-collapse {
         display: flex !important;
         flex-basis: auto;
+    }
+    .navbar-expand-sm .navbar-toggler {
+        display: none !important;
     }
 }
 
