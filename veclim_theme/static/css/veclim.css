@@ -84,6 +84,15 @@ body {
     }
 }
 */
+@media (max-width: 650px) {
+    .navbar-expand-sm .navbar-collapse {
+        display: none !important;
+    }
+    .navbar-expand-sm .navbar-toggler {
+        display: flex !important;
+        flex-basis: auto;
+    }
+}
 @media (min-width: 651px) {
     .navbar-expand-sm .navbar-collapse {
         display: flex !important;
