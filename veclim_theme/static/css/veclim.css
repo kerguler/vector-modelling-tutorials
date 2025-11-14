@@ -73,7 +73,7 @@ body {
         padding: 5px 0px 12px 0px;
     }
 }
-
+/*
 @media (min-width: 576px) {
     .navbar-expand-sm .navbar-collapse {
         display: none !important;
@@ -83,6 +83,7 @@ body {
         flex-basis: auto;
     }
 }
+*/
 @media (min-width: 651px) {
     .navbar-expand-sm .navbar-collapse {
         display: flex !important;
