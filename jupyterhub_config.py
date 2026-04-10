@@ -33,7 +33,8 @@ c.Authenticator.allowed_users = {
     "daniele.dare@fmach.it",
     "proestosy@gmail.com",
     "pantelisgeor@gmail.com",
-    "mariehermy87@gmail.com"
+    "mariehermy87@gmail.com",
+    "jaydmarks227@gmail.com"
     }
 
 # --- Spawner: Docker ---
