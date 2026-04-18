@@ -74,11 +74,12 @@ RUN conda create -n RGIS -c conda-forge -y \
     r-rcpp r-RcppArmadillo r-RcppEigen r-devtools r-drc r-codetools r-recommended r-remotes \
     r-fs r-stringi r-stringr r-tidyr r-reshape2 r-recipes r-readr \
     r-tidyterra r-sf r-units r-s2 r-geosphere \
-    r-nimble r-caret r-deSolve r-HDInterval r-IDPmisc r-truncnorm r-httr r-pracma \
+    r-nimble r-caret r-deSolve r-HDInterval r-IDPmisc r-truncnorm r-httr2 r-pracma \
     r-rmarkdown r-dygraphs r-htmlwidgets r-shiny r-shinycssloaders \
     r-wesanderson r-bslib r-sass \
     r-Ecume r-cachem r-httpuv r-mathjaxr r-igraph r-pbdZMQ r-uuid r-repr \
     r-coda r-ggplot2 r-htmltools r-foreach r-data.table r-PBSddesolve r-S7 r-SimInf r-doParallel \
+    r-leaflet r-jsonlite \ 
     && conda clean -afy
 
 RUN conda run -n RGIS R -e "IRkernel::installspec(name = 'RGIS', displayname = 'R (GIS)')" \
