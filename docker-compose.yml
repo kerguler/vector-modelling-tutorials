@@ -35,7 +35,6 @@ services:
       context: .
       dockerfile: Dockerfile.singleuser
     image: vector-modelling-tutorial-user:latest
-    profiles: ["build"]
 
   tutorials-viewer:
     build:
