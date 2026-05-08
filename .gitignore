@@ -8,3 +8,5 @@ __pycache__
 
 data/aegy_syms_uncompressed_workshopNicosia_it10_2025-09-09.RDS
 data/t2m_CERRA_2024.nc
+
+tutorials/MathMod_dev
